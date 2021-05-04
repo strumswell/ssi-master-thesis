@@ -1,2 +1,5 @@
 .DS_Store
 implementation/node_modules
+implementation/agent.yml
+implementation/database.sqlite
+implementation/.env

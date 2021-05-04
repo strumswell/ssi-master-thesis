@@ -4,12 +4,35 @@
   "description": "Create a RESTful API that implements the Verifiable Credential Lifecycle by leveraging the functionality of multiple providers (librarys, SDKs, platforms). Learnings from the implementation and results from the expert questionnaire are used to develop an evaluation framework for SDKs allowing to implement Verifiable Credentials.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "ts-node-dev --respawn index.ts"
   },
   "author": "Philipp Bolte",
   "license": "ISC",
   "dependencies": {
+    "@veramo/core": "^1.1.1-next.38",
+    "@veramo/credential-w3c": "^1.1.1-next.38",
+    "@veramo/data-store": "^1.1.1-next.38",
+    "@veramo/did-comm": "^1.1.0",
+    "@veramo/did-manager": "^1.1.1-next.38",
+    "@veramo/did-provider-ethr": "^1.1.1-next.38",
+    "@veramo/did-provider-ion": "^1.1.1-unstable.88",
+    "@veramo/did-provider-web": "^1.1.1-next.38",
+    "@veramo/did-resolver": "^1.1.1-next.38",
+    "@veramo/key-manager": "^1.1.1-next.38",
+    "@veramo/kms-local": "^1.1.1-next.38",
+    "@veramo/selective-disclosure": "^1.1.0",
+    "body-parser": "^1.19.0",
+    "did-resolver": "^3.1.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "swagger-ui-express": "^4.1.6"
+    "sqlite3": "^5.0.2",
+    "swagger-ui-express": "^4.1.6",
+    "web-did-resolver": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1",
+    "ts-node": "^9.1.1",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.4"
   }
 }
