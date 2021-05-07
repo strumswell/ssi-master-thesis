@@ -1,13 +1,5 @@
 // Core interfaces
-import {
-  createAgent,
-  IDIDManager,
-  IResolver,
-  IDataStore,
-  IKeyManager,
-  IMessageHandler,
-  TAgent,
-} from "@veramo/core";
+import { createAgent, IDIDManager, IResolver, IDataStore, IKeyManager, IMessageHandler } from "@veramo/core";
 // Core identity manager plugin
 import { DIDManager } from "@veramo/did-manager";
 
@@ -45,12 +37,7 @@ import { W3cMessageHandler } from "@veramo/credential-w3c";
 import { JwtMessageHandler } from "@veramo/did-jwt";
 
 // Storage plugin using TypeOrm
-import {
-  Entities,
-  KeyStore,
-  DIDStore,
-  IDataStoreORM,
-} from "@veramo/data-store";
+import { Entities, KeyStore, DIDStore, IDataStoreORM } from "@veramo/data-store";
 
 // TypeORM is installed with daf-typeorm
 import { createConnection } from "typeorm";
@@ -73,7 +60,7 @@ const dbConnection = createConnection({
   entities: Entities,
 });
 
-export const agent = createAgent<
+export const veramoAgent = createAgent<
   IDIDManager &
     IKeyManager &
     IDataStore &

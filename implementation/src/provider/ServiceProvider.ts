@@ -1,3 +1,11 @@
+export enum DidMethod {
+  KEY = "key",
+  WEB = "web",
+  ION = "ion",
+  ETHR = "ethr",
+  SOV = "sov",
+}
+
 export interface ServiceProvider {
   /**
    * Issue a Verifiable Credential
@@ -10,4 +18,15 @@ export interface ServiceProvider {
    * @param credential Credential input from API
    */
   verifyVerifiableCredential(credential: any): any;
+
+  /**
+   * Get registered DIDs from provider
+   */
+  getDids(): any;
+
+  /**
+   * Create a new DID with a provider
+   * @param didMethod Which DID method to use
+   */
+  createDid(didMethod: DidMethod): any;
 }

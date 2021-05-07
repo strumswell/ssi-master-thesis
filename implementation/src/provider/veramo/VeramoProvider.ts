@@ -1,17 +1,14 @@
-import { agent } from "./VeramoSetup";
+import { ServiceProvider, DidMethod } from "../ServiceProvider";
+import { veramoAgent } from "./VeramoSetup";
 import { W3CCredential } from "@veramo/core";
-import { ServiceProvider } from "../ServiceProvider";
-/**
- * TODO:
- * - Check and implement if possible: Presentation, Revokation, Wallet/ Comm
- */
+
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(vc) {
     try {
       vc.credential.issuer = { id: vc.credential.issuer };
       const credential: W3CCredential = await vc.credential;
 
-      const verifiableCredential = await agent.createVerifiableCredential({
+      const verifiableCredential = await veramoAgent.createVerifiableCredential({
         save: false,
         credential,
         proofFormat: "jwt",
@@ -24,7 +21,7 @@ export class VeramoProvider implements ServiceProvider {
 
   async verifyVerifiableCredential(vc) {
     try {
-      const message = await agent.handleMessage({
+      const message = await veramoAgent.handleMessage({
         raw: vc.proof.jwt,
       });
       // agent only checks if jwt is valid
@@ -38,35 +35,14 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  /**
-   * Get stored DIDs by the Veramo agent
-   * @returns JSON object
-   */
-  async getDIDs() {
-    const identifiers = await agent.didManagerFind();
+  async getDids() {
+    const identifiers = await veramoAgent.didManagerFind();
     return identifiers;
   }
 
-  /**
-   * Resolve a DID to its DID document
-   * @param did DID to resolve
-   * @returns DID document
-   */
-  async resolveDID(did: string) {
-    const doc = await agent.resolveDid({
-      didUrl: did,
-    });
-    return doc;
-  }
-
-  /**
-   * Create a new DID with the Veramo agent
-   * @returns DID document
-   */
-  async createDID() {
-    const identity = await agent.didManagerCreate({
-      provider: "did:web",
-      alias: "bolte.cloud",
+  async createDid(didMethod: DidMethod) {
+    const identity = await veramoAgent.didManagerCreate({
+      provider: `did:${didMethod}`,
     });
     return identity;
   }
@@ -84,32 +60,20 @@ export class VeramoProvider implements ServiceProvider {
     }
     // Check subject
     delete credential.credentialSubject.id;
-    if (
-      JSON.stringify(credential.credentialSubject) !=
-      JSON.stringify(decodedJwt.data.vc.credentialSubject)
-    )
+    if (JSON.stringify(credential.credentialSubject) != JSON.stringify(decodedJwt.data.vc.credentialSubject))
       return false;
     // Check context
-    if (
-      credential["@context"].toString() !=
-      decodedJwt.data.vc["@context"].toString()
-    )
-      return false;
+    if (credential["@context"].toString() != decodedJwt.data.vc["@context"].toString()) return false;
     // Check issuer
     if (credential.issuer.id != decodedJwt.data.iss) return false;
     // Check date
     const credentialDate = Date.parse(credential.issuanceDate).toString();
-    if (
-      credentialDate !=
-      (await this.reformatTimestamp(decodedJwt.data.nbf.toString()))
-    )
-      return false;
+    if (credentialDate != (await this.reformatTimestamp(decodedJwt.data.nbf.toString()))) return false;
     // Check id
     if (credential.id != decodedJwt.data.jti) return false;
     // Check type
     console.log(credential.type.toString());
-    if (credential.type.toString() != decodedJwt.data.vc.type.toString())
-      return false;
+    if (credential.type.toString() != decodedJwt.data.vc.type.toString()) return false;
     // All good
     return true;
   }
