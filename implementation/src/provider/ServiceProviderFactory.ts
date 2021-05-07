@@ -2,7 +2,7 @@ import { ServiceProvider } from "./ServiceProvider";
 import { VeramoProvider } from "./veramo/VeramoProvider";
 
 interface Factory {
-  createProvider(name): ServiceProvider;
+  createProvider(type: ServiceType): ServiceProvider;
 }
 
 export enum ServiceType {

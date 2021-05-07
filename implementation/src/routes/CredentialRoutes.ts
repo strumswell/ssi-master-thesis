@@ -12,20 +12,16 @@ const factory = new ServiceProviderFactory();
 
 router
   .post("/credentials/issue", async (req, res) => {
-    switch (req.query.provider.toLowerCase()) {
-      case ServiceType.VERAMO: {
-        let provider = factory.createProvider(ServiceType.VERAMO);
-        let credential = await provider.issueVerifiableCredential(req.body);
-        if (credential instanceof Error) {
-          res.status(500).send({ error: credential.message });
-        } else {
-          res.status(201).send({ credential });
-        }
-        break;
-      }
-      default: {
-        res.status(400).send({ error: "Unknown Provider" });
-      }
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
+    }
+    const credential = await provider.issueVerifiableCredential(req.body);
+    if (credential instanceof Error) {
+      res.status(500).send({ error: credential.message });
+    } else {
+      res.status(201).send({ credential });
     }
   })
   .post("/credentials/status", (req, res) => {
@@ -35,17 +31,13 @@ router
     res.status(501).send({ error: "Not implemented" });
   })
   .post("/credentials/verify", async (req, res) => {
-    switch (req.query.provider.toLowerCase()) {
-      case ServiceType.VERAMO: {
-        let provider = factory.createProvider(ServiceType.VERAMO);
-        let isValid = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
-        res.send(isValid);
-        break;
-      }
-      default: {
-        res.status(400).send({ error: "Unknown Provider" });
-      }
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
     }
+    const isValid = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
+    res.send(isValid);
   })
   .post("/credentials/transfer", (req, res) => {
     res.status(501).send({ error: "Not implemented" });
