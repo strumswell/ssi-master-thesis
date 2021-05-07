@@ -3,7 +3,7 @@
   "info": {
     "version": "0.0.2-unstable",
     "title": "VC HTTP API with Provider Selection",
-    "description": "This is an Experimental Open API Specification for the [VC Data Model](https://www.w3.org/TR/vc-data-model/) with added provider selection support.",
+    "description": "This is an Experimental Open API Specification for the [VC Data Model](https://www.w3.org/TR/vc-data-model/).",
     "license": {
       "name": "W3C Software and Document License",
       "url": "http://www.w3.org/Consortium/Legal/copyright-software."
@@ -24,7 +24,7 @@
     },
     {
       "name": "Holder",
-      "description": "Optional APIs for Holders. (Might be removed)"
+      "description": "Optional APIs for Holders."
     }
   ],
   "paths": {
@@ -36,6 +36,17 @@
         "summary": "Issues a credential and returns it in the response body.",
         "operationId": "issueCredential",
         "description": "Issues a credential and returns it in the response body.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -74,6 +85,17 @@
         "summary": "Derives a credential and returns it in the response body.",
         "operationId": "deriveCredential",
         "description": "Derives a credential and returns it in the response body.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -115,6 +137,17 @@
         "summary": "Updates the status of an issued credential",
         "operationId": "updateCredentialStatus",
         "description": "Updates the status of an issued credential.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -141,31 +174,42 @@
         }
       }
     },
-    "/presentations/prove": {
+    "/credentials/revoke": {
       "post": {
         "tags": [
-          "Holder"
+          "Issuer"
         ],
-        "summary": "Proves a presentation and returns it in the response body.",
-        "operationId": "provePresentation",
-        "description": "Proves a presentation and returns it in the response body.",
+        "summary": "Revoke a credential and return its result in the body. (needs work)",
+        "operationId": "revokeCredential",
+        "description": "Revoke a credential and return its result in the body. TODO Find a better request schema. I will probably need to submit some kind of id.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProvePresentationRequest"
+                "$ref": "#/components/schemas/IssueCredentialResponse"
               }
             }
           },
-          "description": "Parameters for proving the presentation."
+          "description": "Parameters for issuing the credential."
         },
         "responses": {
           "201": {
-            "description": "Presentation successfully proved!",
+            "description": "Credential successfully issued!",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProvePresentationResponse"
+                  "$ref": "#/components/schemas/GeneralResult"
                 }
               }
             }
@@ -187,6 +231,17 @@
         "summary": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
         "operationId": "verifyCredential",
         "description": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -225,6 +280,17 @@
         "summary": "Verifies a Presentation with or without proofs attached and returns a verificationResult in the response body.",
         "operationId": "verifyPresentation",
         "description": "Verifies a verifiablePresentation and returns a verificationResult in the response body.  Given the possibility of denial of service, buffer overflow, or other style attacks, an implementation is permitted to rate limit or restrict requests against this API endpoint to those requests that contain only a single credential with a 413 or 429 error code as appropriate.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -267,6 +333,220 @@
           }
         }
       }
+    },
+    "/credentials/store": {
+      "post": {
+        "tags": [
+          "Holder"
+        ],
+        "summary": "Store a credential",
+        "operationId": "storeCredential",
+        "description": "Store a credential",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IssueCredentialResponse"
+              }
+            }
+          },
+          "description": "Parameters for verifying a verifiablePresentation."
+        },
+        "responses": {
+          "200": {
+            "description": "Verifiable Presentation successfully verified!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or malformed input"
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "429": {
+            "description": "Request rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/credentials/transfer": {
+      "post": {
+        "tags": [
+          "Holder"
+        ],
+        "summary": "Transfer a credential to another holder (needs work)",
+        "operationId": "transferCredential",
+        "description": "Transfer a credential to another holder. TODO find out what's needed for a transfer. Might be diffucult as no sdk, bib or platform implements this part of the process.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferCredentialRequest"
+              }
+            }
+          },
+          "description": "Parameters for verifying a verifiablePresentation."
+        },
+        "responses": {
+          "200": {
+            "description": "Verifiable Presentation successfully verified!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or malformed input"
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "429": {
+            "description": "Request rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/presentations/prove": {
+      "post": {
+        "tags": [
+          "Holder"
+        ],
+        "summary": "Proves a presentation and returns it in the response body.",
+        "operationId": "provePresentation",
+        "description": "Proves a presentation and returns it in the response body.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProvePresentationRequest"
+              }
+            }
+          },
+          "description": "Parameters for proving the presentation."
+        },
+        "responses": {
+          "201": {
+            "description": "Presentation successfully proved!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProvePresentationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input!"
+          },
+          "500": {
+            "description": "error!"
+          }
+        }
+      }
+    },
+    "/presentations/present": {
+      "post": {
+        "tags": [
+          "Holder"
+        ],
+        "summary": "Present a presentation to a verifier",
+        "operationId": "presentPresentation",
+        "description": "Present a presentation to a verifier",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProvePresentationResponse"
+              }
+            }
+          },
+          "description": "Parameters for verifying a verifiablePresentation."
+        },
+        "responses": {
+          "200": {
+            "description": "Verifiable Presentation successfully verified!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or malformed input"
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "429": {
+            "description": "Request rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -275,9 +555,6 @@
         "type": "object",
         "description": "Request for updating the status of an issued credential.",
         "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider"
-          },
           "credentialId": {
             "type": "string"
           },
@@ -297,7 +574,6 @@
           }
         },
         "example": {
-          "provider": "Veramo",
           "credentialId": "urn:uuid:45a44711-e457-4fa8-9b89-69fe0287c86a",
           "credentialStatus": [
             {
@@ -502,6 +778,25 @@
           ],
           "warnings": [],
           "errors": []
+        }
+      },
+      "GeneralResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Object summarizing a storage request",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Status of success"
+          },
+          "errors": {
+            "type": "string",
+            "description": "Potential error"
+          }
+        },
+        "example": {
+          "success": true,
+          "errors": ""
         }
       },
       "Issuer": {
@@ -788,9 +1083,6 @@
       "IssueCredentialRequest": {
         "type": "object",
         "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider"
-          },
           "credential": {
             "$ref": "#/components/schemas/Credential"
           },
@@ -801,6 +1093,18 @@
       },
       "IssueCredentialResponse": {
         "$ref": "#/components/schemas/VerifiableCredential"
+      },
+      "TransferCredentialRequest": {
+        "type": "object",
+        "properties": {
+          "receiver": {
+            "type": "string",
+            "example": "did:web:test.com"
+          },
+          "credential": {
+            "$ref": "#/components/schemas/VerifiableCredential"
+          }
+        }
       },
       "DeriveCredentialRequest": {
         "type": "object",
@@ -823,9 +1127,6 @@
       "ProvePresentationRequest": {
         "type": "object",
         "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider"
-          },
           "presentation": {
             "$ref": "#/components/schemas/Presentation"
           },
@@ -840,9 +1141,6 @@
       "VerifyCredentialRequest": {
         "type": "object",
         "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider"
-          },
           "verifiableCredential": {
             "$ref": "#/components/schemas/VerifiableCredential"
           },
@@ -857,9 +1155,6 @@
       "VerifyPresentationRequest": {
         "type": "object",
         "properties": {
-          "provider": {
-            "$ref": "#/components/schemas/Provider"
-          },
           "verifiablePresentation": {
             "$ref": "#/components/schemas/VerifiablePresentation"
           },
@@ -882,11 +1177,10 @@
       "Provider": {
         "type": "string",
         "enum": [
-          "Veramo",
-          "DIDKit",
-          "MATTR",
-          "Trinsic",
-          "TransmuteVcJs"
+          "veramo",
+          "mattr",
+          "trinsic",
+          "azure"
         ]
       }
     }
