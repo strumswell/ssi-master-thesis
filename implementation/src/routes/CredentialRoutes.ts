@@ -7,7 +7,7 @@ const factory = new ServiceProviderFactory();
 /**
  * Credential Routes
  * ---------------------------------------------------
- * TODO: Come up with a cleaner way of writing this...
+ * TODO: Come up with a cleaner way of writing this... Split up into multiples files?
  */
 
 router

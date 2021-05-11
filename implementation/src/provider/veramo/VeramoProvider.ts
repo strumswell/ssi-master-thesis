@@ -1,7 +1,10 @@
 import { ServiceProvider, DidMethod } from "../ServiceProvider";
 import { veramoAgent } from "./VeramoSetup";
-import { W3CCredential } from "@veramo/core";
+import { IIdentifier, W3CCredential } from "@veramo/core";
 
+/**
+ * TODO: Implement missing methods + types
+ */
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(vc) {
     try {
@@ -35,12 +38,20 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async getDids() {
+  /**
+   * Get all DIDs registered with Veramo agent from local KMS
+   * @returns dids
+   */
+  async getDids(): Promise<IIdentifier[]> {
     const identifiers = await veramoAgent.didManagerFind();
     return identifiers;
   }
 
-  async createDid(didMethod: DidMethod) {
+  /**
+   * Create a DID with Veramo agent in local KMS
+   * @returns did
+   */
+  async createDid(didMethod: DidMethod): Promise<IIdentifier> {
     const identity = await veramoAgent.didManagerCreate({
       provider: `did:${didMethod}`,
     });
@@ -48,7 +59,18 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   /**
+   * Delete a DID with Veramo agent from local KMS
+   * @param did to be deleted DID
+   * @returns success
+   */
+  async deleteDid(did: string): Promise<boolean> {
+    const identity = await veramoAgent.didManagerDelete({ did: did });
+    return identity;
+  }
+
+  /**
    * Check if params of input credential and decoded jwt proof match
+   * TODO: This can be done more elegant.
    * @param credential Input credential
    * @param decodedJwt Decoded jwt proof of input credential
    * @returns
@@ -79,7 +101,7 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   /**
-   * Concat zeros to timestamp to meet standard length
+   * Concat zeros to timestamp to meet standard length for JS
    * @param timestamp Timestamp of e.g. jwt proof
    * @returns
    */

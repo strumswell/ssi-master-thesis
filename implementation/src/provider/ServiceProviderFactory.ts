@@ -1,6 +1,7 @@
 import { ServiceProvider } from "./ServiceProvider";
 import { VeramoProvider } from "./veramo/VeramoProvider";
 
+// TODO: Add more providers
 interface Factory {
   createProvider(type: ServiceType): ServiceProvider;
 }

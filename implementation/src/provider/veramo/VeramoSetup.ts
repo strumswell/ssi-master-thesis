@@ -80,7 +80,7 @@ export const veramoAgent = createAgent<
     }),
     new DIDManager({
       store: new DIDStore(dbConnection),
-      defaultProvider: "did:web",
+      defaultProvider: "did:ion",
       providers: {
         "did:ethr:rinkeby": new EthrDIDProvider({
           defaultKms: "local",

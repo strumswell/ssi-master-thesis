@@ -5,12 +5,6 @@ import swagger = require("swagger-ui-express");
 import veramoDidRoutes = require("./src/routes/VeramoDidRoutes");
 import credentialRoutes = require("./src/routes/CredentialRoutes");
 
-/** TODO:
- *  - Adhere to response schema of OpenAPI spec
- *  - Error communication
- *  - Add types
- *  - Document util routes in OpenAPI spec
- */
 const app = express();
 
 app.listen(3000, function () {
