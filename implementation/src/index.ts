@@ -1,9 +1,9 @@
 import express from "express";
-import swaggerDocument from "./src/util/openapi.json";
+import swaggerDocument from "./public/openapi.json";
 import bodyParser = require("body-parser");
 import swagger = require("swagger-ui-express");
-import veramoDidRoutes = require("./src/routes/VeramoDidRoutes");
-import credentialRoutes = require("./src/routes/CredentialRoutes");
+import veramoDidRoutes = require("./routes/VeramoDidRoutes");
+import credentialRoutes = require("./routes/CredentialRoutes");
 
 const app = express();
 

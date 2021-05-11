@@ -4,7 +4,7 @@
   "description": "Create a RESTful API that implements the Verifiable Credential Lifecycle by leveraging the functionality of multiple providers (librarys, SDKs, platforms). Learnings from the implementation and results from the expert questionnaire are used to develop an evaluation framework for SDKs allowing to implement Verifiable Credentials.",
   "main": "index.js",
   "scripts": {
-    "serve": "ts-node-dev --respawn index.ts"
+    "serve": "ts-node-dev --respawn ./src/index.ts"
   },
   "author": "Philipp Bolte",
   "license": "ISC",
