@@ -16,7 +16,7 @@ router
     res.send({ identifiers });
   })
   .get("/dids/create", async (req, res) => {
-    const identifier = await veramo.createDid(DidMethod.ION);
+    const identifier = await veramo.createDid(DidMethod.ETHR);
     res.send({ identifier });
   })
   .get("/dids/delete", async (req, res) => {
@@ -27,6 +27,10 @@ router
     } catch (error) {
       res.status(400).send({ error: error.message });
     }
+  })
+  .get("/dids/resolve", async (req, res) => {
+    const did = req.query.did;
+    res.send(await veramo.resolveDID(did));
   });
 
 export = router;

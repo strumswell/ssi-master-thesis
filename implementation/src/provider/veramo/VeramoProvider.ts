@@ -3,14 +3,22 @@ import { veramoAgent } from "./VeramoSetup";
 import { IIdentifier, W3CCredential } from "@veramo/core";
 
 /**
- * TODO: Implement missing methods + types
+ * Issue VC: ✔️
+ * Issue VP: ✔️
+ * Verify VC: ✔️
+ * Verify VP: ✔️ (Not working for did:key (Ed25519 keys in general?))
+ * Store VC: ✔️
+ * Delete VC: ⤫
+ * Revoke VC: ⤫ (no method, could be implementable though, contract is open-source) -> https://github.com/uport-project/ethr-status-registry
+ * Transfer VC: ⤫
+ * Derive VC: …
+ * Present VP: …
  */
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(vc) {
     try {
       vc.credential.issuer = { id: vc.credential.issuer };
       const credential: W3CCredential = await vc.credential;
-
       const verifiableCredential = await veramoAgent.createVerifiableCredential({
         save: false,
         credential,
@@ -38,6 +46,55 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
+  async issueVerifiablePresentation(presentation) {
+    try {
+      const vp = await veramoAgent.createVerifiablePresentation({
+        save: false,
+        presentation: {
+          holder: presentation.holder,
+          verifier: presentation.holder,
+          tag: new Date().getTime().toString(),
+          "@context": presentation["@context"],
+          type: presentation.type,
+          issuanceDate: presentation.issuanceDate,
+          verifiableCredential: presentation.verifiableCredential,
+        },
+        proofFormat: "jwt",
+      });
+      return vp;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async verifyVerifiablePresentation(vp) {
+    try {
+      //console.log(presentation.proof.jwt);
+      const message = await veramoAgent.handleMessage({
+        raw: vp.proof.jwt,
+      });
+      // agent only checks if jwt is valid
+      // we still need to manually check the integrity of the vc itself
+      //const valid = await this.areCredentialParamsValid(vc, message);
+      return { message };
+    } catch (error) {
+      return { valid: false, error: error.message };
+    }
+  }
+
+  async revokeVerifiableCredential(revocationBody) {
+    throw Error("No implementation by Veramo");
+  }
+
+  async storeVerifiableCredential(verifiableCredential) {
+    try {
+      const hash = await veramoAgent.dataStoreSaveVerifiableCredential({ verifiableCredential });
+      return { success: true, hash: hash, errors: "" };
+    } catch (error) {
+      return error;
+    }
+  }
+
   /**
    * Get all DIDs registered with Veramo agent from local KMS
    * @returns dids
@@ -45,6 +102,13 @@ export class VeramoProvider implements ServiceProvider {
   async getDids(): Promise<IIdentifier[]> {
     const identifiers = await veramoAgent.didManagerFind();
     return identifiers;
+  }
+
+  async resolveDID(did: string) {
+    const doc = await veramoAgent.resolveDid({
+      didUrl: did,
+    });
+    return doc;
   }
 
   /**
@@ -94,7 +158,6 @@ export class VeramoProvider implements ServiceProvider {
     // Check id
     if (credential.id != decodedJwt.data.jti) return false;
     // Check type
-    console.log(credential.type.toString());
     if (credential.type.toString() != decodedJwt.data.vc.type.toString()) return false;
     // All good
     return true;

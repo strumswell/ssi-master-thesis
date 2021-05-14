@@ -37,13 +37,14 @@ import { W3cMessageHandler } from "@veramo/credential-w3c";
 import { JwtMessageHandler } from "@veramo/did-jwt";
 
 // Storage plugin using TypeOrm
-import { Entities, KeyStore, DIDStore, IDataStoreORM } from "@veramo/data-store";
+import { Entities, KeyStore, DIDStore, IDataStoreORM, DataStore, DataStoreORM } from "@veramo/data-store";
 
 // TypeORM is installed with daf-typeorm
 import { createConnection } from "typeorm";
 
 // Load Environment Vars
 import * as dotenv from "dotenv";
+import { getDidKeyResolver, KeyDIDProvider } from "@veramo/did-provider-key";
 dotenv.config();
 
 // This will be the name for the local sqlite database for demo purposes
@@ -80,7 +81,7 @@ export const veramoAgent = createAgent<
     }),
     new DIDManager({
       store: new DIDStore(dbConnection),
-      defaultProvider: "did:ion",
+      defaultProvider: "did:ethr:rinkeby",
       providers: {
         "did:ethr:rinkeby": new EthrDIDProvider({
           defaultKms: "local",
@@ -91,6 +92,9 @@ export const veramoAgent = createAgent<
           defaultKms: "local",
         }),
         "did:ion": new IonDIDProvider({
+          defaultKms: "local",
+        }),
+        "did:key": new KeyDIDProvider({
           defaultKms: "local",
         }),
       },
@@ -107,12 +111,15 @@ export const veramoAgent = createAgent<
         }).ethr,
         web: webDidResolver().web,
         ion: getDidIonResolver().ion,
-        ...getUniversalResolverFor(["key", "io", "elem", "sov"]),
+        key: getDidKeyResolver().key,
+        ...getUniversalResolverFor(["io", "elem", "sov"]),
       }),
     }),
     new CredentialIssuer(),
     new MessageHandler({
       messageHandlers: [new JwtMessageHandler(), new W3cMessageHandler()],
     }),
+    new DataStore(dbConnection),
+    new DataStoreORM(dbConnection),
   ],
 });

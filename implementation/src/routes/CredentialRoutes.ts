@@ -42,17 +42,45 @@ router
   .post("/credentials/transfer", (req, res) => {
     res.status(501).send({ error: "Not implemented" });
   })
-  .post("/credentials/store", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/credentials/store", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
+    }
+
+    const result = await provider.storeVerifiableCredential(req.body.credential);
+    if (result instanceof Error) {
+      res.status(500).send({ success: false, hash: "", errors: result.message });
+    } else {
+      res.status(201).send(result);
+    }
   })
-  .post("/presentations/prove", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/presentations/prove", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
+    }
+
+    const vp = await provider.issueVerifiablePresentation(req.body.presentation);
+    if (vp instanceof Error) {
+      res.status(500).send({ error: vp });
+    } else {
+      res.status(201).send({ vp });
+    }
   })
   .post("/presentations/present", (req, res) => {
     res.status(501).send({ error: "Not implemented" });
   })
-  .post("/presentations/verify", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/presentations/verify", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
+    }
+    const isValid = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
+    res.send(isValid);
   });
 
 export = router;
