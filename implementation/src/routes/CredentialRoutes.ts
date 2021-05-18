@@ -24,11 +24,18 @@ router
       res.status(201).send({ credential });
     }
   })
-  .post("/credentials/status", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
-  })
-  .post("/credentials/revoke", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/credentials/status", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    if (provider == null) {
+      res.status(400).send({ error: "Unknown Provider" });
+      return;
+    }
+    if (req.body.credentialStatus.type !== "EthrStatusRegistry2019" || req.body.credentialStatus.status !== "1") {
+      res.status(400).send({ error: "Unsupported operation" });
+      return;
+    }
+    const txHash = await provider.revokeVerifiableCredential(req.body);
+    res.send(txHash);
   })
   .post("/credentials/verify", async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);

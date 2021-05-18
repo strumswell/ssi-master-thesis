@@ -1,18 +1,22 @@
 import { ServiceProvider, DidMethod } from "../ServiceProvider";
 import { veramoAgent } from "./VeramoSetup";
 import { IIdentifier, W3CCredential } from "@veramo/core";
+import { EthrVCRevoker } from "./EthrVCRevoker";
 
 /**
  * Issue VC: ✔️
  * Issue VP: ✔️
- * Verify VC: ✔️
+ * Verify VC: ✔️ (Veramo is working on dedicated interface in contrast to handleMessage)
  * Verify VP: ✔️ (Not working for did:key (Ed25519 keys in general?))
  * Store VC: ✔️
- * Delete VC: ⤫
- * Revoke VC: ⤫ (no method, could be implementable though, contract is open-source) -> https://github.com/uport-project/ethr-status-registry
+ * Delete VC: ⤫ (no method, could be done by connecting to sqlite db file)
+ * Revoke VC: ✔️ (no method, could be implementable though, contract is open-source) -> https://github.com/uport-project/ethr-status-registry
  * Transfer VC: ⤫
- * Derive VC: …
- * Present VP: …
+ * Derive VC: … On hold (there is no standard conform JSON-LD derivce/ SDR support, VCs are atomic though)
+ * Present VP: … On hold (SDR flow could be used as an present flow)
+ *
+ *
+ * TODO: Implement revocation + adjust vc issuance to take not of revocation info
  */
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(vc) {
@@ -83,7 +87,9 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   async revokeVerifiableCredential(revocationBody) {
-    throw Error("No implementation by Veramo");
+    const revoker = new EthrVCRevoker(revocationBody.credentialId);
+    const txHash = await revoker.revokeEthrCredential();
+    return { txHash: txHash };
   }
 
   async storeVerifiableCredential(verifiableCredential) {

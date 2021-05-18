@@ -2,7 +2,7 @@ import express from "express";
 import swaggerDocument from "./public/openapi.json";
 import bodyParser = require("body-parser");
 import swagger = require("swagger-ui-express");
-import veramoDidRoutes = require("./routes/VeramoDidRoutes");
+import veramoUtilRoutes = require("./routes/VeramoUtilRoutes");
 import credentialRoutes = require("./routes/CredentialRoutes");
 
 const app = express();
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use("/", credentialRoutes);
 
 // Util Routes 🛠
-app.use("/veramo", veramoDidRoutes);
+app.use("/veramo", veramoUtilRoutes);
 
 // WWW Routes 🌍
 app.use("/demo", express.static("src/public", { index: "index.html" }));
