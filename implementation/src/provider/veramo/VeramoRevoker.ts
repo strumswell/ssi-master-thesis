@@ -5,7 +5,7 @@ import { sign } from "ethjs-signer";
 import { IIdentifier, IKey, VerifiableCredential } from "@veramo/core";
 
 // TODO: Think about allowing jwt token instead of hash
-export class EthrVCRevoker {
+export class VeramoRevoker {
   credentialPromise: Promise<VerifiableCredential>;
   status: Status;
 

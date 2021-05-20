@@ -1,7 +1,8 @@
 import { ServiceProvider, DidMethod } from "../ServiceProvider";
 import { veramoAgent } from "./VeramoSetup";
 import { IIdentifier, W3CCredential } from "@veramo/core";
-import { EthrVCRevoker } from "./EthrVCRevoker";
+import { VeramoRevoker } from "./VeramoRevoker";
+import { VeramoDatabase } from "./VeramoDatabase";
 
 /**
  * Issue VC: ✔️
@@ -9,14 +10,13 @@ import { EthrVCRevoker } from "./EthrVCRevoker";
  * Verify VC: ✔️ (Veramo is working on dedicated interface in contrast to handleMessage)
  * Verify VP: ✔️ (Not working for did:key (Ed25519 keys in general?))
  * Store VC: ✔️
- * Delete VC: ⤫ (no method, could be done by connecting to sqlite db file)
- * Revoke VC: ✔️ (no method, could be implementable though, contract is open-source) -> https://github.com/uport-project/ethr-status-registry
+ * Delete VC: ✔️ (no method, directly accessing sqlite db)
+ * Revoke VC: ✔️ (no method, implemented through https://github.com/uport-project/ethr-status-registry
  * Transfer VC: ⤫
  * Derive VC: … On hold (there is no standard conform JSON-LD derivce/ SDR support, VCs are atomic though)
  * Present VP: … On hold (SDR flow could be used as an present flow)
  *
- *
- * TODO: Implement revocation + adjust vc issuance to take not of revocation info
+ * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP
  */
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(vc) {
@@ -87,7 +87,7 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   async revokeVerifiableCredential(revocationBody) {
-    const revoker = new EthrVCRevoker(revocationBody.credentialId);
+    const revoker = new VeramoRevoker(revocationBody.credentialId);
     const txHash = await revoker.revokeEthrCredential();
     return { txHash: txHash };
   }
@@ -95,10 +95,16 @@ export class VeramoProvider implements ServiceProvider {
   async storeVerifiableCredential(verifiableCredential) {
     try {
       const hash = await veramoAgent.dataStoreSaveVerifiableCredential({ verifiableCredential });
-      return { success: true, hash: hash, errors: "" };
+      return hash;
     } catch (error) {
       return error;
     }
+  }
+
+  async deleteVerifiableCredential(identifier) {
+    const db = new VeramoDatabase();
+    const isDeleted = db.deleteCredential(identifier);
+    return { deleted: isDeleted[0], message: isDeleted[1] };
   }
 
   /**
@@ -145,7 +151,7 @@ export class VeramoProvider implements ServiceProvider {
    * @param decodedJwt Decoded jwt proof of input credential
    * @returns
    */
-  private async areCredentialParamsValid(credential, decodedJwt) {
+  async areCredentialParamsValid(credential, decodedJwt): Promise<boolean> {
     // Check subject id
     if (credential.credentialSubject.id != decodedJwt.data.sub) {
       return false;
@@ -174,7 +180,7 @@ export class VeramoProvider implements ServiceProvider {
    * @param timestamp Timestamp of e.g. jwt proof
    * @returns
    */
-  private async reformatTimestamp(timestamp) {
+  private async reformatTimestamp(timestamp): Promise<string> {
     const length = 13;
     const timestampLength = timestamp.toString().length;
     const missingZeros = length - timestampLength;

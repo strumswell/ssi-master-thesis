@@ -42,4 +42,10 @@ export interface ServiceProvider {
    * @param credential Credential input from API
    */
   storeVerifiableCredential(credential: any): any;
+
+  /**
+   * Delete a Verifiable Credential
+   * @param identifier Credential identifier input from API
+   */
+  deleteVerifiableCredential(identifier: any): any;
 }

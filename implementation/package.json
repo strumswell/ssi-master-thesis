@@ -29,6 +29,7 @@
     "ethr-status-registry": "^2.1.3",
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
+    "sqlite": "^4.0.22",
     "sqlite3": "^5.0.2",
     "swagger-ui-express": "^4.1.6",
     "web-did-resolver": "^2.0.4"

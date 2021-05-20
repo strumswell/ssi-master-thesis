@@ -1,10 +1,12 @@
 import express from "express";
 import { DidMethod } from "../provider/ServiceProvider";
-import { EthrVCRevoker } from "../provider/veramo/EthrVCRevoker";
+import { VeramoRevoker } from "../provider/veramo/VeramoRevoker";
 import { VeramoProvider } from "../provider/veramo/VeramoProvider";
+import { VeramoDatabase, VeramoDatabaseCredential } from "../provider/veramo/VeramoDatabase";
 
 const router = express.Router();
 const veramo = new VeramoProvider();
+const db = new VeramoDatabase();
 /**
  * DID Util Routes
  * ----------------------------------------------------
@@ -33,9 +35,18 @@ router
     const did = req.query.did;
     res.send(await veramo.resolveDID(did));
   })
+  .get("/credentials", async (req, res) => {
+    const vcs: [VeramoDatabaseCredential] = await db.getAllCredentials();
+    res.send(vcs);
+  })
+  .get("/credentials/delete", async (req, res) => {
+    const hash = req.query.hash;
+    const isExecuted = await db.deleteCredential(hash);
+    res.send(isExecuted);
+  })
   .get("/credentials/revocationStatus", async (req, res) => {
     const hash = req.query.hash;
-    const revoker = new EthrVCRevoker(hash);
+    const revoker = new VeramoRevoker(hash);
     res.send(await revoker.getEthrCredentialStatus());
   });
 
