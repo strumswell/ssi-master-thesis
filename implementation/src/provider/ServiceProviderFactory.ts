@@ -1,3 +1,4 @@
+import { MattrProvider } from "./mattr/MattrProvider";
 import { ServiceProvider } from "./ServiceProvider";
 import { VeramoProvider } from "./veramo/VeramoProvider";
 
@@ -8,6 +9,7 @@ interface Factory {
 
 export enum ServiceType {
   VERAMO = "veramo",
+  MATTR = "mattr",
 }
 
 export class ServiceProviderFactory implements Factory {
@@ -15,6 +17,8 @@ export class ServiceProviderFactory implements Factory {
     switch (type) {
       case ServiceType.VERAMO:
         return new VeramoProvider();
+      case ServiceType.MATTR:
+        return new MattrProvider();
       default:
         return null;
     }

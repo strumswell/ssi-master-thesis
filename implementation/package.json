@@ -9,6 +9,7 @@
   "author": "Philipp Bolte",
   "license": "ISC",
   "dependencies": {
+    "@types/node-fetch": "^2.5.10",
     "@veramo/core": "^1.2.0",
     "@veramo/credential-w3c": "^1.2.0",
     "@veramo/data-store": "^1.2.0",
