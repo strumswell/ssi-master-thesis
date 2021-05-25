@@ -36,7 +36,7 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(vc): Promise<CredentialVerificationResult> {
+  async verifyVerifiableCredential(vc: W3CCredential): Promise<CredentialVerificationResult> {
     const result: CredentialVerificationResult = {
       verified: false,
     };

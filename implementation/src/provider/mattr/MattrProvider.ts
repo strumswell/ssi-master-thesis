@@ -1,7 +1,7 @@
 import { W3CCredential } from "@veramo/core";
 import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
-import { CredentialVerificationResult } from "../ServiceProviderTypes";
+import { CredentialIssuanceRequest, CredentialVerificationResult } from "../ServiceProviderTypes";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -26,7 +26,7 @@ export class MattrProvider implements ServiceProvider {
     this.tokenRequestPromise = this.requestBearerToken();
   }
 
-  async issueVerifiableCredential(body): Promise<W3CCredential> {
+  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
     const vc: W3CCredential = body.credential;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
@@ -69,7 +69,7 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(body): Promise<CredentialVerificationResult> {
+  async verifyVerifiableCredential(body: W3CCredential): Promise<CredentialVerificationResult> {
     const vc = { credential: body };
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const result: CredentialVerificationResult = {
