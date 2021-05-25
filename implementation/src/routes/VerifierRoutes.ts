@@ -1,6 +1,7 @@
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
 import { CredentialVerificationResult } from "../provider/ServiceProviderTypes";
+import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
 const factory = new ServiceProviderFactory();
@@ -10,12 +11,8 @@ const factory = new ServiceProviderFactory();
  *  - Create types to generalize return/ request types
  */
 router
-  .post("/credentials/verify", async (req, res) => {
+  .post("/credentials/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    if (provider == null) {
-      res.status(400).send({ error: "Unknown Provider" });
-      return;
-    }
 
     const isValid: CredentialVerificationResult = await provider.verifyVerifiableCredential(
       req.body.verifiableCredential
@@ -26,12 +23,9 @@ router
       res.status(200).send(isValid);
     }
   })
-  .post("/presentations/verify", async (req, res) => {
+  .post("/presentations/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    if (provider == null) {
-      res.status(400).send({ error: "Unknown Provider" });
-      return;
-    }
+
     const isValid = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
     res.send(isValid);
   });

@@ -1,6 +1,7 @@
 import { W3CCredential } from "@veramo/core";
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
+import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
 const factory = new ServiceProviderFactory();
@@ -11,12 +12,9 @@ const factory = new ServiceProviderFactory();
  *  - Create types to generalize return/ request types
  */
 router
-  .post("/credentials/issue", async (req, res) => {
+  .post("/credentials/issue", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    if (provider == null) {
-      res.status(400).send({ error: "Unknown Provider" });
-      return;
-    }
+
     const credential: W3CCredential = await provider.issueVerifiableCredential(req.body);
     if (credential instanceof Error) {
       res.status(500).send({ error: credential.message });
@@ -24,12 +22,9 @@ router
       res.status(201).send(credential);
     }
   })
-  .post("/credentials/status", async (req, res) => {
+  .post("/credentials/status", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    if (provider == null) {
-      res.status(400).send({ error: "Unknown Provider" });
-      return;
-    }
+
     if (req.body.credentialStatus.type !== "EthrStatusRegistry2019" || req.body.credentialStatus.status !== "1") {
       res.status(400).send({ error: "Unsupported operation" });
       return;
