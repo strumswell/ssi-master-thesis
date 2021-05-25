@@ -1,3 +1,6 @@
+import { W3CCredential } from "@veramo/core";
+import { CredentialVerificationResult } from "./ServiceProviderTypes";
+
 export enum DidMethod {
   KEY = "key",
   WEB = "web",
@@ -11,13 +14,13 @@ export interface ServiceProvider {
    * Issue a Verifiable Credential
    * @param credential Credential input from API
    */
-  issueVerifiableCredential(credential: any): any;
+  issueVerifiableCredential(credential: any): Promise<W3CCredential>;
 
   /**
    * Verify a Verifiable Credential
    * @param credential Credential input from API
    */
-  verifyVerifiableCredential(credential: any): any;
+  verifyVerifiableCredential(credential: any): Promise<CredentialVerificationResult>;
 
   /**
    * Issue a Verifiable Presentation

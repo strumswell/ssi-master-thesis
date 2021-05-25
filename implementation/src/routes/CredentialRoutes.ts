@@ -1,5 +1,7 @@
+import { W3CCredential } from "@veramo/core";
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
+import { CredentialVerificationResult } from "../provider/ServiceProviderTypes";
 
 const router = express.Router();
 const factory = new ServiceProviderFactory();
@@ -7,7 +9,10 @@ const factory = new ServiceProviderFactory();
 /**
  * Credential Routes
  * ---------------------------------------------------
- * TODO: Come up with a cleaner way of writing this... Split up into multiples files?
+ * TODO:
+ *  - Come up with a cleaner way of writing this... Split up into multiples files?
+ *  - Do error handling on provider level (see /credentials/status)
+ *  - Create types
  */
 router
   .post("/credentials/issue", async (req, res) => {
@@ -16,11 +21,11 @@ router
       res.status(400).send({ error: "Unknown Provider" });
       return;
     }
-    const credential = await provider.issueVerifiableCredential(req.body);
+    const credential: W3CCredential = await provider.issueVerifiableCredential(req.body);
     if (credential instanceof Error) {
       res.status(500).send({ error: credential.message });
     } else {
-      res.status(201).send({ credential });
+      res.status(201).send(credential);
     }
   })
   .post("/credentials/status", async (req, res) => {
@@ -42,8 +47,14 @@ router
       res.status(400).send({ error: "Unknown Provider" });
       return;
     }
-    const isValid = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
-    res.send(isValid);
+    const isValid: CredentialVerificationResult = await provider.verifyVerifiableCredential(
+      req.body.verifiableCredential
+    );
+    if (isValid instanceof Error) {
+      res.status(500).send({ error: isValid.message });
+    } else {
+      res.status(200).send(isValid);
+    }
   })
   .post("/credentials/transfer", (req, res) => {
     res.status(501).send({ error: "Not implemented" });

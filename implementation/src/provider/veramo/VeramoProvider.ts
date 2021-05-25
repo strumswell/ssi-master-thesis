@@ -3,6 +3,7 @@ import { veramoAgent } from "./VeramoSetup";
 import { IIdentifier, W3CCredential } from "@veramo/core";
 import { VeramoRevoker } from "./VeramoRevoker";
 import { VeramoDatabase } from "./VeramoDatabase";
+import { CredentialIssuanceRequest, CredentialVerificationResult } from "../ServiceProviderTypes";
 
 /**
  * Issue VC: ✔️
@@ -16,14 +17,15 @@ import { VeramoDatabase } from "./VeramoDatabase";
  * Derive VC: … On hold (there is no standard conform JSON-LD derivce/ SDR support, VCs are atomic though)
  * Present VP: … On hold (SDR flow could be used as an present flow)
  *
- * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP
+ * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP + redo error handling
  */
 export class VeramoProvider implements ServiceProvider {
-  async issueVerifiableCredential(vc) {
+  async issueVerifiableCredential(vc: CredentialIssuanceRequest): Promise<W3CCredential> {
+    vc.credential.issuer = { id: vc.credential.issuer.toString() };
+    const credential: W3CCredential = await vc.credential;
+
     try {
-      vc.credential.issuer = { id: vc.credential.issuer };
-      const credential: W3CCredential = await vc.credential;
-      const verifiableCredential = await veramoAgent.createVerifiableCredential({
+      const verifiableCredential: W3CCredential = await veramoAgent.createVerifiableCredential({
         save: false,
         credential,
         proofFormat: "jwt",
@@ -34,19 +36,20 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(vc) {
+  async verifyVerifiableCredential(vc): Promise<CredentialVerificationResult> {
+    const result: CredentialVerificationResult = {
+      verified: false,
+    };
     try {
       const message = await veramoAgent.handleMessage({
         raw: vc.proof.jwt,
       });
       // agent only checks if jwt is valid
       // we still need to manually check the integrity of the vc itself
-      const valid = await this.areCredentialParamsValid(vc, message);
-      return {
-        valid: valid,
-      };
+      result.verified = await this.areCredentialParamsValid(vc, message);
+      return result;
     } catch (error) {
-      return { valid: false, error: error.message };
+      return error;
     }
   }
 

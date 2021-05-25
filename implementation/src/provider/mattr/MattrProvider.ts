@@ -1,6 +1,7 @@
 import { W3CCredential } from "@veramo/core";
 import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
+import { CredentialVerificationResult } from "../ServiceProviderTypes";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -19,8 +20,15 @@ interface MattrCredentialRequest {
  *  - Automate bearer token retrieval
  */
 export class MattrProvider implements ServiceProvider {
-  async issueVerifiableCredential(body) {
+  tokenRequestPromise;
+
+  constructor() {
+    this.tokenRequestPromise = this.requestBearerToken();
+  }
+
+  async issueVerifiableCredential(body): Promise<W3CCredential> {
     const vc: W3CCredential = body.credential;
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
     // Restructure json to fit MATTR request schema
     const credential: MattrCredentialRequest = {
@@ -48,17 +56,39 @@ export class MattrProvider implements ServiceProvider {
     }
 
     // Issue credential via MATTR platform
-    const response = await fetch(`${process.env.MATTR_URL}/v1/credentials`, {
-      method: "POST",
-      body: JSON.stringify(credential),
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.MATTR_TOKEN}` },
-    });
-    const mattrVC = await response.json();
-    return mattrVC;
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials`, {
+        method: "POST",
+        body: JSON.stringify(credential),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      const mattrVC: W3CCredential = (await response.json()).credential;
+      return mattrVC;
+    } catch (error) {
+      return error;
+    }
   }
 
-  async verifyVerifiableCredential(vc) {
-    return Error("Not implemented");
+  async verifyVerifiableCredential(body): Promise<CredentialVerificationResult> {
+    const vc = { credential: body };
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: CredentialVerificationResult = {
+      verified: false,
+    };
+
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/verify`, {
+        method: "POST",
+        body: JSON.stringify(vc),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      const verificationResult = await response.json();
+      result.verified = verificationResult.verified;
+      result.error = verificationResult.error;
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 
   async issueVerifiablePresentation(presentation) {
@@ -92,5 +122,21 @@ export class MattrProvider implements ServiceProvider {
     } else {
       return Error("Revocation type not supported");
     }
+  }
+
+  private requestBearerToken() {
+    const requestBody = {
+      client_id: process.env.MATTR_CLIENT_ID,
+      client_secret: process.env.MATTR_CLIENT_SECRET,
+      audience: "https://vii.mattr.global",
+      grant_type: "client_credentials",
+    };
+    console.log(requestBody);
+    const response = fetch("https://auth.mattr.global/oauth/token", {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: { "Content-Type": "application/json" },
+    });
+    return response;
   }
 }
