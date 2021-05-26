@@ -1,7 +1,13 @@
 import { W3CCredential } from "@veramo/core";
 import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
-import { CredentialIssuanceRequest, CredentialVerificationResult } from "../ServiceProviderTypes";
+import {
+  CredentialIssuanceRequest,
+  Presentation,
+  VerifiablePresentation,
+  VerificationResult,
+} from "../ServiceProviderTypes";
+import { v4 as uuidv4 } from "uuid";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -69,10 +75,10 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(body: W3CCredential): Promise<CredentialVerificationResult> {
+  async verifyVerifiableCredential(body: W3CCredential): Promise<VerificationResult> {
     const vc = { credential: body };
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
-    const result: CredentialVerificationResult = {
+    const result: VerificationResult = {
       verified: false,
     };
 
@@ -91,12 +97,50 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async issueVerifiablePresentation(presentation) {
-    return Error("Not implemented");
+  async issueVerifiablePresentation(body: Presentation): Promise<VerifiablePresentation> {
+    // Prepare payload
+    const request = {
+      domain: "philipp-bolte-sandbox.vii.mattr.global",
+      holderDidUrl: body.holder,
+      credentials: body.verifiableCredential,
+      challenge: uuidv4(),
+    };
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+
+    // Issue presentation via MATTR platform
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/presentations`, {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      const mattrVP: VerifiablePresentation = (await response.json()).presentation;
+      return mattrVP;
+    } catch (error) {
+      return error;
+    }
   }
 
-  async verifyVerifiablePresentation(vp) {
-    return Error("Not implemented");
+  async verifyVerifiablePresentation(body: VerifiablePresentation): Promise<VerificationResult> {
+    const request = { presentation: body };
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: VerificationResult = {
+      verified: false,
+    };
+
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/presentations/verify`, {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      const verificationResult = await response.json();
+      result.verified = verificationResult.verified;
+      result.error = verificationResult.reason;
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 
   async revokeVerifiableCredential(revocationBody) {

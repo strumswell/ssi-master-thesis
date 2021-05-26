@@ -33,6 +33,7 @@
     "sqlite": "^4.0.22",
     "sqlite3": "^5.0.2",
     "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2",
     "web-did-resolver": "^2.0.4"
   },
   "devDependencies": {
