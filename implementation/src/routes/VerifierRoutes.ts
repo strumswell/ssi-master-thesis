@@ -1,6 +1,6 @@
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
-import { CredentialVerificationResult } from "../provider/ServiceProviderTypes";
+import { VerificationResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
@@ -14,9 +14,7 @@ router
   .post("/credentials/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
-    const isValid: CredentialVerificationResult = await provider.verifyVerifiableCredential(
-      req.body.verifiableCredential
-    );
+    const isValid: VerificationResult = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
     if (isValid instanceof Error) {
       res.status(500).send({ error: isValid.message });
     } else {
@@ -26,7 +24,7 @@ router
   .post("/presentations/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
-    const isValid = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
+    const isValid: VerificationResult = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
     res.send(isValid);
   });
 

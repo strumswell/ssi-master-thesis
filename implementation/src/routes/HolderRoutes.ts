@@ -1,5 +1,6 @@
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
+import { Presentation, VerifiablePresentation } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
@@ -36,12 +37,13 @@ router
   })
   .post("/presentations/prove", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    const presentation: Presentation = req.body.presentation;
+    const vp: VerifiablePresentation = await provider.issueVerifiablePresentation(presentation);
 
-    const vp = await provider.issueVerifiablePresentation(req.body.presentation);
     if (vp instanceof Error) {
-      res.status(500).send({ error: vp });
+      res.status(500).send({ error: vp.message });
     } else {
-      res.status(201).send({ vp });
+      res.status(201).send(vp);
     }
   })
   .post("/presentations/present", (req, res) => {

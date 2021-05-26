@@ -3,7 +3,12 @@ import { veramoAgent } from "./VeramoSetup";
 import { IIdentifier, W3CCredential } from "@veramo/core";
 import { VeramoRevoker } from "./VeramoRevoker";
 import { VeramoDatabase } from "./VeramoDatabase";
-import { CredentialIssuanceRequest, CredentialVerificationResult } from "../ServiceProviderTypes";
+import {
+  CredentialIssuanceRequest,
+  VerificationResult,
+  Presentation,
+  VerifiablePresentation,
+} from "../ServiceProviderTypes";
 
 /**
  * Issue VC: ✔️
@@ -36,8 +41,8 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(vc: W3CCredential): Promise<CredentialVerificationResult> {
-    const result: CredentialVerificationResult = {
+  async verifyVerifiableCredential(vc: W3CCredential): Promise<VerificationResult> {
+    const result: VerificationResult = {
       verified: false,
     };
     try {
@@ -53,18 +58,18 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async issueVerifiablePresentation(presentation) {
+  async issueVerifiablePresentation(body: Presentation): Promise<VerifiablePresentation> {
     try {
-      const vp = await veramoAgent.createVerifiablePresentation({
+      const vp: VerifiablePresentation = await veramoAgent.createVerifiablePresentation({
         save: false,
         presentation: {
-          holder: presentation.holder,
-          verifier: presentation.holder,
+          holder: body.holder,
+          verifier: [body.holder],
           tag: new Date().getTime().toString(),
-          "@context": presentation["@context"],
-          type: presentation.type,
-          issuanceDate: presentation.issuanceDate,
-          verifiableCredential: presentation.verifiableCredential,
+          "@context": body["@context"],
+          type: body.type,
+          issuanceDate: body.issuanceDate,
+          verifiableCredential: body.verifiableCredential,
         },
         proofFormat: "jwt",
       });
