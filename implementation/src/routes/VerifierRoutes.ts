@@ -25,7 +25,11 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
     const isValid: VerificationResult = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
-    res.send(isValid);
+    if (isValid instanceof Error) {
+      res.status(500).send({ error: isValid.message });
+    } else {
+      res.status(200).send(isValid);
+    }
   });
 
 export = router;

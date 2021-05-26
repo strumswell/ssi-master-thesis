@@ -12,7 +12,6 @@ import {
   RevocationResult,
   RevocationRequest,
 } from "../ServiceProviderTypes";
-import { resourceLimits } from "worker_threads";
 
 /**
  * Issue VC: ✔️
@@ -84,18 +83,20 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   // TODO: TYPES of attribute result
-  async verifyVerifiablePresentation(vp) {
+  async verifyVerifiablePresentation(vp: VerifiablePresentation): Promise<VerificationResult> {
+    const result: VerificationResult = {
+      verified: false,
+    };
     try {
-      //console.log(presentation.proof.jwt);
       const message = await veramoAgent.handleMessage({
         raw: vp.proof.jwt,
       });
       // agent only checks if jwt is valid
       // we still need to manually check the integrity of the vc itself
       //const valid = await this.areCredentialParamsValid(vc, message);
-      return { message };
+      result.verified = true;
     } catch (error) {
-      return { valid: false, error: error.message };
+      return error;
     }
   }
 

@@ -5,6 +5,7 @@ import {
   VerifiablePresentation,
   RevocationRequest,
   RevocationResult,
+  CredentialIssuanceRequest,
 } from "./ServiceProviderTypes";
 
 export enum DidMethod {
@@ -20,13 +21,13 @@ export interface ServiceProvider {
    * Issue a Verifiable Credential
    * @param credential Credential input from API
    */
-  issueVerifiableCredential(credential: any): Promise<W3CCredential>;
+  issueVerifiableCredential(credential: CredentialIssuanceRequest): Promise<W3CCredential>;
 
   /**
    * Verify a Verifiable Credential
    * @param credential Credential input from API
    */
-  verifyVerifiableCredential(credential: any): Promise<VerificationResult>;
+  verifyVerifiableCredential(credential: W3CCredential): Promise<VerificationResult>;
 
   /**
    * Issue a Verifiable Presentation
@@ -38,7 +39,7 @@ export interface ServiceProvider {
    * Verify a Verifiable Presentation
    * @param credential Presentation input from API
    */
-  verifyVerifiablePresentation(presentation: any): any;
+  verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<VerificationResult>;
 
   /**
    * Revoke a Verifiable Credential
