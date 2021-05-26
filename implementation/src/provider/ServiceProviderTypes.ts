@@ -1,8 +1,14 @@
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
 
 export enum CredentialStatusType {
-  RevocationList2020Status = "CredentialStatusType",
+  RevocationList2020Status = "RevocationList2020Status",
   EthrStatusRegistry2019 = "EthrStatusRegistry2019",
+}
+
+export enum RevocationStatus {
+  PENDING = "pending",
+  REVOKED = "revoked",
+  NOT_REVOKED = "not revoked",
 }
 
 /**
@@ -97,4 +103,19 @@ export interface VerifiablePresentation {
 export interface PresentationIssuanceRequest {
   presentation: Presentation;
   options?: RequestOptions;
+}
+
+export interface RevocationRequest {
+  credentialId: string;
+  credentialStatus: [
+    {
+      type: CredentialStatusType;
+      status?: string;
+    }
+  ];
+}
+
+export interface RevocationResult {
+  status: RevocationStatus;
+  message?: string;
 }

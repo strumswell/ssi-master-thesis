@@ -1,5 +1,11 @@
 import { W3CCredential } from "@veramo/core";
-import { VerificationResult, Presentation, VerifiablePresentation } from "./ServiceProviderTypes";
+import {
+  VerificationResult,
+  Presentation,
+  VerifiablePresentation,
+  RevocationRequest,
+  RevocationResult,
+} from "./ServiceProviderTypes";
 
 export enum DidMethod {
   KEY = "key",
@@ -38,7 +44,7 @@ export interface ServiceProvider {
    * Revoke a Verifiable Credential
    * @param revocationBody Revocation info from API
    */
-  revokeVerifiableCredential(revocationBody: any): any;
+  revokeVerifiableCredential(revocationBody: RevocationRequest): Promise<RevocationResult>;
 
   /**
    * Store a Verifiable Credential

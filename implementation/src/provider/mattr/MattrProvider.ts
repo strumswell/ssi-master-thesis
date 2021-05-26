@@ -3,7 +3,11 @@ import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
 import {
   CredentialIssuanceRequest,
+  CredentialStatusType,
   Presentation,
+  RevocationRequest,
+  RevocationResult,
+  RevocationStatus,
   VerifiablePresentation,
   VerificationResult,
 } from "../ServiceProviderTypes";
@@ -143,8 +147,29 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async revokeVerifiableCredential(revocationBody) {
-    return Error("Not implemented");
+  // TODO: Add revoked: true/ false to api schema.
+  async revokeVerifiableCredential(body: RevocationRequest): Promise<RevocationResult> {
+    const request = { isRevoked: true };
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: RevocationResult = { status: null };
+
+    if (body.credentialStatus[0].type !== CredentialStatusType["RevocationList2020Status"]) {
+      result.status = RevocationStatus.NOT_REVOKED;
+      result.message = "Unsupported type or status.";
+      return result;
+    }
+
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/${body.credentialId}/revocation-status`, {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      result.status = request.isRevoked ? RevocationStatus.REVOKED : RevocationStatus.NOT_REVOKED;
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 
   async storeVerifiableCredential(verifiableCredential) {

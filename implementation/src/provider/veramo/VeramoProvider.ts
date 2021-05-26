@@ -8,7 +8,11 @@ import {
   VerificationResult,
   Presentation,
   VerifiablePresentation,
+  RevocationStatus,
+  RevocationResult,
+  RevocationRequest,
 } from "../ServiceProviderTypes";
+import { resourceLimits } from "worker_threads";
 
 /**
  * Issue VC: ✔️
@@ -79,6 +83,7 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
+  // TODO: TYPES of attribute result
   async verifyVerifiablePresentation(vp) {
     try {
       //console.log(presentation.proof.jwt);
@@ -94,10 +99,22 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async revokeVerifiableCredential(revocationBody) {
+  async revokeVerifiableCredential(revocationBody: RevocationRequest): Promise<RevocationResult> {
     const revoker = new VeramoRevoker(revocationBody.credentialId);
-    const txHash = await revoker.revokeEthrCredential();
-    return { txHash: txHash };
+    const result: RevocationResult = { status: null };
+    if (
+      revocationBody.credentialStatus[0].type !== "EthrStatusRegistry2019" ||
+      revocationBody.credentialStatus[0].status !== "1"
+    ) {
+      result.status = RevocationStatus[RevocationStatus.NOT_REVOKED];
+      result.message = "Unsupported type or status.";
+      return result;
+    } else {
+      const txHash = await revoker.revokeEthrCredential();
+      result.status = RevocationStatus[RevocationStatus.PENDING];
+      result.message = txHash;
+      return result;
+    }
   }
 
   async storeVerifiableCredential(verifiableCredential) {

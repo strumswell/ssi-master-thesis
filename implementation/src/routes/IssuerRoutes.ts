@@ -1,6 +1,7 @@
 import { W3CCredential } from "@veramo/core";
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
+import { RevocationResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
@@ -24,13 +25,8 @@ router
   })
   .post("/credentials/status", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-
-    if (req.body.credentialStatus.type !== "EthrStatusRegistry2019" || req.body.credentialStatus.status !== "1") {
-      res.status(400).send({ error: "Unsupported operation" });
-      return;
-    }
-    const txHash = await provider.revokeVerifiableCredential(req.body);
-    res.send(txHash);
+    const result: RevocationResult = await provider.revokeVerifiableCredential(req.body);
+    res.send(result);
   });
 
 export = router;
