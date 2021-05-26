@@ -1,9 +1,11 @@
-import { W3CCredential } from "@veramo/core";
+import { VerifiableCredential, W3CCredential } from "@veramo/core";
 import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
 import {
+  CredentialDeleteResult,
   CredentialIssuanceRequest,
   CredentialStatusType,
+  CredentialStorageResult,
   Presentation,
   RevocationRequest,
   RevocationResult,
@@ -12,6 +14,7 @@ import {
   VerificationResult,
 } from "../ServiceProviderTypes";
 import { v4 as uuidv4 } from "uuid";
+import { rejects } from "assert/strict";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -172,12 +175,20 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async storeVerifiableCredential(verifiableCredential) {
-    return Error("Not implemented");
+  async storeVerifiableCredential(verifiableCredential: VerifiableCredential): Promise<CredentialStorageResult> {
+    return new Promise<CredentialStorageResult>(() => {
+      throw new Error("Not implemented");
+    }).catch((error) => {
+      return error;
+    });
   }
 
-  async deleteVerifiableCredential(identifier) {
-    return Error("Not implemented");
+  async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
+    return new Promise<CredentialDeleteResult>(() => {
+      throw new Error("Not implemented");
+    }).catch((error) => {
+      return error;
+    });
   }
 
   async isRevocable(vc: W3CCredential) {

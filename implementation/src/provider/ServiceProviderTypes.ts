@@ -119,3 +119,23 @@ export interface RevocationResult {
   status: RevocationStatus;
   message?: string;
 }
+
+/**
+ * Result after storing a credential.
+ */
+export interface CredentialStorageResult {
+  /**
+   * Id is used to adress a credential at storage level.
+   * Could be a hash (see Veramo) or a uuid (see MATTR).
+   */
+  id: string;
+  message?: string;
+}
+
+/**
+ * Result after deleting a credential.
+ */
+export interface CredentialDeleteResult {
+  isDeleted: boolean;
+  message?: string;
+}

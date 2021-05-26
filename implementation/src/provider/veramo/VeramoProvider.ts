@@ -1,6 +1,6 @@
 import { ServiceProvider, DidMethod } from "../ServiceProvider";
 import { veramoAgent } from "./VeramoSetup";
-import { IIdentifier, W3CCredential } from "@veramo/core";
+import { IIdentifier, VerifiableCredential, W3CCredential } from "@veramo/core";
 import { VeramoRevoker } from "./VeramoRevoker";
 import { VeramoDatabase } from "./VeramoDatabase";
 import {
@@ -11,6 +11,8 @@ import {
   RevocationStatus,
   RevocationResult,
   RevocationRequest,
+  CredentialStorageResult,
+  CredentialDeleteResult,
 } from "../ServiceProviderTypes";
 
 /**
@@ -118,19 +120,19 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async storeVerifiableCredential(verifiableCredential) {
+  async storeVerifiableCredential(verifiableCredential: VerifiableCredential): Promise<CredentialStorageResult> {
     try {
       const hash = await veramoAgent.dataStoreSaveVerifiableCredential({ verifiableCredential });
-      return hash;
+      return { id: hash };
     } catch (error) {
       return error;
     }
   }
 
-  async deleteVerifiableCredential(identifier) {
+  async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
     const db = new VeramoDatabase();
     const isDeleted = db.deleteCredential(identifier);
-    return { deleted: isDeleted[0], message: isDeleted[1] };
+    return { isDeleted: isDeleted[0], message: isDeleted[1] };
   }
 
   /**

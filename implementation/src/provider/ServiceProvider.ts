@@ -1,4 +1,4 @@
-import { W3CCredential } from "@veramo/core";
+import { VerifiableCredential, W3CCredential } from "@veramo/core";
 import {
   VerificationResult,
   Presentation,
@@ -6,6 +6,8 @@ import {
   RevocationRequest,
   RevocationResult,
   CredentialIssuanceRequest,
+  CredentialStorageResult,
+  CredentialDeleteResult,
 } from "./ServiceProviderTypes";
 
 export enum DidMethod {
@@ -51,11 +53,11 @@ export interface ServiceProvider {
    * Store a Verifiable Credential
    * @param credential Credential input from API
    */
-  storeVerifiableCredential(credential: any): any;
+  storeVerifiableCredential(credential: VerifiableCredential): Promise<CredentialStorageResult>;
 
   /**
    * Delete a Verifiable Credential
-   * @param identifier Credential identifier input from API
+   * @param identifier Credential identifier (hash, uuid, ...) input from API
    */
-  deleteVerifiableCredential(identifier: any): any;
+  deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult>;
 }
