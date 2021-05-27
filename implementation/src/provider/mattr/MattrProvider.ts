@@ -1,6 +1,7 @@
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
 import fetch from "node-fetch";
 import { ServiceProvider } from "../ServiceProvider";
+import { v4 as uuidv4 } from "uuid";
 import {
   CredentialDeleteResult,
   CredentialIssuanceRequest,
@@ -13,8 +14,6 @@ import {
   VerifiablePresentation,
   VerificationResult,
 } from "../ServiceProviderTypes";
-import { v4 as uuidv4 } from "uuid";
-import { rejects } from "assert/strict";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -36,6 +35,7 @@ export class MattrProvider implements ServiceProvider {
   tokenRequestPromise;
 
   constructor() {
+    // Request a bearer auth token Promise
     this.tokenRequestPromise = this.requestBearerToken();
   }
 
@@ -177,21 +177,34 @@ export class MattrProvider implements ServiceProvider {
 
   async storeVerifiableCredential(verifiableCredential: VerifiableCredential): Promise<CredentialStorageResult> {
     return new Promise<CredentialStorageResult>(() => {
-      throw new Error("Not implemented");
+      throw new Error("No MATTR implementation");
     }).catch((error) => {
       return error;
     });
   }
 
+  // TODO: add message from MATTR to result if code === 400/404
   async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
-    return new Promise<CredentialDeleteResult>(() => {
-      throw new Error("Not implemented");
-    }).catch((error) => {
+    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: CredentialDeleteResult = { isDeleted: false };
+    try {
+      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/${identifier}/`, {
+        method: "DELETE",
+        headers: { Accept: "application/json", Authorization: `Bearer ${authToken}` },
+      });
+      response.status === 204 ? (result.isDeleted = true) : (result.isDeleted = false);
+      return result;
+    } catch (error) {
       return error;
-    });
+    }
   }
 
-  async isRevocable(vc: W3CCredential) {
+  /**
+   * Check if input credential should be revocable based on its attributes
+   * @param vc Credential that has to be checked
+   * @returns boolean
+   */
+  private async isRevocable(vc: W3CCredential) {
     const revocable = vc.credentialStatus !== undefined ? true : false;
     const hasCorrectType = revocable && vc.credentialStatus.type == "RevocationList2020Status" ? true : false;
 
@@ -204,6 +217,10 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
+  /**
+   * Request bearer auth token from MATTR
+   * @returns Promise of MATTR auth request. Token under .access_token
+   */
   private requestBearerToken() {
     const requestBody = {
       client_id: process.env.MATTR_CLIENT_ID,
@@ -211,7 +228,6 @@ export class MattrProvider implements ServiceProvider {
       audience: "https://vii.mattr.global",
       grant_type: "client_credentials",
     };
-    console.log(requestBody);
     const response = fetch("https://auth.mattr.global/oauth/token", {
       method: "POST",
       body: JSON.stringify(requestBody),

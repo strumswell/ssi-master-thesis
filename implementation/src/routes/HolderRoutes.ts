@@ -29,6 +29,7 @@ router
       res.status(201).send(result);
     }
   })
+  // TODO: Think about making this DELETE -> ID in URL, check if body is needed
   .post("/credentials/delete", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
