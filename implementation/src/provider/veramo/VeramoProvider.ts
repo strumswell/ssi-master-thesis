@@ -131,8 +131,15 @@ export class VeramoProvider implements ServiceProvider {
 
   async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
     const db = new VeramoDatabase();
-    const isDeleted = db.deleteCredential(identifier);
-    return { isDeleted: isDeleted[0], message: isDeleted[1] };
+    const result: CredentialDeleteResult = { isDeleted: false };
+    try {
+      const isDeleted = await db.deleteCredential(identifier);
+      result.isDeleted = isDeleted[0];
+      result.message = isDeleted[1];
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 
   /**

@@ -193,6 +193,11 @@ export class MattrProvider implements ServiceProvider {
         headers: { Accept: "application/json", Authorization: `Bearer ${authToken}` },
       });
       response.status === 204 ? (result.isDeleted = true) : (result.isDeleted = false);
+      // Handle errors coming from MATTR
+      if (response.status === 400 || response.status === 404) {
+        const json = await response.json();
+        throw new Error(json.message);
+      }
       return result;
     } catch (error) {
       return error;

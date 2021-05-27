@@ -29,14 +29,12 @@ router
       res.status(201).send(result);
     }
   })
-  // TODO: Think about making this DELETE -> ID in URL, check if body is needed
-  .post("/credentials/delete", providerCheck, async (req, res) => {
+  .delete("/credentials/delete/:id", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
-    // TODO: Redo req body in OpenAPI schema
-    const result: CredentialDeleteResult = await provider.deleteVerifiableCredential(req.body.hash);
+    const result: CredentialDeleteResult = await provider.deleteVerifiableCredential(req.params.id);
     if (result instanceof Error) {
-      res.status(500).send({ error: result.message });
+      res.status(400).send({ error: result.message });
     } else {
       res.status(200).send(result);
     }
