@@ -6,9 +6,10 @@ import veramoUtilRoutes = require("./routes/VeramoUtilRoutes");
 import holderRoutes = require("./routes/HolderRoutes");
 import verifierRoutes = require("./routes/VerifierRoutes");
 import issuerRoutes = require("./routes/IssuerRoutes");
-import mattrVerifier = require("./util/Ngrok");
+import { MattrVerifierService } from "./provider/mattr/MattrVerifierService";
 
 const app = express();
+const mattrVerifier = new MattrVerifierService();
 
 app.use(bodyParser.json());
 
@@ -19,7 +20,7 @@ app.use("/", issuerRoutes);
 
 // Util Routes 🛠
 app.use("/veramo", veramoUtilRoutes);
-app.use("/mattr/verifier", mattrVerifier.router);
+app.use("/mattr/verifier", mattrVerifier.getVerifierRouter());
 
 // WWW Routes 🌍
 app.use("/demo", express.static("src/public", { index: "index.html" }));

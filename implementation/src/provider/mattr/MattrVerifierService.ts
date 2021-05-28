@@ -1,23 +1,25 @@
 import ngrok from "ngrok";
 import got from "got";
 import express from "express";
-import QRCode from "qrcode";
-import { MattrProvider } from "../provider/mattr/MattrProvider";
+import * as qr from "qr-image";
+import { MattrProvider } from "./MattrProvider";
 
 // Heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
 export class MattrVerifierService {
   tenant: string = process.env.MATTR_TENANT;
   jwsUrl: string;
+  ngrokUrl;
   tokenRequestPromise;
+  qr;
 
   constructor() {
     // Request a bearer auth token Promise
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
+    this.startNgrok();
   }
 
-  async startNgrok() {
-    const ngrokUrl = await ngrok.connect(3000);
-    return ngrokUrl;
+  private startNgrok() {
+    this.ngrokUrl = ngrok.connect(3000);
   }
 
   private async provisionPresentationRequest(ngrokUrl) {
@@ -85,31 +87,33 @@ export class MattrVerifierService {
   }
 
   public async generateQRCode() {
-    const ngrokUrl = await this.startNgrok();
+    if (this.qr !== undefined) return this.qr;
+    const ngrokUrl = await this.ngrokUrl;
     const provisionRequest = await this.provisionPresentationRequest(ngrokUrl);
     const didUrl = await this.getVerifierDIDUrl();
     const didcommUrl = await this.signPayload(ngrokUrl, didUrl, provisionRequest);
+    const qrcode = qr.imageSync(didcommUrl, { type: "svg" });
+    return qrcode;
+  }
 
-    QRCode.toString(didcommUrl, { type: "terminal" }, function (err, url) {
-      console.log(url);
-    });
+  public getVerifierRouter() {
+    const router = express.Router();
+
+    router
+      .get("/qr", (req, res) => {
+        res.redirect(this.jwsUrl);
+      })
+      .get("/test", async (req, res) => {
+        const data = await this.generateQRCode();
+        this.qr = data;
+        res.type("svg");
+        res.send(data);
+      })
+      .post("/callback", function (req, res) {
+        const body = req.body;
+        console.log("\n Data from the Presentation is shown below \n", body);
+        res.sendStatus(200);
+      });
+    return router;
   }
 }
-
-export const router = express.Router();
-const service = new MattrVerifierService();
-//service.generateQRCode();
-
-router
-  .get("/qr", (req, res) => {
-    //console.log(service.jwsUrl);
-    res.redirect(service.jwsUrl);
-  })
-  .get("/test", (req, res) => {
-    res.sendStatus(200);
-  })
-  .post("/callback", function (req, res) {
-    const body = req.body;
-    console.log("\n Data from the Presentation is shown below \n", body);
-    res.sendStatus(200);
-  });
