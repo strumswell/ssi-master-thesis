@@ -36,7 +36,7 @@ export class MattrProvider implements ServiceProvider {
 
   constructor() {
     // Request a bearer auth token Promise
-    this.tokenRequestPromise = this.requestBearerToken();
+    this.tokenRequestPromise = MattrProvider.requestBearerToken();
   }
 
   async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
@@ -183,7 +183,6 @@ export class MattrProvider implements ServiceProvider {
     });
   }
 
-  // TODO: add message from MATTR to result if code === 400/404
   async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const result: CredentialDeleteResult = { isDeleted: false };
@@ -226,7 +225,7 @@ export class MattrProvider implements ServiceProvider {
    * Request bearer auth token from MATTR
    * @returns Promise of MATTR auth request. Token under .access_token
    */
-  private requestBearerToken() {
+  public static requestBearerToken() {
     const requestBody = {
       client_id: process.env.MATTR_CLIENT_ID,
       client_secret: process.env.MATTR_CLIENT_SECRET,
