@@ -50,8 +50,11 @@ router
       res.status(201).send(vp);
     }
   })
-  .post("/presentations/present", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/presentations/present", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    const qrCode = await provider.presentVerifiablePresentation();
+    res.type("png");
+    res.send(qrCode);
   });
 
 export = router;

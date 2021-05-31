@@ -30,9 +30,7 @@
   "paths": {
     "/credentials/issue": {
       "post": {
-        "tags": [
-          "Issuer"
-        ],
+        "tags": ["Issuer"],
         "summary": "Issues a credential and returns it in the response body.",
         "operationId": "issueCredential",
         "description": "Issues a credential and returns it in the response body.",
@@ -79,9 +77,7 @@
     },
     "/credentials/derive": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Derives a credential and returns it in the response body.",
         "operationId": "deriveCredential",
         "description": "Derives a credential and returns it in the response body.",
@@ -131,9 +127,7 @@
     },
     "/credentials/status": {
       "post": {
-        "tags": [
-          "Issuer"
-        ],
+        "tags": ["Issuer"],
         "summary": "Updates the status of an issued credential",
         "operationId": "updateCredentialStatus",
         "description": "Updates the status of an issued credential.",
@@ -176,9 +170,7 @@
     },
     "/credentials/verify": {
       "post": {
-        "tags": [
-          "Verifier"
-        ],
+        "tags": ["Verifier"],
         "summary": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
         "operationId": "verifyCredential",
         "description": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
@@ -225,9 +217,7 @@
     },
     "/presentations/verify": {
       "post": {
-        "tags": [
-          "Verifier"
-        ],
+        "tags": ["Verifier"],
         "summary": "Verifies a Presentation with or without proofs attached and returns a verificationResult in the response body.",
         "operationId": "verifyPresentation",
         "description": "Verifies a verifiablePresentation and returns a verificationResult in the response body.  Given the possibility of denial of service, buffer overflow, or other style attacks, an implementation is permitted to rate limit or restrict requests against this API endpoint to those requests that contain only a single credential with a 413 or 429 error code as appropriate.",
@@ -287,9 +277,7 @@
     },
     "/credentials/store": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Store a credential",
         "operationId": "storeCredential",
         "description": "Store a credential",
@@ -342,9 +330,7 @@
     },
     "/credentials/transfer": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Transfer a credential to another holder (needs work)",
         "operationId": "transferCredential",
         "description": "Transfer a credential to another holder. TODO find out what's needed for a transfer. Might be diffucult as no sdk, bib or platform implements this part of the process.",
@@ -397,9 +383,7 @@
     },
     "/credentials/delete/{id}": {
       "delete": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Delete a credential",
         "operationId": "deleteCredential",
         "description": "Delete a credential",
@@ -458,9 +442,7 @@
     },
     "/presentations/prove": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Proves a presentation and returns it in the response body.",
         "operationId": "provePresentation",
         "description": "Proves a presentation and returns it in the response body.",
@@ -507,9 +489,7 @@
     },
     "/presentations/present": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Present a presentation to a verifier",
         "operationId": "presentPresentation",
         "description": "Present a presentation to a verifier",
@@ -524,23 +504,14 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProvePresentationResponse"
-              }
-            }
-          },
-          "description": "Parameters for verifying a verifiablePresentation."
-        },
         "responses": {
           "200": {
             "description": "Verifiable Presentation successfully verified!",
             "content": {
-              "application/json": {
+              "image/png": {
                 "schema": {
-                  "$ref": "#/components/schemas/GeneralResult"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -785,9 +756,7 @@
           }
         },
         "example": {
-          "checks": [
-            "proof"
-          ],
+          "checks": ["proof"],
           "warnings": [],
           "errors": []
         }
@@ -814,9 +783,7 @@
       "GeneralError": {
         "type": "object",
         "description": "Object for general error responses",
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "properties": {
           "error": {
             "type": "boolean",
@@ -830,9 +797,7 @@
       "CredentialDeletionResult": {
         "type": "object",
         "description": "Object representing the result of the deletion operation",
-        "required": [
-          "isDeleted"
-        ],
+        "required": ["isDeleted"],
         "properties": {
           "isDeleted": {
             "type": "boolean",
@@ -907,15 +872,9 @@
           }
         },
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "id": "http://example.gov/credentials/3732",
-          "type": [
-            "VerifiableCredential",
-            "UniversityDegreeCredential"
-          ],
+          "type": ["VerifiableCredential", "UniversityDegreeCredential"],
           "issuer": "did:example:123",
           "issuanceDate": "2020-03-16T22:37:26.544Z",
           "credentialSubject": {
@@ -944,15 +903,9 @@
           }
         ],
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "id": "http://example.gov/credentials/3732",
-          "type": [
-            "VerifiableCredential",
-            "UniversityDegreeCredential"
-          ],
+          "type": ["VerifiableCredential", "UniversityDegreeCredential"],
           "issuer": "did:example:123",
           "issuanceDate": "2020-03-16T22:37:26.544Z",
           "credentialSubject": {
@@ -1007,27 +960,18 @@
           }
         },
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
           "verifiableCredential": [
             {
-              "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://www.w3.org/2018/credentials/examples/v1"
-              ]
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
             },
             {
               "id": "http://example.gov/credentials/3732"
             },
             {
-              "type": [
-                "VerifiableCredential",
-                "UniversityDegreeCredential"
-              ]
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
             },
             {
               "issuer": "did:example:123"
@@ -1073,27 +1017,18 @@
           }
         ],
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
           "verifiableCredential": [
             {
-              "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://www.w3.org/2018/credentials/examples/v1"
-              ]
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
             },
             {
               "id": "http://example.gov/credentials/3732"
             },
             {
-              "type": [
-                "VerifiableCredential",
-                "UniversityDegreeCredential"
-              ]
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
             },
             {
               "issuer": "did:example:123"
@@ -1225,12 +1160,7 @@
       },
       "Provider": {
         "type": "string",
-        "enum": [
-          "veramo",
-          "mattr",
-          "trinsic",
-          "azure"
-        ]
+        "enum": ["veramo", "mattr", "trinsic", "azure"]
       }
     }
   }
