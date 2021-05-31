@@ -142,6 +142,14 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
+  async presentVerifiablePresentation(): Promise<any> {
+    return new Promise<any>(() => {
+      throw new Error("No Veramo implementation");
+    }).catch((error) => {
+      return error;
+    });
+  }
+
   /**
    * Get all DIDs registered with Veramo agent from local KMS
    * @returns dids

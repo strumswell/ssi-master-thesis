@@ -60,4 +60,9 @@ export interface ServiceProvider {
    * @param identifier Credential identifier (hash, uuid, ...) input from API
    */
   deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult>;
+
+  /**
+   * Present a Verifiable Presentation
+   */
+  presentVerifiablePresentation(): Promise<any>;
 }

@@ -14,6 +14,7 @@ import {
   VerifiablePresentation,
   VerificationResult,
 } from "../ServiceProviderTypes";
+import { MattrVerifierService } from "./MattrVerifierService";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -201,6 +202,12 @@ export class MattrProvider implements ServiceProvider {
     } catch (error) {
       return error;
     }
+  }
+
+  async presentVerifiablePresentation(): Promise<any> {
+    const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
+    const data = await verifierService.generateQRCode();
+    return data;
   }
 
   /**

@@ -1,119 +1,124 @@
 import ngrok from "ngrok";
-import got from "got";
-import express from "express";
+import fetch from "node-fetch";
 import * as qr from "qr-image";
 import { MattrProvider } from "./MattrProvider";
 
-// Heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
+// Logic heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
 export class MattrVerifierService {
-  tenant: string = process.env.MATTR_TENANT;
-  jwsUrl: string;
-  ngrokUrl;
-  tokenRequestPromise;
-  qr;
+  private static verifierService: MattrVerifierService; // singleton object
+  private tenant: string = process.env.MATTR_TENANT;
+  private tokenRequestPromise: Promise<any>;
+  private qrCode: any;
 
-  constructor() {
-    // Request a bearer auth token Promise
+  private jwsUrl: string;
+  private ngrokUrlPromise: Promise<string>;
+
+  private constructor() {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
     this.startNgrok();
   }
 
+  /**
+   * Get singleton object
+   * @returns Service object
+   */
+  public static getInstance(): MattrVerifierService {
+    if (!MattrVerifierService.verifierService) {
+      MattrVerifierService.verifierService = new MattrVerifierService();
+    }
+    return MattrVerifierService.verifierService;
+  }
+
+  /**
+   * Get jws request URL of MATTR tenant of presentation request
+   * @returns jws url
+   */
+  public getJwsURL(): string {
+    return this.jwsUrl;
+  }
+
+  /**
+   * Get public ngrok url of application
+   * @returns public ngrok url
+   */
+  public getNgrokURL(): Promise<string> {
+    return this.ngrokUrlPromise;
+  }
+
+  /**
+   * Start ngrok to make callback adress publicly available
+   */
   private startNgrok() {
-    this.ngrokUrl = ngrok.connect(3000);
+    this.ngrokUrlPromise = ngrok.connect(3000);
   }
 
   private async provisionPresentationRequest(ngrokUrl) {
     const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
-    const presReq = `https://${this.tenant}/core/v1/presentations/requests`;
+    const url = `https://${this.tenant}/core/v1/presentations/requests`;
     //console.log("Creating Presentation Request at ", presReq);
 
-    const presResponse: any = await got.post(presReq, {
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-      },
-      json: {
+    const presResponse: any = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${bearerToken}` },
+      body: JSON.stringify({
         challenge: "GW8FGpP6jhFrl37yQZIM6w",
         did: process.env.MATTR_VERIFIERDID,
         templateId: process.env.MATTR_TEMPLATEID,
-        expiresTime: 1638836401000,
+        expiresTime: 1638836401000, // TODO: Custom expire time, 1h?
         callbackUrl: `${ngrokUrl}/mattr/verifier/callback`,
-      },
-      responseType: "json",
+      }),
     });
-    const requestPayload = presResponse.body.request;
-    //console.log("Create Presentation Request statusCode: ", presResponse.statusCode);
+    const requestPayload = (await presResponse.json()).request;
+    console.log(requestPayload);
     return requestPayload;
   }
 
   private async getVerifierDIDUrl() {
     const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
-    const dids = `https://${this.tenant}/core/v1/dids/` + process.env.MATTR_VERIFIERDID;
-    //console.log("Looking up DID Doc from Verifier DID :", dids);
+    const url = `https://${this.tenant}/core/v1/dids/` + process.env.MATTR_VERIFIERDID;
 
-    const didResponse: any = await got.get(dids, {
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-      },
-      responseType: "json",
+    const didResponse: any = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${bearerToken}` },
     });
-    //console.log("Public key from DID Doc found, DIDUrl is: ", didResponse.body.didDocument.authentication[0], "\n");
-    return didResponse.body.didDocument.authentication[0]; //didurl
+    const auth = (await didResponse.json()).didDocument.authentication[0];
+    console.log(auth);
+    return auth; //didurl
   }
 
   private async signPayload(ngrokUrl, didUrl, requestPayload) {
     const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
 
-    const signMes = `https://${this.tenant}/core/v1/messaging/sign`;
+    const url = `https://${this.tenant}/core/v1/messaging/sign`;
     //console.log("Signing the Presentation Request payload at: ", signMes);
 
-    const signResponse: any = await got.post(signMes, {
-      headers: {
-        Authorization: `Bearer ${bearerToken}`,
-      },
-      json: {
+    const signResponse: any = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${bearerToken}` },
+      body: JSON.stringify({
         didUrl: didUrl,
         payload: requestPayload,
-      },
-      responseType: "json",
+      }),
     });
-    const jws = signResponse.body;
-    //console.log("The signed Presentation Request message is: ", jws, "\n");
-
+    const jws = await signResponse.json();
     this.jwsUrl = `https://${this.tenant}/?request=${jws}`;
+    console.log(jws);
 
     const didcommUrl = `didcomm://${ngrokUrl}/mattr/verifier/qr`;
-    //console.log("The URL encoded in this QR code", didcommUrl);
     return didcommUrl;
   }
 
-  public async generateQRCode() {
-    if (this.qr !== undefined) return this.qr;
-    const ngrokUrl = await this.ngrokUrl;
+  /**
+   * Generate a QR code that kicks off a presentation flow via OIDC bridge and MATTR wallet
+   * @returns SVG qr code of presentation request
+   */
+  public async generateQRCode(): Promise<any> {
+    if (this.qrCode !== undefined) return this.qrCode; // return cached qr code
+    const ngrokUrl = await this.ngrokUrlPromise;
     const provisionRequest = await this.provisionPresentationRequest(ngrokUrl);
     const didUrl = await this.getVerifierDIDUrl();
     const didcommUrl = await this.signPayload(ngrokUrl, didUrl, provisionRequest);
-    const qrcode = qr.imageSync(didcommUrl, { type: "svg" });
+    const qrcode = qr.imageSync(didcommUrl, { type: "png" });
     return qrcode;
-  }
-
-  public getVerifierRouter() {
-    const router = express.Router();
-
-    router
-      .get("/qr", (req, res) => {
-        res.redirect(this.jwsUrl);
-      })
-      .get("/test", async (req, res) => {
-        const data = await this.generateQRCode();
-        this.qr = data;
-        res.type("svg");
-        res.send(data);
-      })
-      .post("/callback", function (req, res) {
-        const body = req.body;
-        console.log("\n Data from the Presentation is shown below \n", body);
-        res.sendStatus(200);
-      });
-    return router;
   }
 }
