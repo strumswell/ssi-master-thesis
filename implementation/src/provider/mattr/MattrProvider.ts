@@ -40,7 +40,7 @@ export class MattrProvider implements ServiceProvider {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
   }
 
-  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
+  async issueVerifiableCredential(body: CredentialIssuanceRequest, save: boolean): Promise<W3CCredential> {
     const vc: W3CCredential = body.credential;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
@@ -54,7 +54,7 @@ export class MattrProvider implements ServiceProvider {
       },
       subjectId: vc.credentialSubject.id,
       claims: vc.credentialSubject[Object.keys(vc.credentialSubject)[1]],
-      persist: false,
+      persist: save,
       revocable: false,
     };
 

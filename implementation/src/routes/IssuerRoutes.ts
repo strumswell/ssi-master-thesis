@@ -16,7 +16,7 @@ router
   .post("/credentials/issue", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
-    const credential: W3CCredential = await provider.issueVerifiableCredential(req.body);
+    const credential: W3CCredential = await provider.issueVerifiableCredential(req.body, false);
     if (credential instanceof Error) {
       res.status(500).send({ error: credential.message });
     } else {

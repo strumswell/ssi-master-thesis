@@ -3,7 +3,13 @@ import fetch from "node-fetch";
 import * as qr from "qr-image";
 import { MattrProvider } from "./MattrProvider";
 
-// Logic heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
+/**
+ * Starts a public proxy to local API and handle the generation
+ * of QR codes containing a presentation request that can be
+ * used with the MATTR wallet app.
+ *
+ * Logic heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
+ */
 export class MattrVerifierService {
   private static verifierService: MattrVerifierService; // singleton object
   private tenant: string = process.env.MATTR_TENANT;
@@ -55,7 +61,6 @@ export class MattrVerifierService {
   private async provisionPresentationRequest(ngrokUrl) {
     const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const url = `https://${this.tenant}/core/v1/presentations/requests`;
-    //console.log("Creating Presentation Request at ", presReq);
 
     const presResponse: any = await fetch(url, {
       method: "POST",
@@ -69,7 +74,6 @@ export class MattrVerifierService {
       }),
     });
     const requestPayload = (await presResponse.json()).request;
-    console.log(requestPayload);
     return requestPayload;
   }
 
@@ -82,8 +86,7 @@ export class MattrVerifierService {
       headers: { Authorization: `Bearer ${bearerToken}` },
     });
     const auth = (await didResponse.json()).didDocument.authentication[0];
-    console.log(auth);
-    return auth; //didurl
+    return auth;
   }
 
   private async signPayload(ngrokUrl, didUrl, requestPayload) {
