@@ -40,8 +40,9 @@ export class MattrProvider implements ServiceProvider {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
   }
 
-  async issueVerifiableCredential(body: CredentialIssuanceRequest, save: boolean): Promise<W3CCredential> {
+  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
     const vc: W3CCredential = body.credential;
+    const save: boolean = body.options.save ? body.options.save : false;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
     // Restructure json to fit MATTR request schema

@@ -30,9 +30,10 @@ import {
  * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP + redo error handling
  */
 export class VeramoProvider implements ServiceProvider {
-  async issueVerifiableCredential(vc: CredentialIssuanceRequest, save: boolean): Promise<W3CCredential> {
-    vc.credential.issuer = { id: vc.credential.issuer.toString() };
-    const credential: W3CCredential = await vc.credential;
+  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
+    body.credential.issuer = { id: body.credential.issuer.toString() };
+    const credential: W3CCredential = await body.credential;
+    const save: boolean = body.options.save ? body.options.save : false;
 
     try {
       const verifiableCredential: W3CCredential = await veramoAgent.createVerifiableCredential({

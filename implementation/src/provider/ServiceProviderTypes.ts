@@ -16,6 +16,7 @@ export enum RevocationStatus {
  * Mostly used optionally.
  */
 interface RequestOptions {
+  save?: boolean;
   verificationMethod: string;
   proofPurpose: string;
   created: string;
