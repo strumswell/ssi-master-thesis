@@ -12,6 +12,13 @@ export enum RevocationStatus {
 }
 
 /**
+ * Supported credentials that can be issued to a wallet application
+ */
+export enum SupportedWalletCredential {
+  BachelorDegree = "BachelorDegree",
+}
+
+/**
  * Additional options for requests used by vc-http-api.
  * Mostly used optionally.
  */
@@ -34,11 +41,16 @@ export interface CredentialIssuanceRequest {
   /**
    * Credential itself
    */
-  credential: W3CCredential;
+  credential?: W3CCredential;
   /**
    * Options as per VC-HTTP-API spec
    */
-  options: RequestOptions;
+  options?: RequestOptions;
+
+  /**
+   * Alternative body for issuing a predefined VC to a wallet
+   */
+  credentialType?: SupportedWalletCredential;
 }
 
 /**

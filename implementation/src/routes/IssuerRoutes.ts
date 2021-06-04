@@ -3,6 +3,7 @@ import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
 import { RevocationResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
+import * as qr from "qr-image";
 
 const router = express.Router();
 const factory = new ServiceProviderFactory();
@@ -15,10 +16,16 @@ const factory = new ServiceProviderFactory();
 router
   .post("/credentials/issue", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    const credential: W3CCredential | Buffer = await provider.issueVerifiableCredential(
+      req.body,
+      Boolean(req.query.toWallet)
+    );
 
-    const credential: W3CCredential = await provider.issueVerifiableCredential(req.body);
     if (credential instanceof Error) {
       res.status(500).send({ error: credential.message });
+    } else if (credential instanceof Buffer) {
+      res.type("png");
+      res.status(200).send(credential);
     } else {
       res.status(201).send(credential);
     }

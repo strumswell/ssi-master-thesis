@@ -30,12 +30,15 @@ import {
  * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP + redo error handling
  */
 export class VeramoProvider implements ServiceProvider {
-  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
-    body.credential.issuer = { id: body.credential.issuer.toString() };
-    const credential: W3CCredential = await body.credential;
-    const save: boolean = body.options.save ? body.options.save : false;
-
+  async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential> {
     try {
+      // First, handle unsupported wallet request
+      if (toWallet) throw Error("Issuing to a wallet is not supported by Veramo.");
+
+      body.credential.issuer = { id: body.credential.issuer.toString() };
+      const credential: W3CCredential = await body.credential;
+      const save: boolean = body.options.save ? body.options.save : false;
+
       const verifiableCredential: W3CCredential = await veramoAgent.createVerifiableCredential({
         save: save,
         credential,

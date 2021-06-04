@@ -23,7 +23,7 @@ export interface ServiceProvider {
    * Issue a Verifiable Credential
    * @param credential Credential input from API
    */
-  issueVerifiableCredential(credential: CredentialIssuanceRequest): Promise<W3CCredential>;
+  issueVerifiableCredential(credential: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential | Buffer>;
 
   /**
    * Verify a Verifiable Credential

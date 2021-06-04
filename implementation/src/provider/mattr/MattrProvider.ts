@@ -7,6 +7,7 @@ import {
   CredentialIssuanceRequest,
   CredentialStatusType,
   CredentialStorageResult,
+  SupportedWalletCredential,
   Presentation,
   RevocationRequest,
   RevocationResult,
@@ -15,6 +16,7 @@ import {
   VerificationResult,
 } from "../ServiceProviderTypes";
 import { MattrVerifierService } from "./MattrVerifierService";
+import * as qr from "qr-image";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -30,7 +32,6 @@ interface MattrCredentialRequest {
 /**
  * TODO:
  *  - Implement other methods
- *  - Automate bearer token retrieval
  */
 export class MattrProvider implements ServiceProvider {
   tokenRequestPromise;
@@ -40,24 +41,54 @@ export class MattrProvider implements ServiceProvider {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
   }
 
-  async issueVerifiableCredential(body: CredentialIssuanceRequest): Promise<W3CCredential> {
+  async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential | Buffer> {
+    /**
+     * Handle issuance to MATTR wallet
+     */
+    if (toWallet === true) {
+      try {
+        // There should be no credention + options body in request -> don't confuse caller
+        if (body.credential && body.options) {
+          throw Error("Issuing custom credentials to a wallet is not supported! Please define the type.");
+        } else if (body.credentialType) {
+          const qrCode: Buffer = this.getOIDCIssuerQRCode(body.credentialType);
+          return qrCode;
+        } else {
+          throw Error("Please define the credential type.");
+        }
+      } catch (error) {
+        return error;
+      }
+    }
+
     const vc: W3CCredential = body.credential;
     const save: boolean = body.options.save ? body.options.save : false;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
+    /**
+     * Handle custom VC issuance
+     */
     // Restructure json to fit MATTR request schema
+    const claims = () => {
+      const copy = { ...vc };
+      delete copy.credentialSubject.id;
+      return copy.credentialSubject;
+    };
+
     const credential: MattrCredentialRequest = {
       "@context": vc["@context"],
       type: vc.type,
       issuer: {
-        id: vc.issuer,
+        id: vc.issuer.id ? vc.issuer.id : vc.issuer,
         name: "tenant",
       },
       subjectId: vc.credentialSubject.id,
-      claims: vc.credentialSubject[Object.keys(vc.credentialSubject)[1]],
+      claims: claims(),
       persist: save,
       revocable: false,
     };
+
+    console.log(credential);
 
     // Check if credential should be revocable
     try {
@@ -72,11 +103,12 @@ export class MattrProvider implements ServiceProvider {
 
     // Issue credential via MATTR platform
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials`, {
+      const response = await fetch(`${process.env.MATTR_URL}/core/v1/credentials`, {
         method: "POST",
         body: JSON.stringify(credential),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
       });
+      console.log(response);
       const mattrVC: W3CCredential = (await response.json()).credential;
       return mattrVC;
     } catch (error) {
@@ -92,7 +124,7 @@ export class MattrProvider implements ServiceProvider {
     };
 
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/verify`, {
+      const response = await fetch(`${process.env.MATTR_URL}/core/v1/credentials/verify`, {
         method: "POST",
         body: JSON.stringify(vc),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
@@ -118,7 +150,7 @@ export class MattrProvider implements ServiceProvider {
 
     // Issue presentation via MATTR platform
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/presentations`, {
+      const response = await fetch(`${process.env.MATTR_URL}/core/v1/presentations`, {
         method: "POST",
         body: JSON.stringify(request),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
@@ -138,7 +170,7 @@ export class MattrProvider implements ServiceProvider {
     };
 
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/presentations/verify`, {
+      const response = await fetch(`${process.env.MATTR_URL}/core/v1/presentations/verify`, {
         method: "POST",
         body: JSON.stringify(request),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
@@ -165,11 +197,14 @@ export class MattrProvider implements ServiceProvider {
     }
 
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/${body.credentialId}/revocation-status`, {
-        method: "POST",
-        body: JSON.stringify(request),
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
-      });
+      const response = await fetch(
+        `${process.env.MATTR_URL}/core/v1/credentials/${body.credentialId}/revocation-status`,
+        {
+          method: "POST",
+          body: JSON.stringify(request),
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
+        }
+      );
       result.status = request.isRevoked ? RevocationStatus.REVOKED : RevocationStatus.NOT_REVOKED;
       return result;
     } catch (error) {
@@ -189,7 +224,7 @@ export class MattrProvider implements ServiceProvider {
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const result: CredentialDeleteResult = { isDeleted: false };
     try {
-      const response = await fetch(`${process.env.MATTR_URL}/v1/credentials/${identifier}/`, {
+      const response = await fetch(`${process.env.MATTR_URL}/core/v1/credentials/${identifier}/`, {
         method: "DELETE",
         headers: { Accept: "application/json", Authorization: `Bearer ${authToken}` },
       });
@@ -246,5 +281,22 @@ export class MattrProvider implements ServiceProvider {
       headers: { "Content-Type": "application/json" },
     });
     return response;
+  }
+
+  private getOIDCIssuerQRCode(credentialType: SupportedWalletCredential): Buffer {
+    const supportedCredentials = new Map([
+      [
+        SupportedWalletCredential.BachelorDegree,
+        `${process.env.MATTR_URL}/ext/oidc/v1/issuers/b9dc6529-7796-4b77-9249-8387974cc761`,
+      ],
+    ]);
+
+    if (supportedCredentials.has(credentialType)) {
+      const issuerUrl = supportedCredentials.get(credentialType);
+      const qrcode: Buffer = qr.imageSync(`openid://discovery?issuer=${issuerUrl}`, { type: "png" });
+      return qrcode;
+    } else {
+      throw Error("Unsupported credential type. Check docs!");
+    }
   }
 }

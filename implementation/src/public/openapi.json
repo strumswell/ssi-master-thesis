@@ -43,19 +43,47 @@
             "schema": {
               "$ref": "#/components/schemas/Provider"
             }
+          },
+          {
+            "in": "query",
+            "name": "toWallet",
+            "description": "If credential should be issued to a wallet. Only available for MATTR and use correct request schema!",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true,
+            "example": false
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueCredentialRequest"
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/IssueCredentialRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MattrWalletIssuanceRequest"
+                  }
+                ]
               }
             }
           },
           "description": "Parameters for issuing the credential."
         },
         "responses": {
+          "200": {
+            "description": "QR code for issuance via wallet app",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Credential successfully issued!",
             "content": {
@@ -1166,6 +1194,19 @@
       "Provider": {
         "type": "string",
         "enum": ["veramo", "mattr", "trinsic", "azure"]
+      },
+      "MattrWalletIssuanceRequest": {
+        "type": "object",
+        "properties": {
+          "credentialType": {
+            "type": "string",
+            "description": "Set of issuable credentials already setup with MATTR, their OIDC bridge and the identity provider.",
+            "enum": ["BachelorDegree"]
+          }
+        },
+        "example": {
+          "credentialType": "BachelorDegree"
+        }
       }
     }
   }

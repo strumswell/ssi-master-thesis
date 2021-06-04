@@ -61,7 +61,6 @@ export class MattrVerifierService {
   private async provisionPresentationRequest(ngrokUrl) {
     const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const url = `https://${this.tenant}/core/v1/presentations/requests`;
-
     const presResponse: any = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${bearerToken}` },
@@ -93,7 +92,6 @@ export class MattrVerifierService {
     const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
 
     const url = `https://${this.tenant}/core/v1/messaging/sign`;
-    //console.log("Signing the Presentation Request payload at: ", signMes);
 
     const signResponse: any = await fetch(url, {
       method: "POST",
@@ -105,7 +103,6 @@ export class MattrVerifierService {
     });
     const jws = await signResponse.json();
     this.jwsUrl = `https://${this.tenant}/?request=${jws}`;
-    console.log(jws);
 
     const didcommUrl = `didcomm://${ngrokUrl}/mattr/verifier/qr`;
     return didcommUrl;
