@@ -15,7 +15,7 @@ export enum RevocationStatus {
  * Supported credentials that can be issued to a wallet application
  */
 export enum SupportedWalletCredential {
-  BachelorDegree = "BachelorDegree",
+  MastersDegree = "MastersDegree",
 }
 
 /**
@@ -34,6 +34,12 @@ interface RequestOptions {
   };
 }
 
+export interface TrinsicMastersDegreeProperties {
+  fullName: string;
+  title: string;
+  nickname: string;
+}
+
 /**
  * Credential issuance attributes as defined by vc-http-api.
  */
@@ -49,8 +55,10 @@ export interface CredentialIssuanceRequest {
 
   /**
    * Alternative body for issuing a predefined VC to a wallet
+   * WalletIssuanceRequest
    */
   credentialType?: SupportedWalletCredential;
+  credentialProperties?: TrinsicMastersDegreeProperties;
 }
 
 /**
