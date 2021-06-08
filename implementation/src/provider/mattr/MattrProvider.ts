@@ -240,6 +240,7 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
+  // TODO: Handle different credential types. Currently only Master's Degree
   async presentVerifiablePresentation(): Promise<any> {
     const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
     const data = await verifierService.generateQRCode();
@@ -286,7 +287,7 @@ export class MattrProvider implements ServiceProvider {
   private getOIDCIssuerQRCode(credentialType: SupportedWalletCredential): Buffer {
     const supportedCredentials = new Map([
       [
-        SupportedWalletCredential.BachelorDegree,
+        SupportedWalletCredential.MastersDegree,
         `${process.env.MATTR_URL}/ext/oidc/v1/issuers/b9dc6529-7796-4b77-9249-8387974cc761`,
       ],
     ]);

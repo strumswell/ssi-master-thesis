@@ -47,7 +47,7 @@
           {
             "in": "query",
             "name": "toWallet",
-            "description": "If credential should be issued to a wallet. Only available for MATTR and use correct request schema!",
+            "description": "If credential should be issued to a wallet. Only available for MATTR and use correct request",
             "schema": {
               "type": "boolean"
             },
@@ -64,7 +64,7 @@
                     "$ref": "#/components/schemas/IssueCredentialRequest"
                   },
                   {
-                    "$ref": "#/components/schemas/MattrWalletIssuanceRequest"
+                    "$ref": "#/components/schemas/WalletIssuanceRequest"
                   }
                 ]
               }
@@ -1195,17 +1195,39 @@
         "type": "string",
         "enum": ["veramo", "mattr", "trinsic", "azure"]
       },
-      "MattrWalletIssuanceRequest": {
+      "WalletIssuanceRequest": {
         "type": "object",
+        "description": "For MATTR and Trinsic wallet",
         "properties": {
           "credentialType": {
             "type": "string",
-            "description": "Set of issuable credentials already setup with MATTR, their OIDC bridge and the identity provider.",
-            "enum": ["BachelorDegree"]
+            "description": "Types of issuable credentials",
+            "enum": ["MastersDegree"]
+          },
+          "credentialProperties": {
+            "type": "object",
+            "description": "Only relevant for Trinsic",
+            "properties": {
+              "fullName": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "nickname": {
+                "type": "string"
+              }
+            }
           }
         },
+        "required": ["credentialType"],
         "example": {
-          "credentialType": "BachelorDegree"
+          "credentialType": "MastersDegree",
+          "credentialProperties": {
+            "fullName": "Peter",
+            "title": "Master of Science",
+            "nickname": "Pete"
+          }
         }
       }
     }
