@@ -1,4 +1,3 @@
-import ngrok from "ngrok";
 import fetch from "node-fetch";
 import * as qr from "qr-image";
 import { MattrProvider } from "./MattrProvider";
@@ -17,11 +16,10 @@ export class MattrVerifierService {
   private qrCode: any;
 
   private jwsUrl: string;
-  private ngrokUrlPromise: Promise<string>;
+  private publicUrl = `${process.env.LOCAL_DEV_URL}:3000`;
 
   private constructor() {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
-    this.startNgrok();
   }
 
   /**
@@ -43,22 +41,7 @@ export class MattrVerifierService {
     return this.jwsUrl;
   }
 
-  /**
-   * Get public ngrok url of application
-   * @returns public ngrok url
-   */
-  public getNgrokURL(): Promise<string> {
-    return this.ngrokUrlPromise;
-  }
-
-  /**
-   * Start ngrok to make callback adress publicly available
-   */
-  private startNgrok() {
-    this.ngrokUrlPromise = ngrok.connect(3000);
-  }
-
-  private async provisionPresentationRequest(ngrokUrl) {
+  private async provisionPresentationRequest(publicUrl) {
     const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const url = `https://${this.tenant}/core/v1/presentations/requests`;
     const presResponse: any = await fetch(url, {
@@ -69,7 +52,7 @@ export class MattrVerifierService {
         did: process.env.MATTR_VERIFIERDID,
         templateId: process.env.MATTR_TEMPLATEID,
         expiresTime: 1638836401000, // TODO: Custom expire time, 1h?
-        callbackUrl: `${ngrokUrl}/mattr/verifier/callback`,
+        callbackUrl: `${publicUrl}/mattr/verifier/callback`,
       }),
     });
     const requestPayload = (await presResponse.json()).request;
@@ -88,7 +71,7 @@ export class MattrVerifierService {
     return auth;
   }
 
-  private async signPayload(ngrokUrl, didUrl, requestPayload) {
+  private async signPayload(publicUrl, didUrl, requestPayload) {
     const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
 
     const url = `https://${this.tenant}/core/v1/messaging/sign`;
@@ -104,7 +87,7 @@ export class MattrVerifierService {
     const jws = await signResponse.json();
     this.jwsUrl = `https://${this.tenant}/?request=${jws}`;
 
-    const didcommUrl = `didcomm://${ngrokUrl}/mattr/verifier/qr`;
+    const didcommUrl = `didcomm://${publicUrl}/mattr/verifier/qr`;
     return didcommUrl;
   }
 
@@ -114,10 +97,10 @@ export class MattrVerifierService {
    */
   public async generateQRCode(): Promise<any> {
     if (this.qrCode !== undefined) return this.qrCode; // return cached qr code
-    const ngrokUrl = await this.ngrokUrlPromise;
-    const provisionRequest = await this.provisionPresentationRequest(ngrokUrl);
+    const publicUrl = this.publicUrl;
+    const provisionRequest = await this.provisionPresentationRequest(publicUrl);
     const didUrl = await this.getVerifierDIDUrl();
-    const didcommUrl = await this.signPayload(ngrokUrl, didUrl, provisionRequest);
+    const didcommUrl = await this.signPayload(publicUrl, didUrl, provisionRequest);
     const qrcode = qr.imageSync(didcommUrl, { type: "png" });
     return qrcode;
   }

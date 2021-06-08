@@ -3,7 +3,6 @@ import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
 import { RevocationResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
-import * as qr from "qr-image";
 
 const router = express.Router();
 const factory = new ServiceProviderFactory();
@@ -18,7 +17,7 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const credential: W3CCredential | Buffer = await provider.issueVerifiableCredential(
       req.body,
-      Boolean(req.query.toWallet)
+      req.query.toWallet === "true"
     );
 
     if (credential instanceof Error) {

@@ -6,8 +6,8 @@ import veramoUtilRoutes = require("./routes/VeramoUtilRoutes");
 import holderRoutes = require("./routes/HolderRoutes");
 import verifierRoutes = require("./routes/VerifierRoutes");
 import mattrVerifierRoutes = require("./routes/MattrVerifierOIDCRoutes");
+import trinsicVerifierRoutes = require("./routes/TrinsicVerifierRoutes");
 import issuerRoutes = require("./routes/IssuerRoutes");
-import { MattrVerifierService } from "./provider/mattr/MattrVerifierService";
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.use("/", issuerRoutes);
 // Util Routes 🛠
 app.use("/veramo", veramoUtilRoutes);
 app.use("/mattr/verifier", mattrVerifierRoutes);
+app.use("/", trinsicVerifierRoutes);
 
 // WWW Routes 🌍
 app.use("/demo", express.static("src/public", { index: "index.html" }));
@@ -28,7 +29,5 @@ app.use("/docs", swagger.serve, swagger.setup(swaggerDocument));
 
 app.listen(3000, async () => {
   console.log("Listening on 3000");
-
-  const mattrVerifier = MattrVerifierService.getInstance();
-  console.log(`Proxy running @ ${await mattrVerifier.getNgrokURL()}`);
+  console.log(`Proxy running @ ${process.env.LOCAL_DEV_URL}:3000/docs`);
 });
