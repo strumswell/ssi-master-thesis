@@ -18,7 +18,6 @@ export enum DidMethod {
   ETHR = "ethr:rinkeby",
 }
 
-// TODO: Add missing routes from OpenAPI spec + add types
 export interface ServiceProvider {
   /**
    * Issue a Verifiable Credential
@@ -68,4 +67,16 @@ export interface ServiceProvider {
    * @param presentationRequest Presentation request data from API
    */
   presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<Buffer>; // For now only Buffer
+
+  /**
+   * Derive a credential
+   * @param credential Credentual from API input
+   */
+  deriveVerifiableCredential(credential: W3CCredential): Promise<any>;
+
+  /**
+   * Derive a credential
+   * @param credential Credentual from API input
+   */
+  transferVerifiableCredential(credential: W3CCredential): Promise<any>;
 }

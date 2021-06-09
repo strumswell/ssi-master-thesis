@@ -118,6 +118,22 @@ export class TrinsicProvider implements ServiceProvider {
     }
   }
 
+  public async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
+    return new Promise<any>(() => {
+      throw new Error("No Trinsic implementation");
+    }).catch((error) => {
+      return error;
+    });
+  }
+
+  public async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+    return new Promise<any>(() => {
+      throw new Error("No Trinsic implementation");
+    }).catch((error) => {
+      return error;
+    });
+  }
+
   // Get connection invite from organization for user wallet
   private async getInvite() {
     try {

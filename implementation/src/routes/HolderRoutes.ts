@@ -17,8 +17,14 @@ const factory = new ServiceProviderFactory();
  *  - Create types to generalize return/ request types
  */
 router
-  .post("/credentials/transfer", (req, res) => {
-    res.status(501).send({ error: "Not implemented" });
+  .post("/credentials/derive", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    const result = await provider.deriveVerifiableCredential(req.body);
+    if (result instanceof Error) {
+      res.status(500).send({ error: result.message });
+    } else {
+      res.status(200).send(result);
+    }
   })
   .post("/credentials/store", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
@@ -28,6 +34,15 @@ router
       res.status(500).send({ error: result.message });
     } else {
       res.status(201).send(result);
+    }
+  })
+  .post("/credentials/transfer", async (req, res) => {
+    const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
+    const result = await provider.transferVerifiableCredential(req.body);
+    if (result instanceof Error) {
+      res.status(500).send({ error: result.message });
+    } else {
+      res.status(200).send(result);
     }
   })
   .delete("/credentials/delete/:id", providerCheck, async (req, res) => {

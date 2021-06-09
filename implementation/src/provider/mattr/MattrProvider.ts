@@ -256,6 +256,22 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
+  public async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
+    return new Promise<any>(() => {
+      throw new Error("No MATTR implementation");
+    }).catch((error) => {
+      return error;
+    });
+  }
+
+  public async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+    return new Promise<any>(() => {
+      throw new Error("No MATTR implementation");
+    }).catch((error) => {
+      return error;
+    });
+  }
+
   /**
    * Check if input credential should be revocable based on its attributes
    * @param vc Credential that has to be checked
