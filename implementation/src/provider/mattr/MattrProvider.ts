@@ -185,9 +185,8 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  // TODO: Add revoked: true/ false to api schema.
   async revokeVerifiableCredential(body: RevocationRequest): Promise<RevocationResult> {
-    const request = { isRevoked: true };
+    const request = { isRevoked: body[0].credentialStatus.status === "1" };
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const result: RevocationResult = { status: null };
 
