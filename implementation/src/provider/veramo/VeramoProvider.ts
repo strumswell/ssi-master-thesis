@@ -13,6 +13,7 @@ import {
   RevocationRequest,
   CredentialStorageResult,
   CredentialDeleteResult,
+  PresentationRequest,
 } from "../ServiceProviderTypes";
 
 /**
@@ -146,7 +147,8 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async presentVerifiablePresentation(): Promise<any> {
+  // TODO: Handle different credential types. Currently only Master's Degree
+  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No Veramo implementation");
     }).catch((error) => {

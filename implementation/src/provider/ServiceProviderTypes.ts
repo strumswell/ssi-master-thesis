@@ -160,3 +160,18 @@ export interface CredentialDeleteResult {
   isDeleted: boolean;
   message?: string;
 }
+
+// TODO: Probably needs a revamp as the flow will probably change with future Veramo solution. This only covers the request via QR-code approach from MATTR & Trinsic
+export interface PresentationRequest {
+  /**
+   * JSON-LD formatted presentation. Only applicable with providers
+   * not using pre-defined credential types including it's schema.
+   */
+  presentation?: VerifiablePresentation;
+
+  /**
+   * Applicable with providers like Trinsic or MATTR where presentable
+   * credentials and their schema have to be pre-defined on their platform.
+   */
+  credentialType?: SupportedWalletCredential;
+}

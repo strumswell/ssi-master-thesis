@@ -14,6 +14,7 @@ import {
   RevocationStatus,
   VerifiablePresentation,
   VerificationResult,
+  PresentationRequest,
 } from "../ServiceProviderTypes";
 import { MattrVerifierService } from "./MattrVerifierService";
 import * as qr from "qr-image";
@@ -240,11 +241,20 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  // TODO: Handle different credential types. Currently only Master's Degree
-  async presentVerifiablePresentation(): Promise<any> {
-    const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
-    const data = await verifierService.generateQRCode();
-    return data;
+  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
+    try {
+      if (presentationRequest.presentation)
+        throw Error("Presenting raw verifiable presentations is not supported with MATTR.");
+      if (presentationRequest.credentialType !== SupportedWalletCredential.MastersDegree)
+        throw Error("Unsupported credential type");
+
+      // TODO: Allow presenting other credentials. I only have MastersDegree @ MATTR atm -> create other type?
+      const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
+      const data = await verifierService.generateQRCode();
+      return data;
+    } catch (error) {
+      return error;
+    }
   }
 
   /**
@@ -269,7 +279,7 @@ export class MattrProvider implements ServiceProvider {
    * Request bearer auth token from MATTR
    * @returns Promise of MATTR auth request. Token under .access_token
    */
-  public static requestBearerToken() {
+  public static requestBearerToken(): Promise<any> {
     const requestBody = {
       client_id: process.env.MATTR_CLIENT_ID,
       client_secret: process.env.MATTR_CLIENT_SECRET,

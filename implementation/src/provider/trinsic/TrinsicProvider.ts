@@ -7,8 +7,10 @@ import {
   CredentialIssuanceRequest,
   CredentialStorageResult,
   Presentation,
+  PresentationRequest,
   RevocationRequest,
   RevocationResult,
+  SupportedWalletCredential,
   TrinsicMastersDegreeProperties,
   VerifiablePresentation,
   VerificationResult,
@@ -54,7 +56,7 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async verifyVerifiableCredential(credential: W3CCredential): Promise<VerificationResult> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
@@ -62,7 +64,7 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async issueVerifiablePresentation(presentation: Presentation): Promise<VerifiablePresentation> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
@@ -70,7 +72,7 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<VerificationResult> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
@@ -78,7 +80,7 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async revokeVerifiableCredential(revocationBody: RevocationRequest): Promise<RevocationResult> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
@@ -86,7 +88,7 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async storeVerifiableCredential(credential: VerifiableCredential): Promise<CredentialStorageResult> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
@@ -94,17 +96,26 @@ export class TrinsicProvider implements ServiceProvider {
 
   public async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
     return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
+      throw new Error("No Trinsic implementation");
     }).catch((error) => {
       return error;
     });
   }
 
   // TODO: Handle different credential types. Currently only Master's Degree
-  public async presentVerifiablePresentation(): Promise<any> {
-    const verification = await this.client.createVerificationFromPolicy(process.env.TRINSIC_MDEGREE_VERID);
-    const qrcode: Buffer = qr.imageSync(verification.verificationRequestUrl, { type: "png" });
-    return qrcode;
+  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
+    try {
+      if (presentationRequest.presentation)
+        throw Error("Presenting raw verifiable presentations is not supported with Trinsic.");
+      if (presentationRequest.credentialType !== SupportedWalletCredential.MastersDegree)
+        throw Error("Unsupported credential type");
+
+      const verification = await this.client.createVerificationFromPolicy(process.env.TRINSIC_MDEGREE_VERID);
+      const qrcode: Buffer = qr.imageSync(verification.verificationRequestUrl, { type: "png" });
+      return qrcode;
+    } catch (error) {
+      return error;
+    }
   }
 
   // Get connection invite from organization for user wallet

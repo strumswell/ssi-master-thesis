@@ -8,6 +8,7 @@ import {
   CredentialIssuanceRequest,
   CredentialStorageResult,
   CredentialDeleteResult,
+  PresentationRequest,
 } from "./ServiceProviderTypes";
 
 export enum DidMethod {
@@ -61,8 +62,10 @@ export interface ServiceProvider {
    */
   deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult>;
 
+  // TODO: will probably need a rework. Currently I only cover that somebody requests a credential.
   /**
    * Present a Verifiable Presentation
+   * @param presentationRequest Presentation request data from API
    */
-  presentVerifiablePresentation(): Promise<any>;
+  presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<Buffer>; // For now only Buffer
 }

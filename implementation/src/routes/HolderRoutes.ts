@@ -4,6 +4,7 @@ import {
   CredentialDeleteResult,
   CredentialStorageResult,
   Presentation,
+  SupportedWalletCredential,
   VerifiablePresentation,
 } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
@@ -52,9 +53,17 @@ router
   })
   .post("/presentations/present", async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    const qrCode = await provider.presentVerifiablePresentation();
-    res.type("png");
-    res.send(qrCode);
+    const presentation: VerifiablePresentation = req.body.presentation;
+    const credentialType: SupportedWalletCredential = SupportedWalletCredential[req.body.credentialType];
+
+    const qrCode = await provider.presentVerifiablePresentation({ presentation, credentialType });
+
+    if (qrCode instanceof Error) {
+      res.status(500).send({ error: qrCode.message });
+    } else {
+      res.type("png");
+      res.send(qrCode);
+    }
   });
 
 export = router;
