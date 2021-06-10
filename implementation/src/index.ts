@@ -7,6 +7,7 @@ import holderRoutes = require("./routes/HolderRoutes");
 import verifierRoutes = require("./routes/VerifierRoutes");
 import mattrVerifierRoutes = require("./routes/MattrVerifierOIDCRoutes");
 import trinsicVerifierRoutes = require("./routes/TrinsicVerifierRoutes");
+import trinsicUtilRoutes = require("./routes/TrinsicUtilRoutes");
 import issuerRoutes = require("./routes/IssuerRoutes");
 
 const app = express();
@@ -21,6 +22,7 @@ app.use("/", issuerRoutes);
 // Util Routes 🛠
 app.use("/veramo", veramoUtilRoutes);
 app.use("/mattr/verifier", mattrVerifierRoutes);
+app.use("/trinsic", trinsicUtilRoutes);
 app.use("/", trinsicVerifierRoutes);
 
 // WWW Routes 🌍

@@ -1,4 +1,9 @@
-import { CredentialsServiceClient, Credentials } from "@trinsic/service-clients";
+import {
+  CredentialsServiceClient,
+  Credentials,
+  ProviderServiceClient,
+  ProviderCredentials,
+} from "@trinsic/service-clients";
 import { ServiceProvider } from "../ServiceProvider";
 import * as qr from "qr-image";
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
@@ -19,9 +24,13 @@ import { CreateCredentialResponse } from "@trinsic/service-clients/dist/credenti
 
 export class TrinsicProvider implements ServiceProvider {
   client: CredentialsServiceClient;
+  provider: ProviderServiceClient;
   constructor() {
     // Credentials API
     this.client = new CredentialsServiceClient(new Credentials(process.env.TRINSIC_KEY), {
+      noRetryPolicy: true,
+    });
+    this.provider = new ProviderServiceClient(new ProviderCredentials(process.env.TRINSIC_KEY), {
       noRetryPolicy: true,
     });
   }
@@ -100,7 +109,7 @@ export class TrinsicProvider implements ServiceProvider {
     await this.client.deleteCredential(identifier);
     const result: CredentialDeleteResult = {
       isDeleted: true,
-      message: "Delete from Trinsic but credential will still be available on user wallet!",
+      message: "Deleted from Trinsic backend, but credential will still be available on user wallet!",
     };
     return result;
   }
