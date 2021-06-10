@@ -26,6 +26,7 @@ export class TrinsicProvider implements ServiceProvider {
     });
   }
 
+  // TODO: think about changing response schema to also include credential id (used for delete e.g.)
   public async issueVerifiableCredential(credential: CredentialIssuanceRequest, toWallet: boolean): Promise<Buffer> {
     try {
       console.log(toWallet);
@@ -44,6 +45,7 @@ export class TrinsicProvider implements ServiceProvider {
           },
         };
         const vcOffer: CreateCredentialResponse = await this.client.createCredential(request);
+        console.log(`Credential ID: ${vcOffer.credentialId}`);
         const qrcode: Buffer = qr.imageSync(vcOffer.offerUrl, { type: "png" });
         return qrcode;
       } else {
@@ -95,11 +97,12 @@ export class TrinsicProvider implements ServiceProvider {
   }
 
   public async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
-    return new Promise<any>(() => {
-      throw new Error("No Trinsic implementation");
-    }).catch((error) => {
-      return error;
-    });
+    await this.client.deleteCredential(identifier);
+    const result: CredentialDeleteResult = {
+      isDeleted: true,
+      message: "Delete from Trinsic but credential will still be available on user wallet!",
+    };
+    return result;
   }
 
   // TODO: Handle different credential types. Currently only Master's Degree

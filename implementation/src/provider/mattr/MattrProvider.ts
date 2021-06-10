@@ -42,6 +42,7 @@ export class MattrProvider implements ServiceProvider {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
   }
 
+  // TODO: think about changing response schema to also include credential id (used for delete e.g.)
   async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential | Buffer> {
     /**
      * Handle issuance to MATTR wallet

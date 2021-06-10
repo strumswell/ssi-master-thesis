@@ -16,7 +16,6 @@ export enum ServiceType {
 
 export class ServiceProviderFactory implements Factory {
   createProvider(type: ServiceType): ServiceProvider {
-    console.log(type);
     switch (type) {
       case ServiceType.VERAMO:
         return new VeramoProvider();
