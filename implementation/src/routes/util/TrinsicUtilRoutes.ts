@@ -1,5 +1,5 @@
 import express from "express";
-import { TrinsicProvider } from "../provider/trinsic/TrinsicProvider";
+import { TrinsicProvider } from "../../provider/trinsic/TrinsicProvider";
 
 const router = express.Router();
 const trinsic = new TrinsicProvider();

@@ -1,5 +1,5 @@
 import express from "express";
-import { MattrVerifierService } from "../provider/mattr/MattrVerifierService";
+import { MattrVerifierService } from "../../provider/mattr/MattrVerifierService";
 
 const router = express.Router();
 const verifierService: MattrVerifierService = MattrVerifierService.getInstance();

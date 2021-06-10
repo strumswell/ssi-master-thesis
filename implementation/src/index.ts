@@ -2,12 +2,13 @@ import express from "express";
 import swaggerDocument from "./public/openapi.json";
 import bodyParser = require("body-parser");
 import swagger = require("swagger-ui-express");
-import veramoUtilRoutes = require("./routes/VeramoUtilRoutes");
+import veramoUtilRoutes = require("./routes/util/VeramoUtilRoutes");
 import holderRoutes = require("./routes/HolderRoutes");
 import verifierRoutes = require("./routes/VerifierRoutes");
-import mattrVerifierRoutes = require("./routes/MattrVerifierOIDCRoutes");
-import trinsicVerifierRoutes = require("./routes/TrinsicVerifierRoutes");
-import trinsicUtilRoutes = require("./routes/TrinsicUtilRoutes");
+import mattrVerifierRoutes = require("./routes/util/MattrVerifierOIDCRoutes");
+import mattrUtilRoutes = require("./routes/util/MattrUtilRoutes");
+import trinsicVerifierRoutes = require("./routes/util/TrinsicVerifierRoutes");
+import trinsicUtilRoutes = require("./routes/util/TrinsicUtilRoutes");
 import issuerRoutes = require("./routes/IssuerRoutes");
 
 const app = express();
@@ -21,6 +22,7 @@ app.use("/", issuerRoutes);
 
 // Util Routes 🛠
 app.use("/veramo", veramoUtilRoutes);
+app.use("/mattr", mattrUtilRoutes);
 app.use("/mattr/verifier", mattrVerifierRoutes);
 app.use("/trinsic", trinsicUtilRoutes);
 app.use("/", trinsicVerifierRoutes);
