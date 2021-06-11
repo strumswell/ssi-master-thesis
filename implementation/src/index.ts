@@ -1,18 +1,18 @@
 import express from "express";
 import swaggerDocument from "./public/openapi.json";
-import bodyParser = require("body-parser");
-import swagger = require("swagger-ui-express");
-import veramoUtilRoutes = require("./routes/util/VeramoUtilRoutes");
-import holderRoutes = require("./routes/HolderRoutes");
-import verifierRoutes = require("./routes/VerifierRoutes");
-import mattrVerifierRoutes = require("./routes/util/MattrVerifierOIDCRoutes");
-import mattrUtilRoutes = require("./routes/util/MattrUtilRoutes");
-import trinsicVerifierRoutes = require("./routes/util/TrinsicVerifierRoutes");
-import trinsicUtilRoutes = require("./routes/util/TrinsicUtilRoutes");
-import issuerRoutes = require("./routes/IssuerRoutes");
+import bodyParser from "body-parser";
+import swagger from "swagger-ui-express";
+import holderRoutes from "./routes/HolderRoutes";
+import issuerRoutes from "./routes/IssuerRoutes";
+import verifierRoutes from "./routes/VerifierRoutes";
+import veramoUtilRoutes from "./routes/util/VeramoUtilRoutes";
+import veramoAgentRoutes from "./routes/util/VeramoAgentAPI";
+import mattrVerifierRoutes from "./routes/util/MattrVerifierOIDCRoutes";
+import mattrUtilRoutes from "./routes/util/MattrUtilRoutes";
+import trinsicVerifierRoutes from "./routes/util/TrinsicVerifierRoutes";
+import trinsicUtilRoutes from "./routes/util/TrinsicUtilRoutes";
 
 const app = express();
-
 app.use(bodyParser.json());
 
 // API Routes 📄
@@ -22,16 +22,19 @@ app.use("/", issuerRoutes);
 
 // Util Routes 🛠
 app.use("/veramo", veramoUtilRoutes);
+app.use("/", veramoAgentRoutes);
+
 app.use("/mattr", mattrUtilRoutes);
 app.use("/mattr/verifier", mattrVerifierRoutes);
+
 app.use("/trinsic", trinsicUtilRoutes);
 app.use("/", trinsicVerifierRoutes);
 
 // WWW Routes 🌍
 app.use("/demo", express.static("src/public", { index: "index.html" }));
-app.use("/docs", swagger.serve, swagger.setup(swaggerDocument));
+app.use("/docs", swagger.serveFiles(swaggerDocument), swagger.setup(swaggerDocument));
 
 app.listen(3000, async () => {
-  console.log("Listening on 3000");
-  console.log(`Proxy running @ ${process.env.LOCAL_DEV_URL}:3000/docs`);
+  console.log("🏠 Running on http://localhost:3000");
+  console.log(`🛰  Proxy running on ${process.env.LOCAL_DEV_URL}/docs`);
 });
