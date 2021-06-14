@@ -16,12 +16,12 @@ import { KeyManager } from "@veramo/key-manager";
 import { IonDIDProvider } from "@veramo/did-provider-ion";
 
 // Custom key management system for RN
-import { KeyManagementSystem } from "@veramo/kms-local";
+import { KeyManagementSystem, SecretBox } from "@veramo/kms-local";
 
 // Credential Issuer
 import { CredentialIssuer, ICredentialIssuer } from "@veramo/credential-w3c";
-import { ISelectiveDisclosure } from "@veramo/selective-disclosure";
-import { IDIDComm } from "@veramo/did-comm";
+import { ISelectiveDisclosure, SdrMessageHandler, SelectiveDisclosure } from "@veramo/selective-disclosure";
+import { DIDComm, DIDCommMessageHandler, IDIDComm } from "@veramo/did-comm";
 
 // Custom resolvers
 import { DIDResolverPlugin } from "@veramo/did-resolver";
@@ -52,6 +52,7 @@ const DATABASE_FILE = "database.sqlite";
 
 // You will need to get a project ID from infura https://www.infura.io
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID;
+const secretKey = "29739248cad1bd1a0fc4d9b75cd4d2990de535baf5caadfdf8d8f86664aa830c";
 
 const dbConnection = createConnection({
   type: "sqlite",
@@ -74,7 +75,7 @@ export const veramoAgent = createAgent<
 >({
   plugins: [
     new KeyManager({
-      store: new KeyStore(dbConnection),
+      store: new KeyStore(dbConnection, new SecretBox(secretKey)),
       kms: {
         local: new KeyManagementSystem(),
       },
@@ -117,9 +118,16 @@ export const veramoAgent = createAgent<
     }),
     new CredentialIssuer(),
     new MessageHandler({
-      messageHandlers: [new JwtMessageHandler(), new W3cMessageHandler()],
+      messageHandlers: [
+        new JwtMessageHandler(),
+        new W3cMessageHandler(),
+        new DIDCommMessageHandler(),
+        new SdrMessageHandler(),
+      ],
     }),
     new DataStore(dbConnection),
     new DataStoreORM(dbConnection),
+    new DIDComm(),
+    new SelectiveDisclosure(),
   ],
 });

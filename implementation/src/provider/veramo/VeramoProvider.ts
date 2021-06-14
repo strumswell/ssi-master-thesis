@@ -33,9 +33,6 @@ import {
 export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential> {
     try {
-      // First, handle unsupported wallet request
-      if (toWallet) throw Error("Issuing to a wallet is not supported by Veramo.");
-
       body.credential.issuer = { id: body.credential.issuer.toString() };
       const credential: W3CCredential = await body.credential;
       const save: boolean = body.options.save ? body.options.save : false;
@@ -45,6 +42,27 @@ export class VeramoProvider implements ServiceProvider {
         credential,
         proofFormat: "jwt",
       });
+
+      if (toWallet) {
+        try {
+          console.log(`Trying to send VC to ${verifiableCredential.credentialSubject.id}`);
+          const message = await veramoAgent.sendMessageDIDCommAlpha1({
+            save: true,
+            data: {
+              from: verifiableCredential.issuer.id,
+              to: verifiableCredential.credentialSubject.id,
+              type: "jwt",
+              body: verifiableCredential.proof.jwt,
+            },
+          });
+        } catch (error) {
+          // I don't know why this throws "TypeError: Cannot read property 'type' of undefined"
+          // Message is sent to receiver did but I get no result from method call + message is not saved
+          // TODO: Open up an issue @ veramo
+          console.log(`Something went expectedly wrong but the VC should be sent. Error: ${error.message}`);
+        }
+      }
+
       return verifiableCredential;
     } catch (error) {
       return error;
