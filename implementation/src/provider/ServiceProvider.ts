@@ -5,10 +5,10 @@ import {
   VerifiablePresentation,
   RevocationRequest,
   RevocationResult,
-  CredentialIssuanceRequest,
   CredentialStorageResult,
   CredentialDeleteResult,
-  PresentationRequest,
+  GenericMessage,
+  ManualIssuanceRequest,
 } from "./ServiceProviderTypes";
 
 export enum DidMethod {
@@ -23,7 +23,10 @@ export interface ServiceProvider {
    * Issue a Verifiable Credential
    * @param credential Credential input from API
    */
-  issueVerifiableCredential(credential: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential | Buffer>;
+  issueVerifiableCredential(
+    body: ManualIssuanceRequest | GenericMessage,
+    toWallet: boolean
+  ): Promise<W3CCredential | Buffer>;
 
   /**
    * Verify a Verifiable Credential
@@ -61,12 +64,11 @@ export interface ServiceProvider {
    */
   deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult>;
 
-  // TODO: will probably need a rework. Currently I only cover that somebody requests a credential.
   /**
-   * Present a Verifiable Presentation
-   * @param presentationRequest Presentation request data from API
+   * Create a presentation request via QR code or direct message to agent
+   * @param request Generic message for communication with agent handling the request
    */
-  presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<Buffer>; // For now only Buffer
+  createPresentationRequest(request: GenericMessage): Promise<Buffer>; // For now only Buffer
 
   /**
    * Derive a credential

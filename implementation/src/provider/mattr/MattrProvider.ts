@@ -4,17 +4,18 @@ import { ServiceProvider } from "../ServiceProvider";
 import { v4 as uuidv4 } from "uuid";
 import {
   CredentialDeleteResult,
-  CredentialIssuanceRequest,
   CredentialStatusType,
   CredentialStorageResult,
-  SupportedWalletCredential,
+  GenericMessage,
+  isGenericMessage,
+  isManualIssuanceRequest,
+  ManualIssuanceRequest,
   Presentation,
   RevocationRequest,
   RevocationResult,
   RevocationStatus,
   VerifiablePresentation,
   VerificationResult,
-  PresentationRequest,
 } from "../ServiceProviderTypes";
 import { MattrVerifierService } from "./MattrVerifierService";
 import * as qr from "qr-image";
@@ -43,28 +44,33 @@ export class MattrProvider implements ServiceProvider {
   }
 
   // TODO: think about changing response schema to also include credential id (used for delete e.g.)
-  async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential | Buffer> {
+  async issueVerifiableCredential(
+    body: ManualIssuanceRequest | GenericMessage,
+    toWallet: boolean
+  ): Promise<W3CCredential | Buffer> {
     /**
      * Handle issuance to MATTR wallet
      */
     if (toWallet === true) {
       try {
         // There should be no credention + options body in request -> don't confuse caller
-        if (body.credential && body.options) {
+        if (isManualIssuanceRequest) {
           throw Error("Issuing custom credentials to a wallet is not supported! Please define the type.");
-        } else if (body.credentialType) {
-          const qrCode: Buffer = this.getOIDCIssuerQRCode(body.credentialType);
+        } else if (isGenericMessage) {
+          const message: GenericMessage = <GenericMessage>body; // Cast to correct type
+          const qrCode: Buffer = this.getOIDCIssuerQRCode(message.from);
           return qrCode;
         } else {
-          throw Error("Please define the credential type.");
+          throw Error("Please define OIDC issuer id in 'from'.");
         }
       } catch (error) {
         return error;
       }
     }
 
-    const vc: W3CCredential = body.credential;
-    const save: boolean = body.options.save ? body.options.save : false;
+    const request: ManualIssuanceRequest = <ManualIssuanceRequest>body; // Cast to correct type
+    const vc: W3CCredential = <W3CCredential>request.credential;
+    const save: boolean = request.options.save ? request.options.save : false;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
 
     /**
@@ -241,16 +247,11 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
+  public async createPresentationRequest(request: GenericMessage): Promise<any> {
     try {
-      if (presentationRequest.presentation)
-        throw Error("Presenting raw verifiable presentations is not supported with MATTR.");
-      if (presentationRequest.credentialType !== SupportedWalletCredential.MastersDegree)
-        throw Error("Unsupported credential type");
-
       // TODO: Allow presenting other credentials. I only have MastersDegree @ MATTR atm -> create other type?
       const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
-      const data = await verifierService.generateQRCode();
+      const data = await verifierService.generateQRCode(); // TODO: use GenericMessage body
       return data;
     } catch (error) {
       return error;
@@ -310,20 +311,11 @@ export class MattrProvider implements ServiceProvider {
     return response;
   }
 
-  private getOIDCIssuerQRCode(credentialType: SupportedWalletCredential): Buffer {
-    const supportedCredentials = new Map([
-      [
-        SupportedWalletCredential.MastersDegree,
-        `${process.env.MATTR_URL}/ext/oidc/v1/issuers/b9dc6529-7796-4b77-9249-8387974cc761`,
-      ],
-    ]);
-
-    if (supportedCredentials.has(credentialType)) {
-      const issuerUrl = supportedCredentials.get(credentialType);
-      const qrcode: Buffer = qr.imageSync(`openid://discovery?issuer=${issuerUrl}`, { type: "png" });
-      return qrcode;
-    } else {
-      throw Error("Unsupported credential type. Check docs!");
-    }
+  private getOIDCIssuerQRCode(oidcIssuer: string): Buffer {
+    const qrcode: Buffer = qr.imageSync(
+      `openid://discovery?issuer=${process.env.MATTR_URL}/ext/oidc/v1/issuers/${oidcIssuer}`,
+      { type: "png" }
+    );
+    return qrcode;
   }
 }

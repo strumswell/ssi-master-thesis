@@ -12,13 +12,6 @@ export enum RevocationStatus {
 }
 
 /**
- * Supported credentials that can be issued to a wallet application
- */
-export enum SupportedWalletCredential {
-  MastersDegree = "MastersDegree",
-}
-
-/**
  * Additional options for requests used by vc-http-api.
  * Mostly used optionally.
  */
@@ -40,25 +33,53 @@ export interface TrinsicMastersDegreeProperties {
   nickname: string;
 }
 
+////////////////////////////////// VC ISSUANCE //////////////////////////////////
+
 /**
  * Credential issuance attributes as defined by vc-http-api.
  */
-export interface CredentialIssuanceRequest {
+export interface ManualIssuanceRequest {
   /**
    * Credential itself
    */
-  credential?: W3CCredential;
+  credential: W3CCredential;
   /**
    * Options as per VC-HTTP-API spec
    */
   options?: RequestOptions;
+}
 
-  /**
-   * Alternative body for issuing a predefined VC to a wallet
-   * WalletIssuanceRequest
-   */
-  credentialType?: SupportedWalletCredential;
-  credentialProperties?: TrinsicMastersDegreeProperties;
+export function isManualIssuanceRequest(obj: any): obj is ManualIssuanceRequest {
+  return obj.credential !== undefined;
+}
+
+/**
+ * Generic Messasge is losly inspired by DIDcomm and its Veramo implementation
+ * Used for communication between agents (cloud, local, wallets) e.g. to issue
+ * or present a credential.
+ * https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
+ */
+export interface GenericMessage {
+  id?: string;
+  type?: string;
+  from?: string;
+  to?: [string];
+  created_time?: number;
+  expires_time?: number;
+  body?: {
+    // Inspired by Veramo as it's not covered by the DIDComm spec
+    issuers?: [{ did: string; url: string }];
+    credentialContext?: string;
+    credentialType?: string;
+    claimType?: string;
+    claimValue?: string;
+    reason?: string;
+    [x: string]: any;
+  };
+}
+
+export function isGenericMessage(obj: any): obj is GenericMessage {
+  return obj.credential === undefined;
 }
 
 /**
@@ -159,42 +180,4 @@ export interface CredentialStorageResult {
 export interface CredentialDeleteResult {
   isDeleted: boolean;
   message?: string;
-}
-
-// TODO: Probably needs a revamp as the flow will probably change with future Veramo solution. This only covers the request via QR-code approach from MATTR & Trinsic
-export interface PresentationRequest {
-  /**
-   * JSON-LD formatted presentation. Only applicable with providers
-   * not using pre-defined credential types including it's schema.
-   */
-  presentation?: VerifiablePresentation;
-
-  /**
-   * Applicable with providers like Trinsic or MATTR where presentable
-   * credentials and their schema have to be pre-defined on their platform.
-   */
-  credentialType?: SupportedWalletCredential;
-}
-
-/**
- * DIDComm Messsage Body
- * Inspired by https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
- */
-export interface DIDCommMessage {
-  id?: string;
-  type?: string;
-  from: string;
-  to: [string];
-  created_time?: number;
-  expires_time?: number;
-  body: {
-    // Inspired by Veramo as it's not covered by the DIDComm spec
-    issuers: [{ did: string; url: string }];
-    credentialContext?: string;
-    credentialType?: string;
-    claimType: string;
-    claimValue?: string;
-    reason: string;
-    [x: string]: any;
-  };
 }

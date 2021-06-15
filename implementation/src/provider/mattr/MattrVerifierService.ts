@@ -91,6 +91,7 @@ export class MattrVerifierService {
     return didcommUrl;
   }
 
+  // TODO: Rework to use GenericMessage body
   /**
    * Generate a QR code that kicks off a presentation flow via OIDC bridge and MATTR wallet
    * @returns SVG qr code of presentation request
