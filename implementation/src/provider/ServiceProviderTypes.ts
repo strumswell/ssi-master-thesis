@@ -175,3 +175,26 @@ export interface PresentationRequest {
    */
   credentialType?: SupportedWalletCredential;
 }
+
+/**
+ * DIDComm Messsage Body
+ * Inspired by https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
+ */
+export interface DIDCommMessage {
+  id?: string;
+  type?: string;
+  from: string;
+  to: [string];
+  created_time?: number;
+  expires_time?: number;
+  body: {
+    // Inspired by Veramo as it's not covered by the DIDComm spec
+    issuers: [{ did: string; url: string }];
+    credentialContext?: string;
+    credentialType?: string;
+    claimType: string;
+    claimValue?: string;
+    reason: string;
+    [x: string]: any;
+  };
+}

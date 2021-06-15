@@ -34,7 +34,7 @@ app.use("/", trinsicVerifierRoutes);
 app.use("/demo", express.static("src/public", { index: "index.html" }));
 app.use("/docs", swagger.serveFiles(swaggerDocument), swagger.setup(swaggerDocument));
 
-app.listen(3000, async () => {
+app.listen(3000, () => {
   console.log("🏠 Running on http://localhost:3000");
   console.log(`🛰  Proxy running on ${process.env.LOCAL_DEV_URL}/docs`);
 });

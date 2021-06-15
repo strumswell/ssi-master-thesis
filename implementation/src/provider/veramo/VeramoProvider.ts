@@ -14,6 +14,7 @@ import {
   CredentialStorageResult,
   CredentialDeleteResult,
   PresentationRequest,
+  DIDCommMessage,
 } from "../ServiceProviderTypes";
 
 /**
@@ -57,8 +58,10 @@ export class VeramoProvider implements ServiceProvider {
           });
         } catch (error) {
           // I don't know why this throws "TypeError: Cannot read property 'type' of undefined"
-          // Message is sent to receiver did but I get no result from method call + message is not saved
-          // TODO: Open up an issue @ veramo
+          // I think it has to do with my Veramo setup. But all data is send, only the verfication fails.
+          // TODO: So I am not going to investigate to save me some time... maybe later.
+          // Message is sent to receiver DID but I get no result from method call + message is not saved
+          console.log(error);
           console.log(`Something went expectedly wrong but the VC should be sent. Error: ${error.message}`);
         }
       }
@@ -272,5 +275,40 @@ export class VeramoProvider implements ServiceProvider {
       newTimestamp += "0";
     }
     return newTimestamp;
+  }
+
+  // TODO: rename DIDCommMessage and merge this method into official one
+  public async createPresentationRequestDemo(request: DIDCommMessage) {
+    let jwt: string;
+    try {
+      // Prepare request
+      request.body.essential = true;
+      jwt = await veramoAgent.createSelectiveDisclosureRequest({
+        data: {
+          tag: request.id ? request.id : new Date().toISOString(),
+          issuer: request.from,
+          claims: [request.body],
+        },
+      });
+
+      // Build Veramo DIDComm body
+      const msgBody = {
+        from: request.from,
+        to: request.to[0], // only support one receiver
+        type: "jwt",
+        body: jwt,
+      };
+
+      // Send DIDComm body to receiver
+      const result = await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody }); // "TypeError: Cannot read property 'type' of undefined", gets send nevertheless though.
+      return result;
+    } catch (error) {
+      // I don't know why this throws "TypeError: Cannot read property 'type' of undefined"
+      // I think it has to do with my Veramo setup. But all data is send, only the verfication fails.
+      // TODO: So I am not going to investigate to save me some time... maybe later.
+      // Message is sent to receiver DID but I get no result from method call + message is not saved
+      console.log(error);
+      return { jwt: jwt, error: error.message };
+    }
   }
 }

@@ -1,5 +1,13 @@
 // Core interfaces
-import { createAgent, IDIDManager, IResolver, IDataStore, IKeyManager, IMessageHandler } from "@veramo/core";
+import {
+  createAgent,
+  IDIDManager,
+  IResolver,
+  IDataStore,
+  IKeyManager,
+  IMessageHandler,
+  IEventListener,
+} from "@veramo/core";
 // Core identity manager plugin
 import { DIDManager } from "@veramo/did-manager";
 
@@ -62,6 +70,13 @@ const dbConnection = createConnection({
   entities: Entities,
 });
 
+const validateMessageLogger: IEventListener = {
+  eventTypes: ["validatedMessage"],
+  onEvent: async (event, context) => {
+    console.log(event.data);
+  },
+};
+
 export const veramoAgent = createAgent<
   IDIDManager &
     IKeyManager &
@@ -74,6 +89,7 @@ export const veramoAgent = createAgent<
     ISelectiveDisclosure
 >({
   plugins: [
+    validateMessageLogger,
     new KeyManager({
       store: new KeyStore(dbConnection, new SecretBox(secretKey)),
       kms: {
