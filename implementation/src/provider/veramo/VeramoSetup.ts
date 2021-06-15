@@ -135,9 +135,9 @@ export const veramoAgent = createAgent<
     new CredentialIssuer(),
     new MessageHandler({
       messageHandlers: [
+        new DIDCommMessageHandler(),
         new JwtMessageHandler(),
         new W3cMessageHandler(),
-        new DIDCommMessageHandler(),
         new SdrMessageHandler(),
       ],
     }),
