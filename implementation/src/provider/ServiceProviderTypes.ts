@@ -90,8 +90,8 @@ export interface GenericMessage {
   type?: string;
   from?: string;
   to?: [string];
-  created_time?: number;
-  expires_time?: number;
+  createdTime?: number;
+  expiresTime?: number;
   body?: {
     // Inspired by Veramo as it's not covered by the DIDComm spec
     issuers?: [{ did: string; url: string }];

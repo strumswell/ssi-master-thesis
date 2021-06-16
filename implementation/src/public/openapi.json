@@ -30,9 +30,7 @@
   "paths": {
     "/credentials/issue": {
       "post": {
-        "tags": [
-          "Issuer"
-        ],
+        "tags": ["Issuer"],
         "summary": "Issues a credential and returns it in the response body.",
         "operationId": "issueCredential",
         "description": "Issues a credential and returns it in the response body.",
@@ -66,7 +64,7 @@
                     "$ref": "#/components/schemas/IssueCredentialRequest"
                   },
                   {
-                    "$ref": "#/components/schemas/WalletIssuanceRequest"
+                    "$ref": "#/components/schemas/GenericMessage"
                   }
                 ]
               }
@@ -107,9 +105,7 @@
     },
     "/credentials/derive": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Derives a credential and returns it in the response body.",
         "operationId": "deriveCredential",
         "description": "Derives a credential and returns it in the response body.",
@@ -159,9 +155,7 @@
     },
     "/credentials/status": {
       "post": {
-        "tags": [
-          "Issuer"
-        ],
+        "tags": ["Issuer"],
         "summary": "Updates the status of an issued credential",
         "operationId": "updateCredentialStatus",
         "description": "Updates the status of an issued credential.",
@@ -204,9 +198,7 @@
     },
     "/credentials/verify": {
       "post": {
-        "tags": [
-          "Verifier"
-        ],
+        "tags": ["Verifier"],
         "summary": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
         "operationId": "verifyCredential",
         "description": "Verifies a verifiableCredential and returns a verificationResult in the response body.",
@@ -253,9 +245,7 @@
     },
     "/presentations/verify": {
       "post": {
-        "tags": [
-          "Verifier"
-        ],
+        "tags": ["Verifier"],
         "summary": "Verifies a Presentation with or without proofs attached and returns a verificationResult in the response body.",
         "operationId": "verifyPresentation",
         "description": "Verifies a verifiablePresentation and returns a verificationResult in the response body.  Given the possibility of denial of service, buffer overflow, or other style attacks, an implementation is permitted to rate limit or restrict requests against this API endpoint to those requests that contain only a single credential with a 413 or 429 error code as appropriate.",
@@ -315,9 +305,7 @@
     },
     "/credentials/store": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Store a credential",
         "operationId": "storeCredential",
         "description": "Store a credential",
@@ -348,7 +336,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GeneralResult"
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
@@ -370,9 +358,7 @@
     },
     "/credentials/transfer": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Transfer a credential to another holder (needs work)",
         "operationId": "transferCredential",
         "description": "Transfer a credential to another holder. TODO find out what's needed for a transfer. Might be diffucult as no sdk, bib or platform implements this part of the process.",
@@ -403,7 +389,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GeneralResult"
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
@@ -425,9 +411,7 @@
     },
     "/credentials/delete/{id}": {
       "delete": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Delete a credential",
         "operationId": "deleteCredential",
         "description": "Delete a credential",
@@ -467,7 +451,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GeneralError"
+                  "$ref": "#/components/schemas/GenericResult"
+                },
+                "example": {
+                  "success": false,
+                  "error": ""
                 }
               }
             }
@@ -486,9 +474,7 @@
     },
     "/presentations/prove": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Proves a presentation and returns it in the response body.",
         "operationId": "provePresentation",
         "description": "Proves a presentation and returns it in the response body.",
@@ -535,9 +521,7 @@
     },
     "/presentations/present": {
       "post": {
-        "tags": [
-          "Holder"
-        ],
+        "tags": ["Holder"],
         "summary": "Present a presentation to a verifier",
         "operationId": "presentPresentation",
         "description": "Present a presentation to a verifier",
@@ -556,14 +540,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/SupportedWalletCredential"
-                  },
-                  {
-                    "$ref": "#/components/schemas/VerifiablePresentation"
-                  }
-                ]
+                "$ref": "#/components/schemas/GenericMessage"
               }
             }
           }
@@ -825,17 +802,16 @@
           }
         },
         "example": {
-          "checks": [
-            "proof"
-          ],
+          "checks": ["proof"],
           "warnings": [],
           "errors": []
         }
       },
-      "GeneralResult": {
+      "GenericResult": {
         "type": "object",
         "additionalProperties": false,
         "description": "Object summarizing a storage request",
+        "required": ["success"],
         "properties": {
           "success": {
             "type": "boolean",
@@ -851,28 +827,90 @@
           "errors": ""
         }
       },
-      "GeneralError": {
+      "GenericMessage": {
         "type": "object",
-        "description": "Object for general error responses",
-        "required": [
-          "error"
-        ],
+        "description": "A generic message object for issuance and presentation requests",
         "properties": {
-          "error": {
-            "type": "boolean",
-            "description": "Error message"
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_time": {
+            "type": "integer"
+          },
+          "expires_time": {
+            "type": "integer"
+          },
+          "body": {
+            "type": "object",
+            "properties": {
+              "issuers": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "did": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "credentialContext": {
+                "type": "string"
+              },
+              "credentialType": {
+                "type": "string"
+              },
+              "claimType": {
+                "type": "string"
+              },
+              "claimValues": {
+                "type": "object"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
           }
         },
         "example": {
-          "error": "Unknown ressource"
+          "id": "160620211342",
+          "from": "did:web:lighthouse.bolte.id",
+          "to": ["did:web:veramo-klaus.herokuapp.com"],
+          "body": {
+            "issuers": [
+              {
+                "did": "did:web:lighthouse.bolte.id",
+                "url": "https://lighthouse.bolte.id"
+              }
+            ],
+            "credentialType": "UniversityDegreeCredential",
+            "claimType": "degree",
+            "claimValues": {
+              "type": "BachelorDegree",
+              "name": "Bachelor of Science and Arts"
+            },
+            "reason": "For your new job, we need to verify your degree!"
+          }
         }
       },
       "CredentialDeletionResult": {
         "type": "object",
         "description": "Object representing the result of the deletion operation",
-        "required": [
-          "isDeleted"
-        ],
+        "required": ["isDeleted"],
         "properties": {
           "isDeleted": {
             "type": "boolean",
@@ -885,7 +923,7 @@
         },
         "example": {
           "isDeleted": true,
-          "message": "Help me, I am traped here."
+          "message": ""
         }
       },
       "Issuer": {
@@ -947,15 +985,9 @@
           }
         },
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "id": "http://example.gov/credentials/3732",
-          "type": [
-            "VerifiableCredential",
-            "UniversityDegreeCredential"
-          ],
+          "type": ["VerifiableCredential", "UniversityDegreeCredential"],
           "issuer": "did:example:123",
           "issuanceDate": "2020-03-16T22:37:26.544Z",
           "credentialSubject": {
@@ -984,15 +1016,9 @@
           }
         ],
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "id": "http://example.gov/credentials/3732",
-          "type": [
-            "VerifiableCredential",
-            "UniversityDegreeCredential"
-          ],
+          "type": ["VerifiableCredential", "UniversityDegreeCredential"],
           "issuer": "did:example:123",
           "issuanceDate": "2020-03-16T22:37:26.544Z",
           "credentialSubject": {
@@ -1047,27 +1073,18 @@
           }
         },
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
           "verifiableCredential": [
             {
-              "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://www.w3.org/2018/credentials/examples/v1"
-              ]
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
             },
             {
               "id": "http://example.gov/credentials/3732"
             },
             {
-              "type": [
-                "VerifiableCredential",
-                "UniversityDegreeCredential"
-              ]
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
             },
             {
               "issuer": "did:example:123"
@@ -1113,27 +1130,18 @@
           }
         ],
         "example": {
-          "@context": [
-            "https://www.w3.org/2018/credentials/v1",
-            "https://www.w3.org/2018/credentials/examples/v1"
-          ],
+          "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
           "verifiableCredential": [
             {
-              "@context": [
-                "https://www.w3.org/2018/credentials/v1",
-                "https://www.w3.org/2018/credentials/examples/v1"
-              ]
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
             },
             {
               "id": "http://example.gov/credentials/3732"
             },
             {
-              "type": [
-                "VerifiableCredential",
-                "UniversityDegreeCredential"
-              ]
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
             },
             {
               "issuer": "did:example:123"
@@ -1181,7 +1189,17 @@
         }
       },
       "IssueCredentialResponse": {
-        "$ref": "#/components/schemas/VerifiableCredential"
+        "type": "object",
+        "required": ["credential"],
+        "properties": {
+          "sent": {
+            "type": "boolean",
+            "example": true
+          },
+          "credential": {
+            "$ref": "#/components/schemas/VerifiableCredential"
+          }
+        }
       },
       "TransferCredentialRequest": {
         "type": "object",
@@ -1265,61 +1283,7 @@
       },
       "Provider": {
         "type": "string",
-        "enum": [
-          "veramo",
-          "mattr",
-          "trinsic",
-          "azure"
-        ]
-      },
-      "WalletIssuanceRequest": {
-        "type": "object",
-        "description": "For MATTR and Trinsic wallet",
-        "properties": {
-          "credentialType": {
-            "description": "Types of issuable credentials",
-            "$ref": "#/components/schemas/SupportedWalletCredential"
-          },
-          "credentialProperties": {
-            "type": "object",
-            "description": "Only relevant for Trinsic",
-            "properties": {
-              "fullName": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "nickname": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": [
-          "credentialType"
-        ],
-        "example": {
-          "credentialProperties": {
-            "fullName": "Peter",
-            "title": "Master of Science",
-            "nickname": "Pete"
-          }
-        }
-      },
-      "SupportedWalletCredential": {
-        "type": "object",
-        "properties": {
-          "credentialType": {
-            "type": "string",
-            "enum": [
-              "MastersDegree"
-            ]
-          }
-        },
-        "example": {
-          "credentialType": "MastersDegree"
-        }
+        "enum": ["veramo", "mattr", "trinsic", "azure"]
       }
     }
   }

@@ -52,7 +52,7 @@ export class MattrVerifierService {
         challenge: request.id,
         did: request.from,
         templateId: request.body.credentialType,
-        expiresTime: request.expires_time,
+        expiresTime: request.expiresTime,
         callbackUrl: `${publicUrl}/mattr/verifier/callback`,
       }),
     });
