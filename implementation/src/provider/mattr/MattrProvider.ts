@@ -115,7 +115,11 @@ export class MattrProvider implements ServiceProvider {
         body: JSON.stringify(credential),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
       });
-      const mattrVC: IssueCredentialResponse = { credential: (await response.json()).credential };
+      const json = await response.json();
+      const mattrVC: IssueCredentialResponse = { credential: json.credential };
+
+      if (json.message) throw Error(json.message); // Handle error from MATTR
+
       return mattrVC;
     } catch (error) {
       return error;

@@ -17,7 +17,7 @@ export class MattrVerifierService {
   private qrCode: any;
 
   private jwsUrl: string;
-  private publicUrl = `${process.env.LOCAL_DEV_URL}:3000`;
+  private publicUrl = `${process.env.LOCAL_DEV_URL}`;
 
   private constructor() {
     this.tokenRequestPromise = MattrProvider.requestBearerToken();
@@ -101,6 +101,7 @@ export class MattrVerifierService {
     if (this.qrCode !== undefined) return this.qrCode; // return cached qr code
     const publicUrl = this.publicUrl;
     const provisionRequest = await this.provisionPresentationRequest(publicUrl, request);
+    console.log(JSON.stringify(provisionRequest, null, 2));
     const didUrl = await this.getVerifierDIDUrl(request.from);
     const didcommUrl = await this.signPayload(publicUrl, didUrl, provisionRequest);
     const qrcode = qr.imageSync(didcommUrl, { type: "png" });
