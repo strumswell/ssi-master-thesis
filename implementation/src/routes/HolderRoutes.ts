@@ -5,6 +5,7 @@ import {
   CredentialStorageResult,
   GenericMessage,
   GenericResult,
+  isGenericResult,
   Presentation,
   VerifiablePresentation,
 } from "../provider/ServiceProviderTypes";
@@ -71,13 +72,15 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const request: GenericMessage = req.body;
 
-    const qrCode: Buffer | GenericResult = await provider.createPresentationRequest(request);
+    const presentationRequest: Buffer | GenericResult = await provider.createPresentationRequest(request);
 
-    if (qrCode instanceof Error) {
-      res.status(500).send(<GenericResult>{ success: false, error: qrCode.message });
+    if (presentationRequest instanceof Error) {
+      res.status(500).send(<GenericResult>{ success: false, error: presentationRequest.message });
+    } else if (isGenericResult(presentationRequest)) {
+      res.status(200).send(presentationRequest);
     } else {
       res.type("png");
-      res.send(qrCode);
+      res.status(200).send(presentationRequest);
     }
   });
 

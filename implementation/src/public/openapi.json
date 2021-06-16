@@ -522,9 +522,9 @@
     "/presentations/present": {
       "post": {
         "tags": ["Holder"],
-        "summary": "Present a presentation to a verifier",
+        "summary": "Request a presentation",
         "operationId": "presentPresentation",
-        "description": "Present a presentation to a verifier",
+        "description": "Request a presentation",
         "parameters": [
           {
             "in": "query",
@@ -547,12 +547,17 @@
         },
         "responses": {
           "200": {
-            "description": "Verifiable Presentation successfully verified!",
+            "description": "Request created!",
             "content": {
               "image/png": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
