@@ -8,8 +8,9 @@ import {
   CredentialStorageResult,
   GenericMessage,
   isGenericMessage,
-  isManualIssuanceRequest,
-  ManualIssuanceRequest,
+  isIssueCredentialRequest,
+  IssueCredentialRequest,
+  IssueCredentialResponse,
   Presentation,
   RevocationRequest,
   RevocationResult,
@@ -45,18 +46,18 @@ export class MattrProvider implements ServiceProvider {
 
   // TODO: think about changing response schema to also include credential id (used for delete e.g.)
   async issueVerifiableCredential(
-    body: ManualIssuanceRequest | GenericMessage,
+    body: IssueCredentialRequest | GenericMessage,
     toWallet: boolean
-  ): Promise<W3CCredential | Buffer> {
+  ): Promise<IssueCredentialResponse | Buffer> {
     /**
      * Handle issuance to MATTR wallet
      */
     if (toWallet === true) {
       try {
         // There should be no credention + options body in request -> don't confuse caller
-        if (isManualIssuanceRequest) {
+        if (isIssueCredentialRequest(body)) {
           throw Error("Issuing custom credentials to a wallet is not supported! Please define the type.");
-        } else if (isGenericMessage) {
+        } else if (isGenericMessage(body)) {
           const message: GenericMessage = <GenericMessage>body; // Cast to correct type
           const qrCode: Buffer = this.getOIDCIssuerQRCode(message.from);
           return qrCode;
@@ -68,7 +69,7 @@ export class MattrProvider implements ServiceProvider {
       }
     }
 
-    const request: ManualIssuanceRequest = <ManualIssuanceRequest>body; // Cast to correct type
+    const request: IssueCredentialRequest = <IssueCredentialRequest>body; // Cast to correct type
     const vc: W3CCredential = <W3CCredential>request.credential;
     const save: boolean = request.options.save ? request.options.save : false;
     const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
@@ -96,8 +97,6 @@ export class MattrProvider implements ServiceProvider {
       revocable: false,
     };
 
-    console.log(credential);
-
     // Check if credential should be revocable
     try {
       if (await this.isRevocable(vc)) {
@@ -116,8 +115,7 @@ export class MattrProvider implements ServiceProvider {
         body: JSON.stringify(credential),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
       });
-      console.log(response);
-      const mattrVC: W3CCredential = (await response.json()).credential;
+      const mattrVC: IssueCredentialResponse = { credential: (await response.json()).credential };
       return mattrVC;
     } catch (error) {
       return error;
@@ -247,18 +245,17 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  public async createPresentationRequest(request: GenericMessage): Promise<any> {
+  async createPresentationRequest(request: GenericMessage): Promise<Buffer> {
     try {
-      // TODO: Allow presenting other credentials. I only have MastersDegree @ MATTR atm -> create other type?
       const verifierService: MattrVerifierService = MattrVerifierService.getInstance();
-      const data = await verifierService.generateQRCode(); // TODO: use GenericMessage body
+      const data: Buffer = await verifierService.generateQRCode(request);
       return data;
     } catch (error) {
       return error;
     }
   }
 
-  public async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
+  async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No MATTR implementation");
     }).catch((error) => {
@@ -266,7 +263,7 @@ export class MattrProvider implements ServiceProvider {
     });
   }
 
-  public async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+  async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No MATTR implementation");
     }).catch((error) => {

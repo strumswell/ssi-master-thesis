@@ -4,7 +4,6 @@ import { IIdentifier, VerifiableCredential, W3CCredential } from "@veramo/core";
 import { VeramoRevoker } from "./VeramoRevoker";
 import { VeramoDatabase } from "./VeramoDatabase";
 import {
-  CredentialIssuanceRequest,
   VerificationResult,
   Presentation,
   VerifiablePresentation,
@@ -13,26 +12,15 @@ import {
   RevocationRequest,
   CredentialStorageResult,
   CredentialDeleteResult,
-  PresentationRequest,
-  DIDCommMessage,
+  GenericMessage,
+  IssueCredentialRequest,
+  IssueCredentialResponse,
+  GenericResult,
 } from "../ServiceProviderTypes";
+import { ICredentialRequestInput } from "@veramo/selective-disclosure";
 
-/**
- * Issue VC: ✔️
- * Issue VP: ✔️
- * Verify VC: ✔️ (Veramo is working on dedicated interface in contrast to handleMessage)
- * Verify VP: ✔️ (Not working for did:key (Ed25519 keys in general?))
- * Store VC: ✔️
- * Delete VC: ✔️ (no method, directly accessing sqlite db)
- * Revoke VC: ✔️ (no method, implemented through https://github.com/uport-project/ethr-status-registry
- * Transfer VC: ⤫
- * Derive VC: … On hold (there is no standard conform JSON-LD derivce/ SDR support, VCs are atomic though)
- * Present VP: … On hold (SDR flow could be used as an present flow)
- *
- * TODO: adjust vc issuance to take note of revocation info + check while verifying VC/ VP + redo error handling
- */
 export class VeramoProvider implements ServiceProvider {
-  async issueVerifiableCredential(body: CredentialIssuanceRequest, toWallet: boolean): Promise<W3CCredential> {
+  async issueVerifiableCredential(body: IssueCredentialRequest, toWallet: boolean): Promise<IssueCredentialResponse> {
     try {
       body.credential.issuer = { id: body.credential.issuer.toString() };
       const credential: W3CCredential = await body.credential;
@@ -44,10 +32,15 @@ export class VeramoProvider implements ServiceProvider {
         proofFormat: "jwt",
       });
 
+      // Prepare response
+      const result: IssueCredentialResponse = {
+        credential: verifiableCredential,
+      };
+
       if (toWallet) {
+        // Send VC to another Veramo agent
         try {
-          console.log(`Trying to send VC to ${verifiableCredential.credentialSubject.id}`);
-          const message = await veramoAgent.sendMessageDIDCommAlpha1({
+          await veramoAgent.sendMessageDIDCommAlpha1({
             save: true,
             data: {
               from: verifiableCredential.issuer.id,
@@ -56,17 +49,14 @@ export class VeramoProvider implements ServiceProvider {
               body: verifiableCredential.proof.jwt,
             },
           });
+
+          result.sent = true;
+          return result;
         } catch (error) {
-          // I don't know why this throws "TypeError: Cannot read property 'type' of undefined"
-          // I think it has to do with my Veramo setup. But all data is send, only the verfication fails.
-          // TODO: So I am not going to investigate to save me some time... maybe later.
-          // Message is sent to receiver DID but I get no result from method call + message is not saved
-          console.log(error);
-          console.log(`Something went expectedly wrong but the VC should be sent. Error: ${error.message}`);
+          return error;
         }
       }
-
-      return verifiableCredential;
+      return result;
     } catch (error) {
       return error;
     }
@@ -169,7 +159,40 @@ export class VeramoProvider implements ServiceProvider {
   }
 
   // TODO: Handle different credential types. Currently only Master's Degree
-  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
+  async createPresentationRequest(request: GenericMessage): Promise<GenericResult> {
+    try {
+      // Prepare request
+      request.body.essential = true;
+      request.body.claimValue = JSON.stringify(request.body.claimValues);
+      delete request.body.claimValues;
+
+      const jwt: string = await veramoAgent.createSelectiveDisclosureRequest({
+        data: {
+          tag: request.id ? request.id : new Date().toISOString(),
+          issuer: request.from,
+          claims: [<ICredentialRequestInput>request.body],
+        },
+      });
+
+      // Build Veramo DIDComm body
+      const msgBody = {
+        from: request.from,
+        to: request.to[0], // only support one receiver
+        type: "jwt",
+        body: jwt,
+      };
+
+      // Send DIDComm body to receiver
+      await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
+
+      const result: GenericResult = { success: true };
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No Veramo implementation");
     }).catch((error) => {
@@ -177,15 +200,7 @@ export class VeramoProvider implements ServiceProvider {
     });
   }
 
-  public async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
-    return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
-    }).catch((error) => {
-      return error;
-    });
-  }
-
-  public async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+  async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No Veramo implementation");
     }).catch((error) => {
@@ -275,40 +290,5 @@ export class VeramoProvider implements ServiceProvider {
       newTimestamp += "0";
     }
     return newTimestamp;
-  }
-
-  // TODO: rename DIDCommMessage and merge this method into official one
-  public async createPresentationRequestDemo(request: DIDCommMessage) {
-    let jwt: string;
-    try {
-      // Prepare request
-      request.body.essential = true;
-      jwt = await veramoAgent.createSelectiveDisclosureRequest({
-        data: {
-          tag: request.id ? request.id : new Date().toISOString(),
-          issuer: request.from,
-          claims: [request.body],
-        },
-      });
-
-      // Build Veramo DIDComm body
-      const msgBody = {
-        from: request.from,
-        to: request.to[0], // only support one receiver
-        type: "jwt",
-        body: jwt,
-      };
-
-      // Send DIDComm body to receiver
-      const result = await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody }); // "TypeError: Cannot read property 'type' of undefined", gets send nevertheless though.
-      return result;
-    } catch (error) {
-      // I don't know why this throws "TypeError: Cannot read property 'type' of undefined"
-      // I think it has to do with my Veramo setup. But all data is send, only the verfication fails.
-      // TODO: So I am not going to investigate to save me some time... maybe later.
-      // Message is sent to receiver DID but I get no result from method call + message is not saved
-      console.log(error);
-      return { jwt: jwt, error: error.message };
-    }
   }
 }

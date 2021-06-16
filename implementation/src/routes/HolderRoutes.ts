@@ -3,8 +3,9 @@ import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProvider
 import {
   CredentialDeleteResult,
   CredentialStorageResult,
+  GenericMessage,
+  GenericResult,
   Presentation,
-  SupportedWalletCredential,
   VerifiablePresentation,
 } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
@@ -21,7 +22,7 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const result = await provider.deriveVerifiableCredential(req.body);
     if (result instanceof Error) {
-      res.status(500).send({ error: result.message });
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
       res.status(200).send(result);
     }
@@ -31,7 +32,7 @@ router
 
     const result: CredentialStorageResult = await provider.storeVerifiableCredential(req.body.credential);
     if (result instanceof Error) {
-      res.status(500).send({ error: result.message });
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
       res.status(201).send(result);
     }
@@ -40,7 +41,7 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const result = await provider.transferVerifiableCredential(req.body);
     if (result instanceof Error) {
-      res.status(500).send({ error: result.message });
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
       res.status(200).send(result);
     }
@@ -50,7 +51,7 @@ router
 
     const result: CredentialDeleteResult = await provider.deleteVerifiableCredential(req.params.id);
     if (result instanceof Error) {
-      res.status(400).send({ error: result.message });
+      res.status(400).send(<GenericResult>{ success: false, error: result.message });
     } else {
       res.status(200).send(result);
     }
@@ -61,20 +62,19 @@ router
     const vp: VerifiablePresentation = await provider.issueVerifiablePresentation(presentation);
 
     if (vp instanceof Error) {
-      res.status(500).send({ error: vp.message });
+      res.status(500).send(<GenericResult>{ success: false, error: vp.message });
     } else {
       res.status(201).send(vp);
     }
   })
   .post("/presentations/present", async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    const presentation: VerifiablePresentation = req.body.presentation;
-    const credentialType: SupportedWalletCredential = SupportedWalletCredential[req.body.credentialType];
+    const request: GenericMessage = req.body;
 
-    const qrCode = await provider.presentVerifiablePresentation({ presentation, credentialType });
+    const qrCode: Buffer | GenericResult = await provider.createPresentationRequest(request);
 
     if (qrCode instanceof Error) {
-      res.status(500).send({ error: qrCode.message });
+      res.status(500).send(<GenericResult>{ success: false, error: qrCode.message });
     } else {
       res.type("png");
       res.send(qrCode);

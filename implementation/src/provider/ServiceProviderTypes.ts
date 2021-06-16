@@ -1,10 +1,18 @@
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
 
+////////////////////////////////// GENERAL //////////////////////////////////
+
+/**
+ * Different revocation types
+ */
 export enum CredentialStatusType {
   RevocationList2020Status = "RevocationList2020Status",
   EthrStatusRegistry2019 = "EthrStatusRegistry2019",
 }
 
+/**
+ * Status of a VC
+ */
 export enum RevocationStatus {
   PENDING = "pending",
   REVOKED = "revoked",
@@ -27,10 +35,16 @@ interface RequestOptions {
   };
 }
 
-export interface TrinsicMastersDegreeProperties {
-  fullName: string;
-  title: string;
-  nickname: string;
+/**
+ * General multipurpose response
+ */
+export interface GenericResult {
+  success: boolean;
+  error?: string;
+}
+
+export function isGenericResult(obj: any): obj is GenericResult {
+  return obj.success !== undefined;
 }
 
 ////////////////////////////////// VC ISSUANCE //////////////////////////////////
@@ -38,7 +52,7 @@ export interface TrinsicMastersDegreeProperties {
 /**
  * Credential issuance attributes as defined by vc-http-api.
  */
-export interface ManualIssuanceRequest {
+export interface IssueCredentialRequest {
   /**
    * Credential itself
    */
@@ -49,8 +63,20 @@ export interface ManualIssuanceRequest {
   options?: RequestOptions;
 }
 
-export function isManualIssuanceRequest(obj: any): obj is ManualIssuanceRequest {
+export function isIssueCredentialRequest(obj: any): obj is IssueCredentialRequest {
   return obj.credential !== undefined;
+}
+
+export interface IssueCredentialResponse {
+  /**
+   * Whether the credential was successfully send to a receiving agent/ wallet
+   */
+  sent?: boolean;
+
+  /**
+   * Credential itself
+   */
+  credential: W3CCredential;
 }
 
 /**
@@ -72,7 +98,9 @@ export interface GenericMessage {
     credentialContext?: string;
     credentialType?: string;
     claimType?: string;
-    claimValue?: string;
+    claimValues?: {
+      [x: string]: any;
+    };
     reason?: string;
     [x: string]: any;
   };
@@ -81,6 +109,8 @@ export interface GenericMessage {
 export function isGenericMessage(obj: any): obj is GenericMessage {
   return obj.credential === undefined;
 }
+
+////////////////////////////////// VC Verification //////////////////////////////////
 
 /**
  * Credential verification result attributes as defined by vc-http-api.

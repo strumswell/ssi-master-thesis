@@ -9,14 +9,14 @@ import * as qr from "qr-image";
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
 import {
   CredentialDeleteResult,
-  CredentialIssuanceRequest,
   CredentialStorageResult,
+  GenericMessage,
+  isGenericMessage,
+  IssueCredentialRequest,
+  IssueCredentialResponse,
   Presentation,
-  PresentationRequest,
   RevocationRequest,
   RevocationResult,
-  SupportedWalletCredential,
-  TrinsicMastersDegreeProperties,
   VerifiablePresentation,
   VerificationResult,
 } from "../ServiceProviderTypes";
@@ -36,29 +36,28 @@ export class TrinsicProvider implements ServiceProvider {
   }
 
   // TODO: think about changing response schema to also include credential id (used for delete e.g.)
-  public async issueVerifiableCredential(credential: CredentialIssuanceRequest, toWallet: boolean): Promise<Buffer> {
+  async issueVerifiableCredential(
+    body: IssueCredentialRequest | GenericMessage,
+    toWallet: boolean
+  ): Promise<IssueCredentialResponse | Buffer> {
     try {
       console.log(toWallet);
       if (!toWallet) throw Error("Only issuance to Trinsic wallet is supported");
-      if (credential.credentialType === "MastersDegree") {
+
+      if (isGenericMessage(body)) {
+        const message: GenericMessage = body;
         // Issue Masters's Degree VC offer
-        const input: TrinsicMastersDegreeProperties = credential.credentialProperties;
         const request = {
-          definitionId: process.env.TRINSIC_MDEGREE_DEF,
+          definitionId: message.body.credentialType,
           connectionId: null,
           automaticIssuance: false,
-          credentialValues: {
-            "Full Name": input.fullName,
-            Title: input.title,
-            Nickname: input.nickname,
-          },
+          credentialValues: message.body.claimValues,
         };
         const vcOffer: CreateCredentialResponse = await this.client.createCredential(request);
-        console.log(`Credential ID: ${vcOffer.credentialId}`);
         const qrcode: Buffer = qr.imageSync(vcOffer.offerUrl, { type: "png" });
         return qrcode;
       } else {
-        throw new Error("Credential type not supported.");
+        throw Error("Issuing manual VCs is not supported. Please define a GenericMessage.");
       }
     } catch (error) {
       return error;
@@ -114,15 +113,9 @@ export class TrinsicProvider implements ServiceProvider {
     return result;
   }
 
-  // TODO: Handle different credential types. Currently only Master's Degree
-  public async presentVerifiablePresentation(presentationRequest: PresentationRequest): Promise<any> {
+  async createPresentationRequest(request: GenericMessage): Promise<Buffer> {
     try {
-      if (presentationRequest.presentation)
-        throw Error("Presenting raw verifiable presentations is not supported with Trinsic.");
-      if (presentationRequest.credentialType !== SupportedWalletCredential.MastersDegree)
-        throw Error("Unsupported credential type");
-
-      const verification = await this.client.createVerificationFromPolicy(process.env.TRINSIC_MDEGREE_VERID);
+      const verification = await this.client.createVerificationFromPolicy(request.body.credentialType);
       const qrcode: Buffer = qr.imageSync(verification.verificationRequestUrl, { type: "png" });
       return qrcode;
     } catch (error) {
@@ -144,14 +137,5 @@ export class TrinsicProvider implements ServiceProvider {
     }).catch((error) => {
       return error;
     });
-  }
-
-  // Get connection invite from organization for user wallet
-  private async getInvite() {
-    try {
-      return await this.client.createConnection({});
-    } catch (e) {
-      console.log(e.message || e.toString());
-    }
   }
 }

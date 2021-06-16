@@ -8,7 +8,9 @@ import {
   CredentialStorageResult,
   CredentialDeleteResult,
   GenericMessage,
-  ManualIssuanceRequest,
+  GenericResult,
+  IssueCredentialRequest,
+  IssueCredentialResponse,
 } from "./ServiceProviderTypes";
 
 export enum DidMethod {
@@ -24,9 +26,9 @@ export interface ServiceProvider {
    * @param credential Credential input from API
    */
   issueVerifiableCredential(
-    body: ManualIssuanceRequest | GenericMessage,
+    body: IssueCredentialRequest | GenericMessage,
     toWallet: boolean
-  ): Promise<W3CCredential | Buffer>;
+  ): Promise<IssueCredentialResponse | Buffer>;
 
   /**
    * Verify a Verifiable Credential
@@ -68,7 +70,7 @@ export interface ServiceProvider {
    * Create a presentation request via QR code or direct message to agent
    * @param request Generic message for communication with agent handling the request
    */
-  createPresentationRequest(request: GenericMessage): Promise<Buffer>; // For now only Buffer
+  createPresentationRequest(request: GenericMessage): Promise<Buffer | GenericResult>; // For now only Buffer
 
   /**
    * Derive a credential

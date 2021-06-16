@@ -1,7 +1,6 @@
-import { W3CCredential } from "@veramo/core";
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
-import { RevocationResult } from "../provider/ServiceProviderTypes";
+import { GenericResult, IssueCredentialResponse, RevocationResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
@@ -15,13 +14,13 @@ const factory = new ServiceProviderFactory();
 router
   .post("/credentials/issue", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    const credential: W3CCredential | Buffer = await provider.issueVerifiableCredential(
+    const credential: IssueCredentialResponse | Buffer = await provider.issueVerifiableCredential(
       req.body,
       req.query.toWallet === "true"
     );
 
     if (credential instanceof Error) {
-      res.status(500).send({ error: credential.message });
+      res.status(500).send(<GenericResult>{ success: false, error: credential.message });
     } else if (credential instanceof Buffer) {
       res.type("png");
       res.status(200).send(credential);
@@ -32,7 +31,7 @@ router
   .post("/credentials/status", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const result: RevocationResult = await provider.revokeVerifiableCredential(req.body);
-    res.send(result);
+    res.status(200).send(result);
   });
 
 export = router;

@@ -3,7 +3,6 @@ import { DidMethod } from "../../provider/ServiceProvider";
 import { VeramoRevoker } from "../../provider/veramo/VeramoRevoker";
 import { VeramoProvider } from "../../provider/veramo/VeramoProvider";
 import { VeramoDatabase, VeramoDatabaseCredential } from "../../provider/veramo/VeramoDatabase";
-import { DIDCommMessage } from "../../provider/ServiceProviderTypes";
 
 const router = express.Router();
 const veramo = new VeramoProvider();
@@ -49,11 +48,6 @@ router
     const hash = req.params.hash;
     const revoker = new VeramoRevoker(hash);
     res.send(await revoker.getEthrCredentialStatus());
-  })
-  .post("/sdr", async (req, res) => {
-    const sdr: DIDCommMessage = req.body;
-    const message = await veramo.createPresentationRequestDemo(sdr);
-    res.send(message);
   });
 
 export = router;

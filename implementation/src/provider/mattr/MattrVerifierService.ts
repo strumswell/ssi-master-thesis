@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import * as qr from "qr-image";
+import { GenericMessage } from "../ServiceProviderTypes";
 import { MattrProvider } from "./MattrProvider";
 
 /**
@@ -41,17 +42,17 @@ export class MattrVerifierService {
     return this.jwsUrl;
   }
 
-  private async provisionPresentationRequest(publicUrl) {
+  private async provisionPresentationRequest(publicUrl: string, request: GenericMessage) {
     const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
     const url = `https://${this.tenant}/core/v1/presentations/requests`;
     const presResponse: any = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${bearerToken}` },
       body: JSON.stringify({
-        challenge: "GW8FGpP6jhFrl37yQZIM6w",
-        did: process.env.MATTR_VERIFIERDID,
-        templateId: process.env.MATTR_TEMPLATEID,
-        expiresTime: 1638836401000, // TODO: Custom expire time, 1h?
+        challenge: request.id,
+        did: request.from,
+        templateId: request.body.credentialType,
+        expiresTime: request.expires_time,
         callbackUrl: `${publicUrl}/mattr/verifier/callback`,
       }),
     });
@@ -59,9 +60,9 @@ export class MattrVerifierService {
     return requestPayload;
   }
 
-  private async getVerifierDIDUrl() {
+  private async getVerifierDIDUrl(did: string) {
     const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
-    const url = `https://${this.tenant}/core/v1/dids/` + process.env.MATTR_VERIFIERDID;
+    const url = `https://${this.tenant}/core/v1/dids/${did}`;
 
     const didResponse: any = await fetch(url, {
       method: "GET",
@@ -96,11 +97,11 @@ export class MattrVerifierService {
    * Generate a QR code that kicks off a presentation flow via OIDC bridge and MATTR wallet
    * @returns SVG qr code of presentation request
    */
-  public async generateQRCode(): Promise<any> {
+  public async generateQRCode(request: GenericMessage): Promise<Buffer> {
     if (this.qrCode !== undefined) return this.qrCode; // return cached qr code
     const publicUrl = this.publicUrl;
-    const provisionRequest = await this.provisionPresentationRequest(publicUrl);
-    const didUrl = await this.getVerifierDIDUrl();
+    const provisionRequest = await this.provisionPresentationRequest(publicUrl, request);
+    const didUrl = await this.getVerifierDIDUrl(request.from);
     const didcommUrl = await this.signPayload(publicUrl, didUrl, provisionRequest);
     const qrcode = qr.imageSync(didcommUrl, { type: "png" });
     return qrcode;
