@@ -158,7 +158,6 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  // TODO: Handle different credential types. Currently only Master's Degree
   async createPresentationRequest(request: GenericMessage): Promise<GenericResult> {
     try {
       // Prepare request
@@ -183,7 +182,8 @@ export class VeramoProvider implements ServiceProvider {
       };
 
       // Send DIDComm body to receiver
-      await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
+      const message = await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
+      veramoAgent.emit("sdr", message.raw);
 
       const result: GenericResult = { success: true };
       return result;

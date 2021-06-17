@@ -7,7 +7,7 @@ import issuerRoutes from "./routes/IssuerRoutes";
 import verifierRoutes from "./routes/VerifierRoutes";
 import veramoUtilRoutes from "./routes/util/VeramoUtilRoutes";
 import veramoAgentRoutes from "./routes/util/VeramoAgentAPI";
-import mattrVerifierRoutes from "./routes/util/MattrVerifierOIDCRoutes";
+import mattrVerifierRoutes from "./routes/util/MattrVerifierRoutes";
 import mattrUtilRoutes from "./routes/util/MattrUtilRoutes";
 import trinsicVerifierRoutes from "./routes/util/TrinsicVerifierRoutes";
 import trinsicUtilRoutes from "./routes/util/TrinsicUtilRoutes";

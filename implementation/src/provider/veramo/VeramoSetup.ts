@@ -53,6 +53,7 @@ import { createConnection } from "typeorm";
 // Load Environment Vars
 import * as dotenv from "dotenv";
 import { getDidKeyResolver, KeyDIDProvider } from "@veramo/did-provider-key";
+import { VeramoRemoteAgent } from "./VeramoRemoteAgent";
 dotenv.config();
 
 // This will be the name for the local sqlite database for demo purposes
@@ -70,10 +71,21 @@ const dbConnection = createConnection({
   entities: Entities,
 });
 
-const validateMessageLogger: IEventListener = {
-  eventTypes: ["validatedMessage"],
+const eventLogger: IEventListener = {
+  eventTypes: ["sdr", "validatedMessage"],
   onEvent: async (event, context) => {
-    console.log(event.data);
+    if (event.type == "sdr") {
+      // For demo purposes, force remote agent to repond by using its REST interface
+      console.log("\x1b[33m[SDR] Forcing remote agent to respond...\x1b[0m");
+      const remoteAgent = new VeramoRemoteAgent(
+        process.env.VERAMO_REMOTE_AGENT_URL,
+        process.env.VERAMO_REMOTE_AGENT_API_KEY
+      );
+      const response = await remoteAgent.respondToSdr(event.data);
+      console.log(`\x1b[33m[SDR] Remote agent responded to sdr:\x1b[0m ${response}`);
+    } else if (event.type == "validatedMessage") {
+      console.log(`\x1b[32m[VAL] Successfully validated:\x1b[0m ${event.data.raw}`);
+    }
   },
 };
 
@@ -89,7 +101,7 @@ export const veramoAgent = createAgent<
     ISelectiveDisclosure
 >({
   plugins: [
-    validateMessageLogger,
+    eventLogger,
     new KeyManager({
       store: new KeyStore(dbConnection, new SecretBox(secretKey)),
       kms: {
