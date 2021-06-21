@@ -46,8 +46,8 @@
           },
           {
             "in": "query",
-            "name": "toWallet",
-            "description": "If credential should be issued to a wallet. Only available for MATTR and use correct request",
+            "name": "toRemote",
+            "description": "If credential should be issued to a wallet/ remote agent",
             "schema": {
               "type": "boolean"
             },
@@ -229,7 +229,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VerifyCredentialResponse"
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
@@ -283,7 +283,65 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VerifyPresentationResponse"
+                  "$ref": "#/components/schemas/GenericResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or malformed input"
+          },
+          "413": {
+            "description": "Payload too large"
+          },
+          "429": {
+            "description": "Request rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/presentations/request": {
+      "post": {
+        "tags": ["Verifier"],
+        "summary": "Request a presentation from a holder",
+        "operationId": "requestPresentation",
+        "description": "Make a presentation request to a remote agent (holder). The request can be a i) QR code scannable with a mobile app or ii) a direct message. The answer to the request is handled separately by the corresponding service provider.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "provider",
+            "description": "Select a provider that should handle this request.",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Provider"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenericMessage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request created!",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
@@ -324,7 +382,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IssueCredentialResponse"
+                "$ref": "#/components/schemas/VerifiableCredential"
               }
             }
           },
@@ -377,7 +435,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransferCredentialRequest"
+                "$ref": ""
               }
             }
           },
@@ -441,7 +499,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CredentialDeletionResult"
+                  "$ref": "#/components/schemas/GenericResult"
                 }
               }
             }
@@ -522,9 +580,9 @@
     "/presentations/present": {
       "post": {
         "tags": ["Holder"],
-        "summary": "Request a presentation",
+        "summary": "Present a presentation to a verifier.",
         "operationId": "presentPresentation",
-        "description": "Request a presentation",
+        "description": "Presenting a presentation to a verifier. This process can be iniitated by a verifier (request via thread_id) or the holder itself.",
         "parameters": [
           {
             "in": "query",
@@ -541,6 +599,53 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GenericMessage"
+              },
+              "example": {
+                "id": "160620211342",
+                "from": "did:web:lighthouse.bolte.id",
+                "to": ["did:web:veramo-klaus.herokuapp.com"],
+                "thread_id": "160620211342",
+                "body": {
+                  "presentation": {
+                    "@context": [
+                      "https://www.w3.org/2018/credentials/v1",
+                      "https://www.w3.org/2018/credentials/examples/v1"
+                    ],
+                    "holder": "did:example:123",
+                    "type": "VerifiablePresentation",
+                    "verifiableCredential": {
+                      "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://www.w3.org/2018/credentials/examples/v1"
+                      ],
+                      "id": "http://example.gov/credentials/3732",
+                      "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+                      "issuer": "did:example:123",
+                      "issuanceDate": "2020-03-16T22:37:26.544Z",
+                      "credentialSubject": {
+                        "id": "did:example:123",
+                        "degree": {
+                          "type": "BachelorDegree",
+                          "name": "Bachelor of Science and Arts"
+                        }
+                      },
+                      "proof": {
+                        "type": "Ed25519Signature2018",
+                        "created": "2020-04-02T18:28:08Z",
+                        "verificationMethod": "did:example:123#z6MksHh7qHWvybLg5QTPPdG2DgEjjduBDArV9EF9mRiRzMBN",
+                        "proofPurpose": "assertionMethod",
+                        "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
+                      }
+                    },
+                    "proof": {
+                      "type": "Ed25519Signature2018",
+                      "created": "2020-04-02T18:28:08Z",
+                      "verificationMethod": "did:example:123#z6MksHh7qHWvybLg5QTPPdG2DgEjjduBDArV9EF9mRiRzMBN",
+                      "proofPurpose": "assertionMethod",
+                      "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
+                    }
+                  }
+                }
               }
             }
           }
@@ -837,7 +942,8 @@
         "description": "A generic message object for issuance and presentation requests",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "description": "Used for later reference"
           },
           "type": {
             "type": "string"
@@ -857,36 +963,49 @@
           "expires_time": {
             "type": "integer"
           },
+          "thread_id": {
+            "type": "string",
+            "description": "Used to reference a prior message."
+          },
           "body": {
             "type": "object",
             "properties": {
-              "issuers": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "did": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
+              "message": {
+                "type": "string"
+              },
+              "credential": {
+                "type": "object",
+                "description": "Properties of a credential",
+                "properties": {
+                  "issuers": {
+                    "type": "array",
+                    "items": {
+                      "properties": {
+                        "did": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      }
                     }
+                  },
+                  "credentialContext": {
+                    "type": "string"
+                  },
+                  "credentialType": {
+                    "type": "string"
+                  },
+                  "claimType": {
+                    "type": "string"
+                  },
+                  "claimValues": {
+                    "type": "object"
                   }
                 }
               },
-              "credentialContext": {
-                "type": "string"
-              },
-              "credentialType": {
-                "type": "string"
-              },
-              "claimType": {
-                "type": "string"
-              },
-              "claimValues": {
-                "type": "object"
-              },
-              "reason": {
-                "type": "string"
+              "presentation": {
+                "$ref": "#/components/schemas/VerifiablePresentation"
               }
             }
           }
@@ -896,39 +1015,22 @@
           "from": "did:web:lighthouse.bolte.id",
           "to": ["did:web:veramo-klaus.herokuapp.com"],
           "body": {
-            "issuers": [
-              {
-                "did": "did:web:lighthouse.bolte.id",
-                "url": "https://lighthouse.bolte.id"
+            "message": "This is a very important message.",
+            "credential": {
+              "issuers": [
+                {
+                  "did": "did:web:lighthouse.bolte.id",
+                  "url": "https://lighthouse.bolte.id"
+                }
+              ],
+              "credentialType": "UniversityDegreeCredential",
+              "claimType": "degree",
+              "claimValues": {
+                "type": "BachelorDegree",
+                "name": "Bachelor of Science and Arts"
               }
-            ],
-            "credentialType": "UniversityDegreeCredential",
-            "claimType": "degree",
-            "claimValues": {
-              "type": "BachelorDegree",
-              "name": "Bachelor of Science and Arts"
-            },
-            "reason": "For your new job, we need to verify your degree!"
+            }
           }
-        }
-      },
-      "CredentialDeletionResult": {
-        "type": "object",
-        "description": "Object representing the result of the deletion operation",
-        "required": ["isDeleted"],
-        "properties": {
-          "isDeleted": {
-            "type": "boolean",
-            "description": "Whether the deletion was successful or not"
-          },
-          "message": {
-            "type": "string",
-            "description": "Further information"
-          }
-        },
-        "example": {
-          "isDeleted": true,
-          "message": ""
         }
       },
       "Issuer": {
@@ -1081,32 +1183,23 @@
           "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
-          "verifiableCredential": [
-            {
-              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
-            },
-            {
-              "id": "http://example.gov/credentials/3732"
-            },
-            {
-              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
-            },
-            {
-              "issuer": "did:example:123"
-            },
-            {
-              "issuanceDate": "2020-03-16T22:37:26.544Z"
-            },
-            {
+          "verifiableCredential": {
+            "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
+            "holder": "did:example:123",
+            "type": "VerifiablePresentation",
+            "verifiableCredential": {
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
+              "id": "http://example.gov/credentials/3732",
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+              "issuer": "did:example:123",
+              "issuanceDate": "2020-03-16T22:37:26.544Z",
               "credentialSubject": {
                 "id": "did:example:123",
                 "degree": {
                   "type": "BachelorDegree",
                   "name": "Bachelor of Science and Arts"
                 }
-              }
-            },
-            {
+              },
               "proof": {
                 "type": "Ed25519Signature2018",
                 "created": "2020-04-02T18:28:08Z",
@@ -1115,7 +1208,7 @@
                 "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
               }
             }
-          ]
+          }
         }
       },
       "VerifiablePresentation": {
@@ -1138,32 +1231,23 @@
           "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
           "holder": "did:example:123",
           "type": "VerifiablePresentation",
-          "verifiableCredential": [
-            {
-              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"]
-            },
-            {
-              "id": "http://example.gov/credentials/3732"
-            },
-            {
-              "type": ["VerifiableCredential", "UniversityDegreeCredential"]
-            },
-            {
-              "issuer": "did:example:123"
-            },
-            {
-              "issuanceDate": "2020-03-16T22:37:26.544Z"
-            },
-            {
+          "verifiableCredential": {
+            "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
+            "holder": "did:example:123",
+            "type": "VerifiablePresentation",
+            "verifiableCredential": {
+              "@context": ["https://www.w3.org/2018/credentials/v1", "https://www.w3.org/2018/credentials/examples/v1"],
+              "id": "http://example.gov/credentials/3732",
+              "type": ["VerifiableCredential", "UniversityDegreeCredential"],
+              "issuer": "did:example:123",
+              "issuanceDate": "2020-03-16T22:37:26.544Z",
               "credentialSubject": {
                 "id": "did:example:123",
                 "degree": {
                   "type": "BachelorDegree",
                   "name": "Bachelor of Science and Arts"
                 }
-              }
-            },
-            {
+              },
               "proof": {
                 "type": "Ed25519Signature2018",
                 "created": "2020-04-02T18:28:08Z",
@@ -1171,14 +1255,14 @@
                 "proofPurpose": "assertionMethod",
                 "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
               }
+            },
+            "proof": {
+              "type": "Ed25519Signature2018",
+              "created": "2020-04-02T18:28:08Z",
+              "verificationMethod": "did:example:123#z6MksHh7qHWvybLg5QTPPdG2DgEjjduBDArV9EF9mRiRzMBN",
+              "proofPurpose": "assertionMethod",
+              "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
             }
-          ],
-          "proof": {
-            "type": "Ed25519Signature2018",
-            "created": "2020-04-02T18:28:08Z",
-            "verificationMethod": "did:example:123#z6MksHh7qHWvybLg5QTPPdG2DgEjjduBDArV9EF9mRiRzMBN",
-            "proofPurpose": "assertionMethod",
-            "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..YtqjEYnFENT7fNW-COD0HAACxeuQxPKAmp4nIl8jYAu__6IH2FpSxv81w-l5PvE1og50tS9tH8WyXMlXyo45CA"
           }
         }
       },
@@ -1200,18 +1284,6 @@
           "sent": {
             "type": "boolean",
             "example": true
-          },
-          "credential": {
-            "$ref": "#/components/schemas/VerifiableCredential"
-          }
-        }
-      },
-      "TransferCredentialRequest": {
-        "type": "object",
-        "properties": {
-          "receiver": {
-            "type": "string",
-            "example": "did:web:test.com"
           },
           "credential": {
             "$ref": "#/components/schemas/VerifiableCredential"
@@ -1261,9 +1333,6 @@
           }
         }
       },
-      "VerifyCredentialResponse": {
-        "$ref": "#/components/schemas/VerificationResult"
-      },
       "VerifyPresentationRequest": {
         "type": "object",
         "properties": {
@@ -1282,9 +1351,6 @@
             "$ref": "#/components/schemas/Presentation"
           }
         }
-      },
-      "VerifyPresentationResponse": {
-        "$ref": "#/components/schemas/VerificationResult"
       },
       "Provider": {
         "type": "string",
