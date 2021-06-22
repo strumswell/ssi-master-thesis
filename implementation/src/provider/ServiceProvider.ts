@@ -21,6 +21,7 @@ export enum DidMethod {
 }
 
 export interface ServiceProvider {
+  // I S S U E R
   /**
    * Issue a Verifiable Credential
    * @param credential Credential input from API
@@ -31,28 +32,36 @@ export interface ServiceProvider {
   ): Promise<IssueCredentialResponse | Buffer>;
 
   /**
+   * Revoke a Verifiable Credential
+   * @param revocationBody Revocation info from API
+   */
+  revokeVerifiableCredential(revocationBody: RevocationRequest): Promise<RevocationResult>;
+
+  // V E R I F I E R
+  /**
    * Verify a Verifiable Credential
    * @param credential Credential input from API
    */
-  verifyVerifiableCredential(credential: W3CCredential): Promise<VerificationResult>;
-
-  /**
-   * Issue a Verifiable Presentation
-   * @param credential Credential input from API
-   */
-  issueVerifiablePresentation(presentation: Presentation): Promise<VerifiablePresentation>;
+  verifyVerifiableCredential(credential: W3CCredential): Promise<GenericResult>;
 
   /**
    * Verify a Verifiable Presentation
    * @param credential Presentation input from API
    */
-  verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<VerificationResult>;
+  verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<GenericResult>;
 
   /**
-   * Revoke a Verifiable Credential
-   * @param revocationBody Revocation info from API
+   * Create a presentation request via QR code or direct message to agent
+   * @param request Generic message for communication with agent handling the request
    */
-  revokeVerifiableCredential(revocationBody: RevocationRequest): Promise<RevocationResult>;
+  createPresentationRequest(request: GenericMessage): Promise<Buffer | GenericResult>; // For now only Buffer
+
+  // H O L D E R
+  /**
+   * Derive a credential
+   * @param credential Credentual from API input
+   */
+  deriveVerifiableCredential(credential: W3CCredential): Promise<any>;
 
   /**
    * Store a Verifiable Credential
@@ -61,26 +70,26 @@ export interface ServiceProvider {
   storeVerifiableCredential(credential: VerifiableCredential): Promise<CredentialStorageResult>;
 
   /**
+   * Derive a credential
+   * @param credential Credentual from API input
+   */
+  transferVerifiableCredential(credential: W3CCredential): Promise<any>;
+
+  /**
    * Delete a Verifiable Credential
    * @param identifier Credential identifier (hash, uuid, ...) input from API
    */
   deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult>;
 
   /**
-   * Create a presentation request via QR code or direct message to agent
-   * @param request Generic message for communication with agent handling the request
+   * Issue a Verifiable Presentation
+   * @param credential Credential input from API
    */
-  createPresentationRequest(request: GenericMessage): Promise<Buffer | GenericResult>; // For now only Buffer
+  issueVerifiablePresentation(presentation: Presentation): Promise<VerifiablePresentation>;
 
   /**
-   * Derive a credential
-   * @param credential Credentual from API input
+   * Present a credential to a verifier agent
+   * @param request Generic message containing the presentation info
    */
-  deriveVerifiableCredential(credential: W3CCredential): Promise<any>;
-
-  /**
-   * Derive a credential
-   * @param credential Credentual from API input
-   */
-  transferVerifiableCredential(credential: W3CCredential): Promise<any>;
+  presentPresentation(request: GenericMessage): Promise<GenericResult>;
 }

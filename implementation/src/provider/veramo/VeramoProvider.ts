@@ -4,7 +4,6 @@ import { IIdentifier, VerifiableCredential, W3CCredential } from "@veramo/core";
 import { VeramoRevoker } from "./VeramoRevoker";
 import { VeramoDatabase } from "./VeramoDatabase";
 import {
-  VerificationResult,
   Presentation,
   VerifiablePresentation,
   RevocationStatus,
@@ -62,9 +61,9 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(vc: W3CCredential): Promise<VerificationResult> {
-    const result: VerificationResult = {
-      verified: false,
+  async verifyVerifiableCredential(vc: W3CCredential): Promise<GenericResult> {
+    const result: GenericResult = {
+      success: null,
     };
     try {
       const message = await veramoAgent.handleMessage({
@@ -72,10 +71,12 @@ export class VeramoProvider implements ServiceProvider {
       });
       // agent only checks if jwt is valid
       // we still need to manually check the integrity of the vc itself
-      result.verified = await this.areCredentialParamsValid(vc, message);
+      result.success = true;
       return result;
     } catch (error) {
-      return error;
+      result.success = false;
+      result.error = error.message;
+      return result;
     }
   }
 
@@ -100,10 +101,9 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  // TODO: TYPES of attribute result
-  async verifyVerifiablePresentation(vp: VerifiablePresentation): Promise<VerificationResult> {
-    const result: VerificationResult = {
-      verified: false,
+  async verifyVerifiablePresentation(vp: VerifiablePresentation): Promise<GenericResult> {
+    const result: GenericResult = {
+      success: null,
     };
     try {
       const message = await veramoAgent.handleMessage({
@@ -112,9 +112,12 @@ export class VeramoProvider implements ServiceProvider {
       // agent only checks if jwt is valid
       // we still need to manually check the integrity of the vc itself
       //const valid = await this.areCredentialParamsValid(vc, message);
-      result.verified = true;
+      result.success = true;
+      return result;
     } catch (error) {
-      return error;
+      result.success = false;
+      result.error = error.message;
+      return result;
     }
   }
 
@@ -190,6 +193,15 @@ export class VeramoProvider implements ServiceProvider {
     } catch (error) {
       return error;
     }
+  }
+
+  // TODO: Implement
+  async presentPresentation(request: GenericMessage): Promise<GenericResult> {
+    return new Promise<any>(() => {
+      throw new Error("No implementation yet");
+    }).catch((error) => {
+      return error;
+    });
   }
 
   async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {

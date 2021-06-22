@@ -11,6 +11,7 @@ import {
   CredentialDeleteResult,
   CredentialStorageResult,
   GenericMessage,
+  GenericResult,
   isGenericMessage,
   IssueCredentialRequest,
   IssueCredentialResponse,
@@ -18,7 +19,6 @@ import {
   RevocationRequest,
   RevocationResult,
   VerifiablePresentation,
-  VerificationResult,
 } from "../ServiceProviderTypes";
 import { CreateCredentialResponse } from "@trinsic/service-clients/dist/credentials/models";
 
@@ -64,7 +64,7 @@ export class TrinsicProvider implements ServiceProvider {
     }
   }
 
-  public async verifyVerifiableCredential(credential: W3CCredential): Promise<VerificationResult> {
+  public async verifyVerifiableCredential(credential: W3CCredential): Promise<GenericResult> {
     return new Promise<any>(() => {
       throw new Error("No Trinsic implementation");
     }).catch((error) => {
@@ -80,7 +80,7 @@ export class TrinsicProvider implements ServiceProvider {
     });
   }
 
-  public async verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<VerificationResult> {
+  public async verifyVerifiablePresentation(presentation: VerifiablePresentation): Promise<GenericResult> {
     return new Promise<any>(() => {
       throw new Error("No Trinsic implementation");
     }).catch((error) => {
@@ -121,6 +121,14 @@ export class TrinsicProvider implements ServiceProvider {
     } catch (error) {
       return error;
     }
+  }
+  // TODO: check implementation
+  async presentPresentation(request: GenericMessage): Promise<GenericResult> {
+    return new Promise<any>(() => {
+      throw new Error("No implementation yet");
+    }).catch((error) => {
+      return error;
+    });
   }
 
   public async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {

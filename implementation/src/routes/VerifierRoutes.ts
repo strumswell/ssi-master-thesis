@@ -1,6 +1,6 @@
 import express from "express";
 import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProviderFactory";
-import { GenericResult, VerificationResult } from "../provider/ServiceProviderTypes";
+import { GenericResult } from "../provider/ServiceProviderTypes";
 import { providerCheck } from "../util/ProviderCheckMiddleware";
 
 const router = express.Router();
@@ -14,21 +14,20 @@ router
   .post("/credentials/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
 
-    const isValid: VerificationResult = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
-    if (isValid instanceof Error) {
-      res.status(500).send(<GenericResult>{ success: false, error: isValid.message });
+    const result: GenericResult = await provider.verifyVerifiableCredential(req.body.verifiableCredential);
+    if (result instanceof Error) {
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
-      res.status(200).send(isValid);
+      res.status(200).send(result);
     }
   })
   .post("/presentations/verify", providerCheck, async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-
-    const isValid: VerificationResult = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
-    if (isValid instanceof Error) {
-      res.status(500).send(<GenericResult>{ success: false, error: isValid.message });
+    const result: GenericResult = await provider.verifyVerifiablePresentation(req.body.verifiablePresentation);
+    if (result instanceof Error) {
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
-      res.status(200).send(isValid);
+      res.status(200).send(result);
     }
   });
 

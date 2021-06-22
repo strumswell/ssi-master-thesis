@@ -7,6 +7,7 @@ import {
   CredentialStatusType,
   CredentialStorageResult,
   GenericMessage,
+  GenericResult,
   isGenericMessage,
   isIssueCredentialRequest,
   IssueCredentialRequest,
@@ -16,7 +17,6 @@ import {
   RevocationResult,
   RevocationStatus,
   VerifiablePresentation,
-  VerificationResult,
 } from "../ServiceProviderTypes";
 import { MattrVerifierService } from "./MattrVerifierService";
 import * as qr from "qr-image";
@@ -126,11 +126,11 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiableCredential(body: W3CCredential): Promise<VerificationResult> {
+  async verifyVerifiableCredential(body: W3CCredential): Promise<GenericResult> {
     const vc = { credential: body };
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
-    const result: VerificationResult = {
-      verified: false,
+    const authToken: string = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: GenericResult = {
+      success: null,
     };
 
     try {
@@ -140,7 +140,7 @@ export class MattrProvider implements ServiceProvider {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
       });
       const verificationResult = await response.json();
-      result.verified = verificationResult.verified;
+      result.success = verificationResult.verified;
       result.error = verificationResult.error;
       return result;
     } catch (error) {
@@ -172,11 +172,11 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
-  async verifyVerifiablePresentation(body: VerifiablePresentation): Promise<VerificationResult> {
+  async verifyVerifiablePresentation(body: VerifiablePresentation): Promise<GenericResult> {
     const request = { presentation: body };
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
-    const result: VerificationResult = {
-      verified: false,
+    const authToken: string = await (await (await this.tokenRequestPromise).json()).access_token;
+    const result: GenericResult = {
+      success: null,
     };
 
     try {
@@ -186,7 +186,7 @@ export class MattrProvider implements ServiceProvider {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${authToken}` },
       });
       const verificationResult = await response.json();
-      result.verified = verificationResult.verified;
+      result.success = verificationResult.verified;
       result.error = verificationResult.reason;
       return result;
     } catch (error) {
@@ -259,6 +259,14 @@ export class MattrProvider implements ServiceProvider {
     }
   }
 
+  // TODO: implement
+  async presentPresentation(request: GenericMessage): Promise<GenericResult> {
+    return new Promise<any>(() => {
+      throw new Error("No implementation yet");
+    }).catch((error) => {
+      return error;
+    });
+  }
   async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No MATTR implementation");
