@@ -604,7 +604,7 @@
                 "id": "160620211342",
                 "from": "did:web:lighthouse.bolte.id",
                 "to": ["did:web:veramo-klaus.herokuapp.com"],
-                "thread_id": "160620211342",
+                "threadId": "160620211342",
                 "body": {
                   "presentation": {
                     "@context": [
@@ -943,41 +943,45 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Used for later reference"
+            "description": "Can be used for later reference"
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "description": "Type of message (see DIDcomm spec)"
           },
           "from": {
-            "type": "string"
+            "type": "string",
+            "description": "Sender of message"
           },
           "to": {
             "type": "array",
+            "description": "Recipient of message",
             "items": {
               "type": "string"
             }
           },
-          "created_time": {
-            "type": "integer"
+          "createdTime": {
+            "type": "integer",
+            "description": "Moment of creation (unix timestamp)"
           },
-          "expires_time": {
-            "type": "integer"
+          "expiresTime": {
+            "type": "integer",
+            "description": "Moment of expiration (unix timestamp)"
           },
-          "thread_id": {
+          "threadId": {
             "type": "string",
             "description": "Used to reference a prior message."
           },
           "body": {
             "type": "object",
+            "description": "Message content",
             "properties": {
-              "message": {
-                "type": "string"
-              },
-              "credential": {
+              "request": {
                 "type": "object",
                 "description": "Properties of a credential",
                 "properties": {
                   "issuers": {
+                    "description": "List of accepted issuers for a presentation request",
                     "type": "array",
                     "items": {
                       "properties": {
@@ -991,18 +995,29 @@
                     }
                   },
                   "credentialContext": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Accepted credential context for a presentation request"
                   },
                   "credentialType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Type of credential. Can be a type of a JSON-LD credential or a platform specific identifier for a credential template/ definition."
                   },
                   "claimType": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "Type of claim. Most of the time the parent node of the claim values."
                   },
                   "claimValues": {
-                    "type": "object"
+                    "type": "object",
+                    "description": "Credential values"
+                  },
+                  "info": {
+                    "type": "string",
+                    "description": "Further info concerning the request. Intersting for an end user."
                   }
                 }
+              },
+              "credential": {
+                "$ref": "#/components/schemas/VerifiableCredential"
               },
               "presentation": {
                 "$ref": "#/components/schemas/VerifiablePresentation"
@@ -1015,8 +1030,7 @@
           "from": "did:web:lighthouse.bolte.id",
           "to": ["did:web:veramo-klaus.herokuapp.com"],
           "body": {
-            "message": "This is a very important message.",
-            "credential": {
+            "request": {
               "issuers": [
                 {
                   "did": "did:web:lighthouse.bolte.id",
@@ -1028,7 +1042,8 @@
               "claimValues": {
                 "type": "BachelorDegree",
                 "name": "Bachelor of Science and Arts"
-              }
+              },
+              "info": "This is a very important message."
             }
           }
         }

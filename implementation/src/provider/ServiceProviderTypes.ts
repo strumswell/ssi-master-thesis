@@ -80,7 +80,7 @@ export interface IssueCredentialResponse {
 }
 
 /**
- * Generic Messasge is losly inspired by DIDcomm and its Veramo implementation
+ * Generic Messasge is loosely inspired by DIDcomm and its Veramo implementation
  * Used for communication between agents (cloud, local, wallets) e.g. to issue
  * or present a credential.
  * https://identity.foundation/didcomm-messaging/spec/#plaintext-message-structure
@@ -92,16 +92,21 @@ export interface GenericMessage {
   to?: [string];
   createdTime?: number;
   expiresTime?: number;
+  threadId?: string;
   body?: {
-    // Inspired by Veramo as it's not covered by the DIDComm spec
-    issuers?: [{ did: string; url: string }];
-    credentialContext?: string;
-    credentialType?: string;
-    claimType?: string;
-    claimValues?: {
-      [x: string]: any;
+    request?: {
+      // Inspired by Veramo as it's not covered by the DIDComm spec
+      issuers?: [{ did: string; url: string }];
+      credentialContext?: string;
+      credentialType?: string;
+      claimType?: string;
+      claimValues?: {
+        [x: string]: any;
+      };
+      info?: string;
     };
-    reason?: string;
+    credential?: VerifiableCredential;
+    presentation?: VerifiablePresentation;
     [x: string]: any;
   };
 }
