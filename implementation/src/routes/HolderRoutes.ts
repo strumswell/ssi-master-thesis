@@ -3,9 +3,7 @@ import { ServiceProviderFactory, ServiceType } from "../provider/ServiceProvider
 import {
   CredentialDeleteResult,
   CredentialStorageResult,
-  GenericMessage,
   GenericResult,
-  isGenericResult,
   Presentation,
   VerifiablePresentation,
 } from "../provider/ServiceProviderTypes";
@@ -70,17 +68,11 @@ router
   })
   .post("/presentations/present", async (req, res) => {
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
-    const request: GenericMessage = req.body;
-
-    const presentationRequest: Buffer | GenericResult = await provider.createPresentationRequest(request);
-
-    if (presentationRequest instanceof Error) {
-      res.status(500).send(<GenericResult>{ success: false, error: presentationRequest.message });
-    } else if (isGenericResult(presentationRequest)) {
-      res.status(200).send(presentationRequest);
+    const result: GenericResult = await provider.presentPresentation(req.body);
+    if (result instanceof Error) {
+      res.status(500).send(<GenericResult>{ success: false, error: result.message });
     } else {
-      res.type("png");
-      res.status(200).send(presentationRequest);
+      res.status(200).send(result);
     }
   });
 

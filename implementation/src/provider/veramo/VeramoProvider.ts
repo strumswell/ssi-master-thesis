@@ -197,11 +197,23 @@ export class VeramoProvider implements ServiceProvider {
 
   // TODO: Implement
   async presentPresentation(request: GenericMessage): Promise<GenericResult> {
-    return new Promise<any>(() => {
-      throw new Error("No implementation yet");
-    }).catch((error) => {
+    try {
+      const vp: VerifiablePresentation = request.body.presentation;
+
+      const msgBody = {
+        from: request.from,
+        to: request.to[0],
+        type: "jwt",
+        body: vp.proof.jwt,
+      };
+
+      const message = await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
+      console.log(message);
+      const result: GenericResult = { success: true };
+      return result;
+    } catch (error) {
       return error;
-    });
+    }
   }
 
   async deriveVerifiableCredential(credential: W3CCredential): Promise<any> {
