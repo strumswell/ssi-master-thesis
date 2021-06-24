@@ -2,7 +2,7 @@ import express from "express";
 import { TrinsicProvider } from "../../provider/trinsic/TrinsicProvider";
 
 const router = express.Router();
-const trinsic = new TrinsicProvider();
+const trinsic = TrinsicProvider.getInstance();
 
 router
   .get("/connections", async (req, res) => {

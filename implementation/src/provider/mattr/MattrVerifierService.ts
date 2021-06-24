@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 import * as qr from "qr-image";
+import { QrCache } from "../../util/QrCache";
 import { GenericMessage } from "../ServiceProviderTypes";
 import { MattrProvider } from "./MattrProvider";
 
@@ -11,16 +12,18 @@ import { MattrProvider } from "./MattrProvider";
  * Logic heavily based on https://github.com/mattrglobal/sample-apps/tree/main/verify-callback-express
  */
 export class MattrVerifierService {
-  private static verifierService: MattrVerifierService; // singleton object
-  private tenant: string = process.env.MATTR_TENANT;
-  private tokenRequestPromise: Promise<any>;
-  private qrCode: any;
-
+  private static instance: MattrVerifierService; // singleton object
+  private tenant: string;
   private jwsUrl: string;
-  private publicUrl = `${process.env.LOCAL_DEV_URL}`;
+  private qrCache: QrCache;
+  private publicUrl: string;
+  private mattr: MattrProvider;
 
   private constructor() {
-    this.tokenRequestPromise = MattrProvider.requestBearerToken();
+    this.tenant = process.env.MATTR_TENANT;
+    this.qrCache = new QrCache();
+    this.publicUrl = `${process.env.LOCAL_DEV_URL}`;
+    this.mattr = MattrProvider.getInstance();
   }
 
   /**
@@ -28,10 +31,10 @@ export class MattrVerifierService {
    * @returns Service object
    */
   public static getInstance(): MattrVerifierService {
-    if (!MattrVerifierService.verifierService) {
-      MattrVerifierService.verifierService = new MattrVerifierService();
+    if (!MattrVerifierService.instance) {
+      MattrVerifierService.instance = new MattrVerifierService();
     }
-    return MattrVerifierService.verifierService;
+    return MattrVerifierService.instance;
   }
 
   /**
@@ -43,7 +46,7 @@ export class MattrVerifierService {
   }
 
   private async provisionPresentationRequest(publicUrl: string, request: GenericMessage) {
-    const bearerToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const bearerToken = await this.mattr.getBearerToken();
     const url = `https://${this.tenant}/core/v1/presentations/requests`;
     const presResponse: any = await fetch(url, {
       method: "POST",
@@ -51,7 +54,7 @@ export class MattrVerifierService {
       body: JSON.stringify({
         challenge: request.id,
         did: request.from,
-        templateId: request.body.credentialType,
+        templateId: request.body.request.credentialType,
         expiresTime: request.expiresTime,
         callbackUrl: `${publicUrl}/mattr/verifier/callback`,
       }),
@@ -61,7 +64,7 @@ export class MattrVerifierService {
   }
 
   private async getVerifierDIDUrl(did: string) {
-    const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
+    const bearerToken = await this.mattr.getBearerToken();
     const url = `https://${this.tenant}/core/v1/dids/${did}`;
 
     const didResponse: any = await fetch(url, {
@@ -73,7 +76,7 @@ export class MattrVerifierService {
   }
 
   private async signPayload(publicUrl, didUrl, requestPayload) {
-    const bearerToken = await (await (await MattrProvider.requestBearerToken()).json()).access_token;
+    const bearerToken = await this.mattr.getBearerToken();
 
     const url = `https://${this.tenant}/core/v1/messaging/sign`;
 
@@ -92,19 +95,22 @@ export class MattrVerifierService {
     return didcommUrl;
   }
 
-  // TODO: Rework to use GenericMessage body
   /**
    * Generate a QR code that kicks off a presentation flow via OIDC bridge and MATTR wallet
    * @returns SVG qr code of presentation request
    */
   public async generateQRCode(request: GenericMessage): Promise<Buffer> {
-    if (this.qrCode !== undefined) return this.qrCode; // return cached qr code
+    const templateId: string = request.body.request.credentialType;
+    if (this.qrCache.has(templateId)) return this.qrCache.get(templateId).image; // return caches qr code
+
     const publicUrl = this.publicUrl;
     const provisionRequest = await this.provisionPresentationRequest(publicUrl, request);
-    console.log(JSON.stringify(provisionRequest, null, 2));
     const didUrl = await this.getVerifierDIDUrl(request.from);
     const didcommUrl = await this.signPayload(publicUrl, didUrl, provisionRequest);
     const qrcode = qr.imageSync(didcommUrl, { type: "png" });
+
+    this.qrCache.set(templateId, qrcode, request.expiresTime); // cache qrcode
+
     return qrcode;
   }
 }

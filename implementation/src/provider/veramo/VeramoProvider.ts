@@ -19,6 +19,21 @@ import {
 import { ICredentialRequestInput } from "@veramo/selective-disclosure";
 
 export class VeramoProvider implements ServiceProvider {
+  private static instance: VeramoProvider;
+
+  private constructor() {}
+
+  /**
+   * Get singleton object
+   * @returns Service object
+   */
+  public static getInstance(): VeramoProvider {
+    if (!VeramoProvider.instance) {
+      VeramoProvider.instance = new VeramoProvider();
+    }
+    return VeramoProvider.instance;
+  }
+
   async issueVerifiableCredential(body: IssueCredentialRequest, toWallet: boolean): Promise<IssueCredentialResponse> {
     try {
       body.credential.issuer = { id: body.credential.issuer.toString() };
@@ -195,7 +210,6 @@ export class VeramoProvider implements ServiceProvider {
     }
   }
 
-  // TODO: Implement
   async presentPresentation(request: GenericMessage): Promise<GenericResult> {
     try {
       const vp: VerifiablePresentation = request.body.presentation;

@@ -18,11 +18,11 @@ export class ServiceProviderFactory implements Factory {
   createProvider(type: ServiceType): ServiceProvider {
     switch (type) {
       case ServiceType.VERAMO:
-        return new VeramoProvider();
+        return VeramoProvider.getInstance();
       case ServiceType.MATTR:
-        return new MattrProvider();
+        return MattrProvider.getInstance();
       case ServiceType.TRINSIC:
-        return new TrinsicProvider();
+        return TrinsicProvider.getInstance();
       default:
         return null;
     }

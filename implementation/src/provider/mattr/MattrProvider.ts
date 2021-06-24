@@ -20,6 +20,7 @@ import {
 } from "../ServiceProviderTypes";
 import { MattrVerifierService } from "./MattrVerifierService";
 import * as qr from "qr-image";
+import { QrCache } from "../../util/QrCache";
 
 interface MattrCredentialRequest {
   "@context": string[];
@@ -32,16 +33,23 @@ interface MattrCredentialRequest {
   revocable: boolean;
 }
 
-/**
- * TODO:
- *  - Implement other methods
- */
 export class MattrProvider implements ServiceProvider {
-  tokenRequestPromise;
+  private static instance: MattrProvider; // singleton object
+  private issuerQrCache: QrCache;
 
-  constructor() {
-    // Request a bearer auth token Promise
-    this.tokenRequestPromise = MattrProvider.requestBearerToken();
+  private constructor() {
+    this.issuerQrCache = new QrCache();
+  }
+
+  /**
+   * Get singleton object
+   * @returns Service object
+   */
+  public static getInstance(): MattrProvider {
+    if (!MattrProvider.instance) {
+      MattrProvider.instance = new MattrProvider();
+    }
+    return MattrProvider.instance;
   }
 
   // TODO: think about changing response schema to also include credential id (used for delete e.g.)
@@ -58,6 +66,7 @@ export class MattrProvider implements ServiceProvider {
         if (isIssueCredentialRequest(body)) {
           throw Error("Issuing custom credentials to a wallet is not supported! Please define the type.");
         } else if (isGenericMessage(body)) {
+          console.log("d");
           const message: GenericMessage = <GenericMessage>body; // Cast to correct type
           const qrCode: Buffer = this.getOIDCIssuerQRCode(message.from);
           return qrCode;
@@ -72,7 +81,7 @@ export class MattrProvider implements ServiceProvider {
     const request: IssueCredentialRequest = <IssueCredentialRequest>body; // Cast to correct type
     const vc: W3CCredential = <W3CCredential>request.credential;
     const save: boolean = request.options.save ? request.options.save : false;
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken = await this.getBearerToken();
 
     /**
      * Handle custom VC issuance
@@ -128,7 +137,7 @@ export class MattrProvider implements ServiceProvider {
 
   async verifyVerifiableCredential(body: W3CCredential): Promise<GenericResult> {
     const vc = { credential: body };
-    const authToken: string = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken: string = await this.getBearerToken();
     const result: GenericResult = {
       success: null,
     };
@@ -156,7 +165,7 @@ export class MattrProvider implements ServiceProvider {
       credentials: body.verifiableCredential,
       challenge: uuidv4(),
     };
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken = await this.getBearerToken();
 
     // Issue presentation via MATTR platform
     try {
@@ -174,7 +183,7 @@ export class MattrProvider implements ServiceProvider {
 
   async verifyVerifiablePresentation(body: VerifiablePresentation): Promise<GenericResult> {
     const request = { presentation: body };
-    const authToken: string = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken: string = await this.getBearerToken();
     const result: GenericResult = {
       success: null,
     };
@@ -196,7 +205,7 @@ export class MattrProvider implements ServiceProvider {
 
   async revokeVerifiableCredential(body: RevocationRequest): Promise<RevocationResult> {
     const request = { isRevoked: body[0].credentialStatus.status === "1" };
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken = await this.getBearerToken();
     const result: RevocationResult = { status: null };
 
     if (body.credentialStatus[0].type !== CredentialStatusType["RevocationList2020Status"]) {
@@ -230,7 +239,7 @@ export class MattrProvider implements ServiceProvider {
   }
 
   async deleteVerifiableCredential(identifier: string): Promise<CredentialDeleteResult> {
-    const authToken = await (await (await this.tokenRequestPromise).json()).access_token;
+    const authToken = await this.getBearerToken();
     const result: CredentialDeleteResult = { isDeleted: false };
     try {
       const response = await fetch(`${process.env.MATTR_URL}/core/v1/credentials/${identifier}/`, {
@@ -305,26 +314,30 @@ export class MattrProvider implements ServiceProvider {
    * Request bearer auth token from MATTR
    * @returns Promise of MATTR auth request. Token under .access_token
    */
-  public static requestBearerToken(): Promise<any> {
+  public async getBearerToken(): Promise<string> {
     const requestBody = {
       client_id: process.env.MATTR_CLIENT_ID,
       client_secret: process.env.MATTR_CLIENT_SECRET,
       audience: "https://vii.mattr.global",
       grant_type: "client_credentials",
     };
-    const response = fetch("https://auth.mattr.global/oauth/token", {
+    const response = await fetch("https://auth.mattr.global/oauth/token", {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
     });
-    return response;
+    const json = await response.json();
+    return json.access_token;
   }
 
   private getOIDCIssuerQRCode(oidcIssuer: string): Buffer {
+    if (this.issuerQrCache.has(oidcIssuer)) return this.issuerQrCache.get(oidcIssuer).image;
+
     const qrcode: Buffer = qr.imageSync(
       `openid://discovery?issuer=${process.env.MATTR_URL}/ext/oidc/v1/issuers/${oidcIssuer}`,
       { type: "png" }
     );
+    this.issuerQrCache.set(oidcIssuer, qrcode);
     return qrcode;
   }
 }

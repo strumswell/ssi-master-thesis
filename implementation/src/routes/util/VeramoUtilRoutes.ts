@@ -5,7 +5,7 @@ import { VeramoProvider } from "../../provider/veramo/VeramoProvider";
 import { VeramoDatabase, VeramoDatabaseCredential } from "../../provider/veramo/VeramoDatabase";
 
 const router = express.Router();
-const veramo = new VeramoProvider();
+const veramo = VeramoProvider.getInstance();
 const db = new VeramoDatabase();
 /**
  * DID Util Routes

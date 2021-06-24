@@ -16,7 +16,7 @@ router
     const provider = factory.createProvider(ServiceType[req.query.provider.toUpperCase()]);
     const credential: IssueCredentialResponse | Buffer = await provider.issueVerifiableCredential(
       req.body,
-      req.query.toWallet === "true"
+      req.query.toRemote === "true"
     );
 
     if (credential instanceof Error) {

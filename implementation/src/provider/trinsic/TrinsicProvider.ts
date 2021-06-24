@@ -21,11 +21,14 @@ import {
   VerifiablePresentation,
 } from "../ServiceProviderTypes";
 import { CreateCredentialResponse } from "@trinsic/service-clients/dist/credentials/models";
+import { QrCache } from "../../util/QrCache";
 
 export class TrinsicProvider implements ServiceProvider {
+  private static instance: TrinsicProvider;
   client: CredentialsServiceClient;
   provider: ProviderServiceClient;
-  constructor() {
+
+  private constructor() {
     // Credentials API
     this.client = new CredentialsServiceClient(new Credentials(process.env.TRINSIC_KEY), {
       noRetryPolicy: true,
@@ -33,6 +36,17 @@ export class TrinsicProvider implements ServiceProvider {
     this.provider = new ProviderServiceClient(new ProviderCredentials(process.env.TRINSIC_KEY), {
       noRetryPolicy: true,
     });
+  }
+
+  /**
+   * Get singleton object
+   * @returns Service object
+   */
+  public static getInstance(): TrinsicProvider {
+    if (!TrinsicProvider.instance) {
+      TrinsicProvider.instance = new TrinsicProvider();
+    }
+    return TrinsicProvider.instance;
   }
 
   // TODO: think about changing response schema to also include credential id (used for delete e.g.)
