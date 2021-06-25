@@ -238,12 +238,23 @@ export class VeramoProvider implements ServiceProvider {
     });
   }
 
-  async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
-    return new Promise<any>(() => {
-      throw new Error("No Veramo implementation");
-    }).catch((error) => {
+  async transferVerifiableCredential(request: GenericMessage): Promise<GenericResult> {
+    try {
+      const vc: VerifiableCredential = request.body.credential;
+
+      const msgBody = {
+        from: request.from,
+        to: request.to[0],
+        type: "jwt",
+        body: vc.proof.jwt,
+      };
+
+      await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
+      const result: GenericResult = { success: true };
+      return result;
+    } catch (error) {
       return error;
-    });
+    }
   }
 
   /**

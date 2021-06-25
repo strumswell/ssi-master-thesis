@@ -284,7 +284,7 @@ export class MattrProvider implements ServiceProvider {
     });
   }
 
-  async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+  async transferVerifiableCredential(credential: GenericMessage): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No MATTR implementation");
     }).catch((error) => {

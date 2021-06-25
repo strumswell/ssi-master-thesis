@@ -1,6 +1,5 @@
 import { VerifiableCredential, W3CCredential } from "@veramo/core";
 import {
-  VerificationResult,
   Presentation,
   VerifiablePresentation,
   RevocationRequest,
@@ -73,7 +72,7 @@ export interface ServiceProvider {
    * Derive a credential
    * @param credential Credentual from API input
    */
-  transferVerifiableCredential(credential: W3CCredential): Promise<any>;
+  transferVerifiableCredential(credential: GenericMessage): Promise<any>;
 
   /**
    * Delete a Verifiable Credential

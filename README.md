@@ -17,7 +17,7 @@ Implementation and coverage results (may change):
 | ------------------------------------------- | :---: | :----: | :-----: |
 | Issue /credentials/issue                    |  🟢   |   🟢   |   🟢    |
 | Store /crendentials/store                   |  🟠   |   🟢   |   🟠    |
-| Transfer /credentials/transfer              |  🔴   |   🔴   |   🔴    |
+| Transfer /credentials/transfer              |  ⚪️  |   🟢   |   🔴    |
 | Compose /credentials/prove                  |  🟢   |   🟢   |   🟠    |
 | Present /presentations/present              |  🟠   |   🟢   |   🟠    |
 | Request /presentations/request              |  🟢   |   🟢   |   🟢    |
@@ -25,8 +25,8 @@ Implementation and coverage results (may change):
 | Revoke /credentials/status                  |  🟢   |   🟠   |   🟢    |
 | Delete /credentials/delete                  |  🟢   |   🟢   |   🟢    |
 | Derive /credentials/derive                  |  🟠   |   🔴   |   🟠    |
-| Indirect Coverage Score (ICS)               | 90 %  |  80 %  |   90%   |
-| Weighted Indirect Coverage Score (WICS)     | 75 %  |  70 %  |   65%   |
-| Direct Coverage Score (DCS)                 | 60 %  |  60 %  |   40%   |
+| Indirect Coverage Score (ICS)               | 90 %  |  90 %  |   90%   |
+| Weighted Indirect Coverage Score (WICS)     | 75 %  |  80 %  |   65%   |
+| Direct Coverage Score (DCS)                 | 60 %  |  70 %  |   40%   |
 
 The api specification is roughly based on the [vc-http-api](https://github.com/w3c-ccg/vc-http-api).

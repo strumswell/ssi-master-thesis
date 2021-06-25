@@ -153,7 +153,7 @@ export class TrinsicProvider implements ServiceProvider {
     });
   }
 
-  public async transferVerifiableCredential(credential: W3CCredential): Promise<any> {
+  public async transferVerifiableCredential(credential: GenericMessage): Promise<any> {
     return new Promise<any>(() => {
       throw new Error("No Trinsic implementation");
     }).catch((error) => {
