@@ -417,9 +417,9 @@
     "/credentials/transfer": {
       "post": {
         "tags": ["Holder"],
-        "summary": "Transfer a credential to another holder (needs work)",
+        "summary": "Transfer a credential to another holder",
         "operationId": "transferCredential",
-        "description": "Transfer a credential to another holder. TODO find out what's needed for a transfer. Might be diffucult as no sdk, bib or platform implements this part of the process.",
+        "description": "Transfer a credential to another holder in the form of a VerifiableCredential containing the credential and a mandate credential issued by the subject. The latter one allows the new holder to use the credential in the name of the subject.",
         "parameters": [
           {
             "in": "query",
@@ -435,7 +435,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": ""
+                "$ref": "#/components/schemas/GenericMessage"
+              },
+              "example": {
+                "from": "did:web:lighthouse.bolte.id",
+                "to": ["did:web:veramo-klaus.herokuapp.com"],
+                "body": {
+                  "credential": {}
+                }
               }
             }
           },

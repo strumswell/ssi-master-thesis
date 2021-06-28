@@ -37,7 +37,7 @@ export class VeramoProvider implements ServiceProvider {
   async issueVerifiableCredential(body: IssueCredentialRequest, toWallet: boolean): Promise<IssueCredentialResponse> {
     try {
       body.credential.issuer = { id: body.credential.issuer.toString() };
-      const credential: W3CCredential = await body.credential;
+      const credential: W3CCredential = body.credential;
       const save: boolean = body.options.save ? body.options.save : false;
 
       const verifiableCredential: W3CCredential = await veramoAgent.createVerifiableCredential({
@@ -240,13 +240,48 @@ export class VeramoProvider implements ServiceProvider {
 
   async transferVerifiableCredential(request: GenericMessage): Promise<GenericResult> {
     try {
-      const vc: VerifiableCredential = request.body.credential;
+      const vc: VerifiableCredential = request.body.credential; // to be transfered VC
+      // Prepare a second mandate VC
+      const credentialHolder = JSON.parse(JSON.stringify(vc.credentialSubject)); // deep clone
+      credentialHolder.id = request.to[0];
+      console.log(vc.credentialSubject.id);
+      const mandateCredential: W3CCredential = {
+        "@context": vc["@context"],
+        type: vc.type,
+        issuanceDate: new Date().toISOString(),
+        expirationDate: new Date(new Date().getTime() + 86400000).toISOString(), // 1 day in future
+        issuer: { id: vc.credentialSubject.id },
+        credentialSubject: credentialHolder,
+      };
 
+      console.log(mandateCredential);
+
+      // Create a second mandate VC
+      const mandateVC: VerifiableCredential = await veramoAgent.createVerifiableCredential({
+        save: false,
+        credential: mandateCredential,
+        proofFormat: "jwt",
+      });
+
+      // Create a VP containing the original VC + mandate VC from subject
+      const vp: VerifiablePresentation = await veramoAgent.createVerifiablePresentation({
+        presentation: {
+          holder: vc.credentialSubject.id,
+          issuanceDate: new Date().toISOString(),
+          type: ["VerifiablePresentation"],
+          verifier: [request.to[0]],
+          verifiableCredential: [vc, mandateVC],
+        },
+        save: false,
+        proofFormat: "jwt",
+      });
+
+      // Send VP
       const msgBody = {
         from: request.from,
         to: request.to[0],
         type: "jwt",
-        body: vc.proof.jwt,
+        body: vp.proof.jwt,
       };
 
       await veramoAgent.sendMessageDIDCommAlpha1({ data: msgBody });
