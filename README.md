@@ -17,7 +17,7 @@ Implementation and coverage results (may change):
 | ------------------------------------------- | :---: | :----: | :-----: |
 | Issue /credentials/issue                    |  🟢   |   🟢   |   🟢    |
 | Store /crendentials/store                   |  🟠   |   🟢   |   🟠    |
-| Transfer /credentials/transfer              |  ⚪️  |   🟢   |   🔴    |
+| Transfer /credentials/transfer              |  🔴   |   🟢   |   🔴    |
 | Compose /credentials/prove                  |  🟢   |   🟢   |   🟠    |
 | Present /presentations/present              |  🟠   |   🟢   |   🟠    |
 | Request /presentations/request              |  🟢   |   🟢   |   🟢    |
