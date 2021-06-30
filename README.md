@@ -13,20 +13,22 @@ The current architecure of the reference implementation can be seen below.
 
 Implementation and coverage results (may change):
 
-| Process Steps                               | MATTR | Veramo | Trinsic |
-| ------------------------------------------- | :---: | :----: | :-----: |
-| Issue /credentials/issue                    |  🟢   |   🟢   |   🟢    |
-| Store /crendentials/store                   |  🟠   |   🟢   |   🟠    |
-| Transfer /credentials/transfer              |  🔴   |   🟢   |   🔴    |
-| Compose /credentials/prove                  |  🟢   |   🟢   |   🟠    |
-| Present /presentations/present              |  🟠   |   🟢   |   🟠    |
-| Request /presentations/request              |  🟢   |   🟢   |   🟢    |
-| Verify /<credentials, presentations>/verify |  🟢   |   🟠   |   🟠    |
-| Revoke /credentials/status                  |  🟢   |   🟠   |   🟢    |
-| Delete /credentials/delete                  |  🟢   |   🟢   |   🟢    |
-| Derive /credentials/derive                  |  🟠   |   🔴   |   🟠    |
-| Indirect Coverage Score (ICS)               | 90 %  |  90 %  |   90%   |
-| Weighted Indirect Coverage Score (WICS)     | 75 %  |  80 %  |   65%   |
-| Direct Coverage Score (DCS)                 | 60 %  |  70 %  |   40%   |
+| Process Steps                               | MATTR | Veramo | Trinsic | Azure AD for VCs* |
+| ------------------------------------------- | :---: | :----: | :-----: |:-------: |
+| Issue /credentials/issue                    |  🟢   |   🟢   |   🟢    |   🟢    |   
+| Store /crendentials/store                   |  🟠   |   🟢   |   🟠    |   🟠    |
+| Transfer /credentials/transfer              |  🔴   |   🟢   |   🔴    |   🔴    |
+| Compose /credentials/prove                  |  🟢   |   🟢   |   🟠    |   🟠    |
+| Present /presentations/present              |  🟠   |   🟢   |   🟠    |   🟠    |
+| Request /presentations/request              |  🟢   |   🟢   |   🟢    |   🟢    |
+| Verify /<credentials, presentations>/verify |  🟢   |   🟠   |   🟠    |   🟠    |
+| Revoke /credentials/status                  |  🟢   |   🟠   |   🟢    |   🟠    |
+| Delete /credentials/delete                  |  🟢   |   🟢   |   🟢    |   🟢    |
+| Derive /credentials/derive                  |  🟠   |   🔴   |   🟠    |   🔴    |
+| Indirect Coverage Score (ICS)               | 90 %  |  90 %  |   90%   | 80% |
+| Weighted Indirect Coverage Score (WICS)     | 75 %  |  80 %  |   65%   | 55% |
+| Direct Coverage Score (DCS)                 | 60 %  |  70 %  |   40%   | 30% |
+
+*Implementation pending (preliminary scores)
 
 The api specification is roughly based on the [vc-http-api](https://github.com/w3c-ccg/vc-http-api).
