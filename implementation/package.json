@@ -11,6 +11,7 @@
   "author": "Philipp Bolte",
   "license": "ISC",
   "dependencies": {
+    "@azure/identity": "1.1.0",
     "@trinsic/service-clients": "^1.1.5018",
     "@types/node-fetch": "^2.5.10",
     "@veramo/core": "^1.2.0",
@@ -41,6 +42,7 @@
     "sqlite3": "^5.0.2",
     "swagger-ui-express": "^4.1.6",
     "uuid": "^8.3.2",
+    "verifiablecredentials-verification-sdk-typescript": "^0.11.1",
     "web-did-resolver": "^2.0.4"
   },
   "devDependencies": {

@@ -11,6 +11,7 @@ import mattrVerifierRoutes from "./routes/util/MattrVerifierRoutes";
 import mattrUtilRoutes from "./routes/util/MattrUtilRoutes";
 import trinsicVerifierRoutes from "./routes/util/TrinsicVerifierRoutes";
 import trinsicUtilRoutes from "./routes/util/TrinsicUtilRoutes";
+import azureUtilRoutes from "./routes/util/AzureUtilRoutes";
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,6 +30,8 @@ app.use("/mattr/verifier", mattrVerifierRoutes);
 
 app.use("/trinsic", trinsicUtilRoutes);
 app.use("/", trinsicVerifierRoutes);
+
+app.use("/", azureUtilRoutes);
 
 // WWW Routes 🌍
 app.use("/demo", express.static("src/public", { index: "index.html" }));

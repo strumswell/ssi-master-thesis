@@ -1,3 +1,4 @@
+import { AzureProvider } from "./azure/AzureProvider";
 import { MattrProvider } from "./mattr/MattrProvider";
 import { ServiceProvider } from "./ServiceProvider";
 import { TrinsicProvider } from "./trinsic/TrinsicProvider";
@@ -12,6 +13,7 @@ export enum ServiceType {
   VERAMO = "veramo",
   MATTR = "mattr",
   TRINSIC = "trinsic",
+  AZURE = "azure",
 }
 
 export class ServiceProviderFactory implements Factory {
@@ -23,6 +25,8 @@ export class ServiceProviderFactory implements Factory {
         return MattrProvider.getInstance();
       case ServiceType.TRINSIC:
         return TrinsicProvider.getInstance();
+      case ServiceType.AZURE:
+        return AzureProvider.getInstance();
       default:
         return null;
     }
