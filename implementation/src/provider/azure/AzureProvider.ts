@@ -18,11 +18,13 @@ import {
 } from "../ServiceProviderTypes";
 import { v4 as uuidv4 } from "uuid";
 import * as qr from "qr-image";
+import base64url from "base64url";
+import secureRandom from "secure-random";
 
 export class AzureProvider implements ServiceProvider {
   private static instance: AzureProvider;
-  public issuanceRequests: Map<string, any> = new Map<string, any>();
-  private crypto;
+  public requestCache: Map<string, any> = new Map<string, any>(); // TODO: GETTER
+  public crypto; // TODO: GETTER
 
   private constructor() {
     const kvCredentials = new ClientSecretCredential(
@@ -89,7 +91,7 @@ export class AzureProvider implements ServiceProvider {
 
       const issuanceRequest = await requestBuilder.build().create(); // Create a issuance request
       const sessionId = uuidv4();
-      this.issuanceRequests.set(sessionId, issuanceRequest.request); // cache issuance request
+      this.requestCache.set(sessionId, issuanceRequest.request); // cache issuance request
 
       // Encode issuance request url (local) into qr code
       // MSFT Authenticator uses encoded URL to get request from local api @ /issue-request.jwt route
@@ -150,12 +152,55 @@ export class AzureProvider implements ServiceProvider {
     });
   }
 
-  async createPresentationRequest(request: GenericMessage): Promise<GenericResult> {
-    return new Promise<any>(() => {
-      throw new Error("No Azure AD for VCs implementation");
-    }).catch((error) => {
-      return error;
-    });
+  async createPresentationRequest(request: GenericMessage): Promise<Buffer> {
+    // Construct a request to issue a verifiable credential
+    // using the verifiable credential issuer service
+    const sessionId = uuidv4();
+    const nonce = base64url.encode(Buffer.from(secureRandom.randomUint8Array(10)));
+    const clientId = `${process.env.LOCAL_DEV_URL}/azure/presentation-response`;
+    const client = {
+      client_name: "Workplace Ltd.",
+      logo_uri: "https://boltestoragevc.blob.core.windows.net/images/favicon.png",
+      tos_uri: "https://www.microsoft.com/servicesagreement",
+      client_purpose: "To check if you know how to use verifiable credentials.",
+    };
+
+    const requestBuilder = new RequestorBuilder(
+      {
+        clientName: client.client_name,
+        clientId: clientId,
+        redirectUri: clientId,
+        logoUri: client.logo_uri,
+        tosUri: client.tos_uri,
+        clientPurpose: client.client_purpose,
+        presentationDefinition: {
+          input_descriptors: [
+            {
+              id: "credential",
+              schema: {
+                uri: [request.body.request.credentialType],
+              },
+              issuance: [
+                {
+                  manifest: request.from,
+                },
+              ],
+            },
+          ],
+        },
+      } as IRequestor,
+      this.crypto
+    )
+      .useNonce(nonce)
+      .useState(sessionId);
+
+    const presentationRequest = await requestBuilder.build().create(); // Create a issuance request
+    this.requestCache.set(sessionId, presentationRequest.request); // cache issuance request
+
+    const requestUri = encodeURIComponent(`${process.env.LOCAL_DEV_URL}/presentation-request.jwt?id=${sessionId}`);
+    const issueRequestReference = "openid://vc/?request_uri=" + requestUri;
+    const qrcode: Buffer = qr.imageSync(issueRequestReference, { type: "png" });
+    return qrcode;
   }
 
   async presentPresentation(request: GenericMessage): Promise<GenericResult> {

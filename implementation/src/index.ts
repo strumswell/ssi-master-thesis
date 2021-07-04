@@ -15,6 +15,7 @@ import azureUtilRoutes from "./routes/util/AzureUtilRoutes";
 
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // API Routes 📄
 app.use("/", holderRoutes);
