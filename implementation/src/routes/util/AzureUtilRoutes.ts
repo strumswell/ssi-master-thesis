@@ -6,11 +6,11 @@ const router = express.Router();
 const azure = AzureProvider.getInstance();
 
 router
-  .get("/issue-request.jwt", async (req, res) => {
+  .get("/azure/issue-request.jwt", async (req, res) => {
     const request = azure.requestCache.get(req.query.id);
     res.send(request);
   })
-  .get("/presentation-request.jwt", async (req, res) => {
+  .get("/azure/presentation-request.jwt", async (req, res) => {
     const request = azure.requestCache.get(req.query.id);
     res.send(request);
   })

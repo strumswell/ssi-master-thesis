@@ -95,7 +95,7 @@ export class AzureProvider implements ServiceProvider {
 
       // Encode issuance request url (local) into qr code
       // MSFT Authenticator uses encoded URL to get request from local api @ /issue-request.jwt route
-      const requestUri = encodeURIComponent(`${process.env.LOCAL_DEV_URL}/issue-request.jwt?id=${sessionId}`);
+      const requestUri = encodeURIComponent(`${process.env.LOCAL_DEV_URL}/azure/issue-request.jwt?id=${sessionId}`);
       const issueRequestReference = "openid://vc/?request_uri=" + requestUri;
       const qrcode: Buffer = qr.imageSync(issueRequestReference, { type: "png" });
       return qrcode;
@@ -197,7 +197,9 @@ export class AzureProvider implements ServiceProvider {
     const presentationRequest = await requestBuilder.build().create(); // Create a issuance request
     this.requestCache.set(sessionId, presentationRequest.request); // cache issuance request
 
-    const requestUri = encodeURIComponent(`${process.env.LOCAL_DEV_URL}/presentation-request.jwt?id=${sessionId}`);
+    const requestUri = encodeURIComponent(
+      `${process.env.LOCAL_DEV_URL}/azure/presentation-request.jwt?id=${sessionId}`
+    );
     const issueRequestReference = "openid://vc/?request_uri=" + requestUri;
     const qrcode: Buffer = qr.imageSync(issueRequestReference, { type: "png" });
     return qrcode;

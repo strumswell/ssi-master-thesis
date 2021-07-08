@@ -21,7 +21,6 @@ import {
   VerifiablePresentation,
 } from "../ServiceProviderTypes";
 import { CreateCredentialResponse } from "@trinsic/service-clients/dist/credentials/models";
-import { QrCache } from "../../util/QrCache";
 
 export class TrinsicProvider implements ServiceProvider {
   private static instance: TrinsicProvider;

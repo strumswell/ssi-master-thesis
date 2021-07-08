@@ -1,8 +1,8 @@
-import { AzureProvider } from "./azure/AzureProvider";
 import { MattrProvider } from "./mattr/MattrProvider";
 import { ServiceProvider } from "./ServiceProvider";
 import { TrinsicProvider } from "./trinsic/TrinsicProvider";
 import { VeramoProvider } from "./veramo/VeramoProvider";
+import { AzureProvider } from "./azure/AzureProvider";
 
 // TODO: Add more providers
 interface Factory {
