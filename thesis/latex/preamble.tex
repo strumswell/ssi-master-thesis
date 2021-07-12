@@ -1,0 +1,128 @@
+%Dokumentklasse
+\documentclass[a4paper,12pt,makeidx,twoside,openright,numbers=noenddot]{scrreprt}
+\usepackage[left=3cm, right=2cm, bottom=2.5cm, top=3cm]{geometry}		% Formatierung der Seitenränder
+%\usepackage[onehalfspacing]{setspace}							        % verwendet für größeren Zeilenabstand
+
+% ============= Packages =============
+
+% Dokumentinformationen
+\usepackage[
+	pdftitle={},
+	pdfsubject={},
+	pdfauthor={},
+	pdfkeywords={},
+	%Links nicht einrahmen
+	hidelinks
+]{hyperref}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{units}
+\usepackage{pdfpages}
+\usepackage{listings}
+\usepackage{svg}					% Zur Einbindung von scalable vector graphics
+\usepackage{subcaption}				% Zum Einbinden von Untergrafiken
+\usepackage[gen]{eurosym}			% Zur Verwendung des Eurozeichens
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{{img/}}				
+\usepackage{fancyhdr}				% Style Package für's Seitenlayout
+\usepackage{color}					% anpassen von Farben
+\usepackage{microtype} 				% schönerer Blocksatz!
+\usepackage{calc}  					
+\usepackage{enumitem}				% zb für align der description
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[printonlyused]{acronym}	% für Abkürzungen
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{textcomp}
+\usepackage{listings}				% Einbindung von Code in LateX
+\usepackage{setspace}
+\usepackage{threeparttable} 		% für Fußnoten innerhalb einer Tabelle
+\usepackage[export]{adjustbox}
+
+
+% verschiedene Schriftarten
+%\usepackage{times} 				% times font
+%\usepackage{palatino}			 	% Palatino font
+\usepackage{lmodern}				% Lmodern sans und serif
+%\usepackage{libertine}				% Linux Libertine und Biolinum
+
+%\usepackage{fontspec}				% Nutzen in Kombination mit LuaLaTeX, um Systemschriften einzubinden
+%\setmainfont{Georgia}				% beispielsweise Georgia, aber auch jede andere Schrift, die auf dem PC vorhanden ist
+
+
+% zusätzliche Schriftzeichen der American Mathematical Society
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\usepackage[numbers, comma]{natbib}		% Einstellung des Zitierstils
+\bibliographystyle{lni_style}			% Angepasster Stil für deutsche Sprache
+
+\setcounter{secnumdepth}{3}				% Nummerierungsebene anpassen -> 3 = subsubsection werden nummeriert
+\setcounter{tocdepth}{1}   				% gliederungsebenen im Inhaltsverzeichnis -> erstmal nur zur übersicht was nicht vergessen werden darf
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+
+% ============= Kopf- und Fußzeile =============
+\pagestyle{fancy}
+
+%% Formatierung der Kopf- und Fußzeile
+\fancyhead{}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+%%
+\fancyfoot{}
+
+\renewcommand{\headrulewidth}{0.4pt}		% Bei zweiseitigem Dokument ausschließlich Linie in Kopfzeile
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% ============= Package Einstellungen & Sonstiges ============= 
+% Besondere Trennungen
+\hyphenation{Um-ge-bungs-tem-pe-ra-tur Um-ge-bungs-tem-pe-ra-tur-en Rauch-gas-tem-pe-ra-tur Aus-tritts-tem-pe-ra-tur}
+
+% Einstellung wie Code innerhalb der Arbeit gesetzt werden soll:
+\lstdefinestyle{Style}{
+	columns=flexible,
+	basicstyle=\ttfamily}
+\lstset{ 
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=none,                 % sets the caption-position to bottom
+	commentstyle=\color{deepblue},   % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	firstnumber=1,               	 % start line enumeration with line 1000
+	frame=single,	                 % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=Python,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	emphstyle=\color{deepred},
+	%numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{deepgreen},     % string literal style
+	tabsize=2,	                   	 % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+% nicht einrücken nach Absatz
+\setlength{\parindent}{0pt}
+\usepackage{parskip}		 			% verhindert einrücken und setzt einen kleinen Absatz
+
+\renewcommand{\arraystretch}{1.2}		% Abstand innerhalb der Tabellen einstellen

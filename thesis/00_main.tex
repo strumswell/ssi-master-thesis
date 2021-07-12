@@ -1,0 +1,65 @@
+% Base Template: https://www.overleaf.com/latex/templates/th-koln-2018-template-for-web-science-master-thesis/hcbvkhmvddbz
+\input{./latex/preamble.tex}
+\usepackage[utf8]{inputenc}
+
+\newcommand*{\mytitle}{Self-sovereign Identity: \\Development of an Implementation-based Evaluation Framework for Verifiable Credential SDKs} % Titel
+\newcommand*{\myinstitute}{Brandenburg University of Applied Sciences} % Institut
+\newcommand*{\myfaculty}{Department of Economics} % Weitere Hinweise
+\newcommand*{\myauthor}{Philipp Bolte} % Autoren
+\newcommand*{\myreporttype}{Master's Thesis} % Typ
+\newcommand*{\mydate}{\today} % Datum
+
+
+% ============= Dokumentbeginn =============
+
+\begin{document}
+	
+% Seiten ohne Kopf- und Fußzeile sowie Seitenzahl
+\pagestyle{empty}
+
+\include{latex/01_titel}	% Einbinden der Titelseite
+\newpage 					% Um Seite nach der Titelseite einzubinden -> bei eigener Titelseite und nicht der Latex-Version erforderlich
+\thispagestyle{empty}
+\quad 
+\newpage
+\pagenumbering{Roman}
+ 
+\cleardoubleoddpage
+
+
+\chapter*{Statutory Declaration}
+I hereby attest that I have written this thesis independently without any outside help and that I have used only the sources cited. \\~\\
+Brandenburg, \today\\[.6cm]
+Philipp Bolte\\
+\rule[0.5em]{20em}{0.5pt}
+
+\input{src/02_zusammenfassung}
+
+\tableofcontents			%Inhaltsverzeichnis
+\listoffigures				%Verzeichnis aller Bilder
+\listoftables				%Verzeichnis aller Tabellen
+\chapter*{List of Abbreviations}
+	\begin{acronym}[4GDH]	% Zur Formatierung hier die längste Abkürzung des Verzeichnisses eintragen
+		\acro{4GDH}{4th Generation District Heating} 	
+	\end{acronym}
+
+\pagestyle{fancy}
+
+\input{src/03_einleitung}
+\input{src/04_grundlagen}
+\input{src/05_hauptteil}
+\input{src/06_ergebnisse}
+\input{src/07_diskussion}
+
+%Literaturverzeichnis
+\newpage
+\lhead{}
+\rhead{\leftmark}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\bibliography{literature}
+
+\appendix
+
+\include{src/08_anhang}
+
+\end{document}
