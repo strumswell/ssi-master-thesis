@@ -1,7 +1,19 @@
 \chapter{Introduction}
 \pagenumbering{arabic}
-	\section{Motivation}
-	% Why is this important? What am I trying to do? What's the scope?
+	The Internet has become a cornerstone of coexistence in today's world. With over 4.66 billion Internet users worldwide \cite{johnson_internet_2021}, it determines how we communicate, think, inform ourselves, and interact with one another.	As a result, huge networks of people are being created in which different cultures are coming closer together and knowledge is being shared like never before.
+	A central enabler for the functioning of such interactions are digital identities, which are gaining an increasingly important role in our lives \cite{liu_blockchain-based_2020}.
+	
+	Over the course of our lives, we collect a large amount of digital identities from a wide variety of services, including Facebook, Twitter, WhatsApp, GitHub, LinkedIn, ORCID, and many more. Because of the way we manage digital identities in the current era, users mostly own separate identities for each service or go through centralized, federated identity providers like Google or Facebook. As a result of these key developments, centralized silos of identity data emerged, which are problematic concerning efficiency, security, and privacy. That this is problematic is shown by various historical data leaks and hacks in which sensitive user data was made public \cite{swinhoe_15_2021}. \cite{ehrlich_self-sovereign_2021}
+	
+	In contrast, the \ac{SSI} paradigm takes a new approach in trying to give users back control of their digital identities through various novel approaches. This paradigm is picked up by this work and looked at from the point of view of a developer. In the next sections, the objectives, related work and the research approach will be discussed.
+	
+	\section{Motivation} % might be the wrong word; maybe objectives? Or "Motivation and Objectives"?
+	
+	For a successful realization of \acf{SSI} concepts, the existence of good solutions for developers is critical. This ensures that the barriers to successful adoption of \ac{SSI} are kept to a minimum, simplifying and speeding up the entire process. A good toolset and developer experience is thus a key enabler for \ac{SSI}.
+	
+	With this in mind, an overview of the most important solutions\footnote{synonymous to SDKs, libraries, frameworks, and platforms} in the \ac{SSI} space will be established throughout the thesis. To scope the work accordingly, this thesis looks at the solutions in terms of how closely they can map the lifecycle of a \acf{VC}. It is intended to serve as an entry point for developers to get an overview of the capabilities of existing solutions and to give starting points for further research. 
+	Furthermore, a use case agnostic reference implementation is presented that implements four of the presented solutions based on the lifecycle. It can serve developers as a basis for their own work, but above all enables practical validation and the gathering of experience during implementation. In this way, the knowledge gained flows directly into a new evaluation framework, which, in addition to other software selection frameworks, can provide very concrete help in selecting the most suitable solution from the developer's point of view. Thus, this thesis introduces three new practical tools that may help in the adoption of \ac{SSI} by empowering developers.
+
 	\section{Related Work}
 	% What has already been done? Why is my work novel and what do I contribute to the space?
 	\section{Methodology}
