@@ -1,6 +1,7 @@
 %Dokumentklasse
 \documentclass[a4paper,12pt,makeidx,twoside,openright,numbers=noenddot]{scrreprt}
-\usepackage[left=3cm, right=2cm, bottom=2.5cm, top=3cm]{geometry}		% Formatierung der Seitenränder
+\usepackage[left=3cm, right=3cm, bottom=3cm, top=3cm]{geometry}		% Formatierung der Seitenränder
+%\usepackage[left=3cm, right=3cm, bottom=3cm, top=3cm]{geometry}		    % Formatierung der Seitenränder
 %\usepackage[onehalfspacing]{setspace}							        % verwendet für größeren Zeilenabstand
 
 % ============= Packages =============
@@ -33,7 +34,7 @@
 \usepackage{calc}  					
 \usepackage{enumitem}				% zb für align der description
 \usepackage[font=small,labelfont=bf]{caption}
-\usepackage{acronym}	% für Abkürzungen
+\usepackage[printonlyused]{acronym}	% für Abkürzungen
 \usepackage{multicol}
 \usepackage{booktabs}
 \usepackage{textcomp}
@@ -66,6 +67,8 @@
 \definecolor{deepblue}{rgb}{0,0,0.5}
 \definecolor{deepred}{rgb}{0.6,0,0}
 \definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\DeclareUnicodeCharacter{2212}{-}
 
 
 % ============= Kopf- und Fußzeile =============
