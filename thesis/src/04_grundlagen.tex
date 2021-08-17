@@ -89,7 +89,7 @@ Over the years, these ideas, among others like \cite{devon_what_2012, idcubedorg
 	    These thoughts were guiding and influenced various future organizations and initiatives. One influential organization in this area has been the \acf{IIW}, which grew out of efforts by the Identity Commons and the Identity Gang. The \ac{IIW} community played a major role in shaping what is understood by user-centric identity and supported key standards such as OpenID (2005), OpenID 2.0 (2006), OAuth (2010), and OpenID Connect (2014). \cite{allen_path_2016} summarizes the focus of these efforts with the terms user consent and interoperability, which were non-existent or difficult to implement in previous models. These protocols have also been able to achieve significant success when considering the abundance of social logins from for example Facebook, Google, GitHub and Microsoft, which have taken a central position on various websites \cite[p. 8]{preukschat_self-sovereign_2021}. Nevertheless, the original approach of user-centric identities could not be realized further. Like in previous approaches, the identity data and thus absolute control remain with the \ac{SSO} providers who register them. \cite{allen_path_2016} mentions OpenID as an example, which theoretically allows users to set up their own OpenID providers. However, the complexity is so great that in reality this option is hardly ever used. Accordingly, the original problems that user-centric identities were supposed to solve could only be partially solved, since central, mostly private actors have maintained their authority over identity data. Fundamentally, user-centric identities are still federated identities that are now merely interoperable, which is why some literature \cite{ehrlich_self-sovereign_2021, preukschat_self-sovereign_2021} does not list them separately. \cite{allen_path_2016} 
 	    
 	    \subsection{Self-sovereign Identity}
-	    \cite{allen_path_2016} refers to Self-sovereign Identity as the next and most current stage of digital identities, which is intended to solve the issues of all previous stages. In contrast to user-centric identities, users are not only at the center of the identity process, but should also be able to completely own and manage their identities. \cite[p. 12]{preukschat_self-sovereign_2021} describes this as a “[...] shift in control from the centers of the network [...] to the edges of the network [...]”, according to which all users interact directly with each other in a self-sovereign manner as peers.
+	    \cite{allen_path_2016} refers to Self-sovereign Identity as the next and most current stage of digital identities, which is intended to solve the issues of all previous stages. In contrast to user-centric identities, users are not only at the center of the identity process, but should also be able to completely own and manage their identities. \cite[p. 12]{preukschat_self-sovereign_2021} describes this as a “[...] shift in control from the centers of the network [...] to the edges of the network [...]”, according to which all users interact directly with each other in a self-sovereign manner as peers. This evolution can be seen in figure \ref{figure: shift}. 
 	    
 	    \begin{figure}[ht]
     	    \centering
@@ -97,18 +97,35 @@ Over the years, these ideas, among others like \cite{devon_what_2012, idcubedorg
             \caption{Shift of control with \acs{SSI} extracted from \cite[p. 12]{preukschat_self-sovereign_2021}}
             \label{figure: shift}
         \end{figure}
+        
+        Apparent here is the new element \textit{registry}, which is used as a (decentralized) public key infrastructure \cite[p. 89]{preukschat_self-sovereign_2021}. A more detailed explanation of this is given in section \ref{section: standards}. To further describe the character of \ac{SSI}, \cite{allen_path_2016} defined 10 principles, with which he connects to previous works like the “Laws of Identity” by \cite{cameron_laws_2005}. These are:
+        
+        \begin{enumerate}
+        	\item Existence: “Users must have an independent existence.”
+        	\item Control: “Users must control their identities.”
+        	\item Access: “Users must have access to their own data.”
+        	\item Transparency: “Systems and algorithms must be transparent.”
+        	\item Persistence: “Identities must be long-lived.”
+        	\item Portability: “Information and services about identity must be transportable.”
+        	\item Interoperability: “Identities should be as widely usable as possible.”
+        	\item Consent: “Users must agree to the use of their identity.”
+        	\item Minimalization: “Disclosure of claims must be minimized.”
+        	\item Protection: “The rights of users must be protected.”
+        \end{enumerate}
 	    
 	    SSI, according to \cite{allen_path_2016}, has its origins in the term “Sovereign Source Authority”, which originated in \cite{marlinspike_what_2012}. In this work, Marlinspike attributes to every human being the right to an identity, which is hindered by tight state structures. In the same year, work began on the Open Mustard Seed by Patric Deegan, which was intended to give users control over their digital identity in a decentralized system. This later resulted in the Windhover Principles (2014), under which the term Self-sovereign Identity appeared \cite{idcubedorg_id3_2014, hub_culture_hubid_2014}. These state, among other things, the following: \cite{allen_path_2016}
+	    
 	    \begin{displayquote}
             \textit{“Individuals [...] should have control over their digital identities and personal data ensuring trust in our communications, and the integrity of the data we share and transact with. [...] Individuals, not social networks, governments, or corporations, should control their identity credentials and personal data.”}
         \end{displayquote}
         
+        Over the course of the following years, \ac{SSI} in connection with blockchain technology was frequently also being discussed in the \ac{IIW} community as well, and various ideas were being developed. This eventually led to some official agencies taking a closer look at this topic. For example, the U.S. Department of Homeland Security Science \& Technology division published a report in 2015 in which it addressed the previously discussed topics by the \ac{IIW}. The EU and countries such as China and Korea have also recognized the potential. In order to make \ac{SSI} implementable in reality, various new standards have been defined over the years in the W3C, among others, which will be discussed in more detail in the next section. \cite[p. 6]{preukschat_self-sovereign_2021}
         \vfill
-
-	    
-	
+	   
 	% Four phases @Allen, add problems of those; types of identities, comparison
-	\section{Standards}
+	\section{Standards}\label{section: standards}
+	    In this section, an overview of various standards from different organizations is given. In addition, the two most important standards \textit{\ac{DID}} and \textit{\acf{vc}} will be discussed in more detail, as they are the basis for \ac{SSI} and various subsequent standards.
+	    
 	    \subsection{Overview}
 	    \subsection{Decentralized Identifier}
 	    % Zookos Triangle, Standard definition, did methods, did doc, lifecycle
