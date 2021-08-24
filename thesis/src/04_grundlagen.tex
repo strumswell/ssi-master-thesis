@@ -32,7 +32,7 @@ These are decades-old problems that were already critically discussed by Kim Cam
 
 Cameron attributes these problems to the lack of an identity layer on the Internet, which has resulted in many services having to find their own solutions. He calls this a \textit{patchwork of identity one-offs}, which fundamentally still exists today and is difficult to resolve. The reason for this, he says, is a lack of consensus and an unwillingness to give up too much control over identity data. A solution for this is, according to him, an \textit{identity metasystem} that abstracts away deeper complexities similar to hardware drivers or TCP/IP and only loosely couples digital identities to the systems.  Such an open identity layer could only be successful if it fulfilled the seven laws of identity defined by Cameron. These include criteria such as user control, consent, pluralism and minimal disclosure. \cite{cameron_laws_2005}
 
-Over the years, these ideas, among others like \cite{devon_what_2012, idcubedorg_id3_2014, allen_path_2016}, gave rise to the concept of \acf{SSI}. It is intended to eliminate the shortcomings of today's established concepts by placing the users in the center and giving them back complete control over their identity data. A user can decide what, to whom and how much data is shared without being dependent on a central authority. The emergence of blockchain technology and various new standards in recent years gave a new boost to implement \ac{SSI} in reality. [\citealp[pp. 6-7]{struker_grundlagen_2021}; \citealp[pp. 8-9]{tobin_inevitable_2017}]
+Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcubedorg_id3_2014, allen_path_2016}, gave rise to the concept of \acf{SSI}. It is intended to eliminate the shortcomings of today's established concepts by placing the users in the center and giving them back complete control over their identity data. A user can decide what, to whom and how much data is shared without being dependent on a central authority. The emergence of blockchain technology and various new standards in recent years gave a new boost to implement \ac{SSI} in reality. [\citealp[pp. 6-7]{struker_grundlagen_2021}; \citealp[pp. 8-9]{tobin_inevitable_2017}]
 
 \ac{SSI} is an entirely new approach to digital identities on the Internet and is seen as a paradigm shift that deeply affects the infrastructure and power distribution of the Internet \cite[p. 3]{preukschat_self-sovereign_2021}. For a more profound look at the topic, this chapter takes a closer look at Self-sovereign Identity. To do so, the concept of identity and the different types of identities will be discussed first. This is followed by a historical look at the different stages of digital identities, taking a closer look at the previous concepts of \ac{SSI}. After a basic foundation has been built, standards that have been established in recent years and are intended to make \ac{SSI} feasible in reality are described. Finally, the \ac{SSI} architecture with its components and roles will be looked at.
 
@@ -120,24 +120,102 @@ Over the years, these ideas, among others like \cite{devon_what_2012, idcubedorg
         \end{displayquote}
         
         Over the course of the following years, \ac{SSI} in connection with blockchain technology was frequently also being discussed in the \ac{IIW} community as well, and various ideas were being developed. This eventually led to some official agencies taking a closer look at this topic. For example, the U.S. Department of Homeland Security Science \& Technology division published a report in 2015 in which it addressed the previously discussed topics by the \ac{IIW}. The EU and countries such as China and Korea have also recognized the potential. In order to make \ac{SSI} implementable in reality, various new standards have been defined over the years in the W3C, among others, which will be discussed in more detail in the next section. \cite[p. 6]{preukschat_self-sovereign_2021}
-        \vfill
-	   
-	% Four phases @Allen, add problems of those; types of identities, comparison
-	\section{Standards}\label{section: standards}
-	    In this section, an overview of various standards from different organizations is given. In addition, the two most important standards \textit{\ac{DID}} and \textit{\acf{vc}} will be discussed in more detail, as they are the basis for \ac{SSI} and various subsequent standards.
-	    
-	    \subsection{Overview}
+        
+   	\section{Standards}\label{section: standards}
+	    In this section, the two most important standards \textit{\ac{DID}} and \textit{\acf{vc}} will be discussed in more detail, as they are the basis for \ac{SSI} and various subsequent standards.
+        
 	    \subsection{Decentralized Identifier}
+	    
+	    Throughout history, humans have built up various imaginary networks in which they have to identify themselves or objects and make them addressable. Be it physical, mutual networks, in which one identifies itself with one's name or be it postal or telephone networks in which it is the addresses or the telephone numbers. In the age of the Internet, various others have been introduced, such as IP addresses, e-mail addresses, domain names or usernames in social networks. Consequently, there are a large number of identifier systems, which can vary greatly in their nature and place of application. Zooko Wilcox-O'Hearn published an article on this subject in 2001 \cite{wilcox-ohearn_names_2001}, in which he describes a trilemma in identifier systems. According to this, an identifier can probably have at most two of the following properties: \cite[pp. 183-186]{preukschat_self-sovereign_2021}
+	    
+	    \begin{enumerate}
+        	\item Human-readable: Identifiers have semantic meaning in human language and thus have low entropy. 
+        	\item Secure: Identifiers are unique and thus bound to a single entity. Spoofing and impersonation should not be possible as well.
+        	\item Distributed: The namespace of the identifier is not managed by any central authority. Identifiers can be generated and resolved independently.
+        \end{enumerate}
+        
+        According to this, e-mail addresses, domain names and user names, for example, are human-readable and secure, but do not fulfil the distributed criterion. However, this is precisely what is needed for an SSI ecosystem in which users can own and manage their identity in a self-determined and sovereign manner. With the advent of blockchain technology, however, first solutions emerged that sought to break this problem and thus Zooko's Triangle. This involved the concept of decentralized domain services (see e.g. Namecoin or ENS), with which human-readable, secure and distributed identifiers can be generated. However, these are usually tied to the underlying blockchain and have intrinsic value due to their human-readable nature, which is why domains/ identifiers are often registered and held in such systems without actual use \cite{kalodner_empirical_2015}, questioning the utility of the system.
+        
+        To meet the requirements related to identifiers in an \ac{SSI} system, the W3C standard \textit{Decentralized Identifier} has been defined. These are \textit{globally unique} and \textit{location-independent} identifiers that can be generated autonomously by entities without central authorities and provide the ability to prove control over them through cryptographic evidence. Regarding Zooko's Triangle, \acp{DID} don't attempt to be human-readable and thus satisfy the properties secure and distributed \cite[p. 185]{preukschat_self-sovereign_2021}. \cite{sporny_decentralized_2021}
+        
+        The characteristics of a \ac{DID} can be summarized in the following points \cite[p. 160]{preukschat_self-sovereign_2021}: 
+        
+        \begin{enumerate}
+        	\item Persistent: \acp{DID} have no intrinsic expiration date and do not need to change.
+        	\item Resolvable: \acp{DID} are resolvable to retrieve additional metadata.
+        	\item Cryptographically Verifiable: The owner of a \ac{DID} can cryptographically prove control over it at any time. This is enabled by a public and private key pair being assigned to a \ac{DID}.
+        	\item Decentralized: A \ac{DID} \textit{can} be issued/ generated independently of a central authority.
+        \end{enumerate}
+        
+        To better visualize how \acp{DID} work, figure \ref{figure: didArchitecture} provides the \ac{DID} architecture with all its components and relations.
+        
+        % TODO: Put in vector version of graphic
+        \begin{figure}[ht]
+    	    \centering
+    	    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{thesis/img/8_did_arc.png}}
+            \caption{\ac{DID} architecture extracted from \cite{sporny_decentralized_2021}}
+            \label{figure: didArchitecture}
+        \end{figure}
+        
+        At the top is the \ac{DID} subject, which can be any entity and is represented by the \ac{DID}. The \ac{DID} itself, for example \texttt{did:example:123456789abcdefghi}, is the actual identifier, which consists of three parts. The first part \texttt{did} describes the identifier schema, \texttt{example} the \ac{DID} method and the third part \texttt{123456789abcdefghi} a \ac{DID} method-specific identifier which can be used to resolve the \ac{DID} document according to the \ac{DID} method. Since \acp{DID} are location-independent, they \textit{can} be recorded in different Verifiable Data Registries, for example blockchains or decentralized file systems. The \ac{DID} method defines any mechanisms for creating, resolving, updating and deactivating \acp{DID} and their \ac{DID} document that may be recorded on a specific data registry. Examples of \ac{DID} methods that rely on blockchains or layers built on top of them as a Verifiable Data Registry include \texttt{did:ethr}, \texttt{did:btcr}, and \texttt{did:ion} which are in contrast to static \ac{DID} methods like \texttt{did:key} which do not require a Verifiable Data Registry and usually wrap the public key from which the DID document can be derived \cite[p. 171]{preukschat_self-sovereign_2021}. The \ac{DID} document contains various metadata about the associated \ac{DID} and define things like verification methods, public keys, and possible service endpoints for interactions with the subject. Additionally, paths can be attached to \acp{DID} to address specific resources within the \ac{DID} document. These are the so-called \ac{DID} URLs. An example \ac{DID} document can be found in listing \ref{listing: didDoc}. \cite{sporny_decentralized_2021}
+        
+        \begin{lstlisting}[language=json, caption={\ac{DID} document example extracted from \cite{sporny_decentralized_2021}}, captionpos=b, label={listing: didDoc}]
+    {
+      "@context": [
+        "https://www.w3.org/ns/did/v1",
+        "https://w3id.org/security/suites/ed25519-2020/v1"
+      ]
+      "id": "did:example:123456789abcdefghi",
+        "authentication": [{
+            "id": "did:example:123456789abcdefghi#keys-1",
+            "type": "Ed25519VerificationKey2020",
+            "controller": "did:example:123456789abcdefghi",
+            "publicKeyMultibase": "zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+        }]
+    }
+        \end{lstlisting}
+        
+        Lastly, figure \ref{figure: didArchitecture} includes the \ac{DID} controller. This is another entity that is authorized to make changes to the \ac{DID} document. Most of the time the \ac{DID} controller is also the \ac{DID} subject, but in some cases these entities can be different (see for example parent-child relationship). \cite{sporny_decentralized_2021}
+        
+        In conclusion, then, the \ac{DID} specification is a W3C standard that enables decentralized identifiers for \ac{SSI} ecosystems. The next section presents Verifiable Credentials, which, in conjunction with \acp{DID}, form the basic building blocks of \ac{SSI}.
+	    
 	    % Zookos Triangle, Standard definition, did methods, did doc, lifecycle
-	    \subsection{Verifiable Credentials}
+	    \subsection{Verifiable Credentials}\label{vc}
 	    % Lifecycles, 
-
+	    
+	    \subsection{Verifiable Credentials}
+        
+    \section{Architecture}
+        In this section, various functional aspects of \ac{SSI} are described in more detail. For this purpose, the roles in a \ac{SSI} system indicated in figure \ref{figure: shift} are described in terms of their responsibilities and permissions. Then, the general technology stack is described in order to further explain the technological operations.
+        
+    	\subsection{Roles}
+    	
+    	In an SSI ecosystem, there are three basic roles that participants can occupy: Issuer, Verifier, and Holder. At the center of these roles are so-called credentials, which are exchanged between the participants.They contain statements about a participant whose integrity and origin can be confirmed beyond doubt, which is discussed in more detail in subsection X. The three roles are described in more detail below:
+    	
+    	\begin{enumerate}
+        	\item Issuer
+        	\item Holder
+        	\item Verifier
+        \end{enumerate}
+    	
+    	
+    	\subsection{Components}
+    	
+    	\begin{figure}[ht]
+            \centering
+            \makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{img/6_arch.eps}}
+            \caption{\ac{SSI} technology stack based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021, davie_0289_2021}}
+            \label{figure: ssi_stack}
+        \end{figure}
 		
 	\section{Recent Developments}
 		\subsection{DIDComm}
 		\subsection{Zero Knowledge Proofs}
 		\subsection{RevocationList2020}
-	
-	\section{Architecture}
-	\subsection{Roles}
-	\subsection{Components}
+		
+		\begin{figure}[htp]
+            \centering
+            \makebox[\textwidth]{\includegraphics[width=\textwidth]{img/7_arch_detail.eps}}
+            \caption{\ac{SSI} technology stack, standards, and community efforts based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021}}
+            \label{figure: ssi_stack_detail}
+        \end{figure}
