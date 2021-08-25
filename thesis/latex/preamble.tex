@@ -45,11 +45,7 @@
 \usepackage{csquotes}
 \usepackage{bera}% optional: just to have a nice mono-spaced font
 \usepackage{listings}
-\usepackage{xcolor}
-
-\definecolor{eclipseStrings}{RGB}{42,0.0,255}
-\definecolor{eclipseKeywords}{RGB}{127,0,85}
-\colorlet{numb}{magenta!60!black}
+\usepackage{color}
 
 % verschiedene Schriftarten
 %\usepackage{times} 				% times font
@@ -132,6 +128,9 @@
 	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 
+\definecolor{eclipseStrings}{RGB}{42,0.0,255}
+\definecolor{eclipseKeywords}{RGB}{127,0,85}
+\colorlet{numb}{magenta!60!black}
 \lstdefinelanguage{json}{
     basicstyle=\fontfamily{fvm}\selectfont\linespread{0.8},
     commentstyle=\color{eclipseStrings}, % style of comment
