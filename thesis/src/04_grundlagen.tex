@@ -41,6 +41,8 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
     \section{Identity}\label{section: identity}
 
     What defines a human being? One would probably get various answers to this question, such as its name, gender, place of residence, profession, hobbies, religion, charitable activities, party affiliation or even a combination of all these characteristics. \cite[p. 206]{claus_identity_2001} describes in his work that a person's identity is not just a single, fixed construct, but consists of several partial identities. Thus, depending on the context in which a person finds itself, it takes on one of its various partial identities, which represents it as a human being more or less. For example, a partial identity for health care consists of its medical history, while the partial identity towards work contains received certificates. Nevertheless, these different parts of the identity are not necessarily considered separately, as they can also overlap in certain aspects of information. It is important to mention that a person decides which information to share at which time towards which entity. In figure \ref{figure: alice} the concept of partial identities is illustrated exemplarily by a person Alice.
+
+    An important balancing act is to disclose the right amount of data to maintain anonymity, but also to provide the other person with the necessary information. For the purchase of a water, the kiosk vendor should not ask for any personal data, whereas verification of age when buying alcohol is a valid reason for information disclosure. In reality, official documents, such as state identification documents, or sometimes unofficial documents, such as customer cards, are usually used for such proof of identity. Here, users have full control over their documents as they are under their control, and only they can decide self-sovereignly whom and when to show them. Official identification documents are also produced and standardized to ensure the highest possible level of security and interoperability. Other countries can verify such documents without explicitly contacting authorities, simply by looking at the document. Confidence in the validity of the data arises from the fact that the verifying party trusts the authority issuing the document. \cite[p. 6]{struker_grundlagen_2021}
     
     \begin{figure}[ht]
         \centering
@@ -48,8 +50,6 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
         \caption{Partial Identities of Alice extracted from \cite{claus_identity_2001}}
         \label{figure: alice}
     \end{figure}
-
-    An important balancing act is to disclose the right amount of data to maintain anonymity, but also to provide the other person with the necessary information. For the purchase of a water, the kiosk vendor should not ask for any personal data, whereas verification of age when buying alcohol is a valid reason for information disclosure. In reality, official documents, such as state identification documents, or sometimes unofficial documents, such as customer cards, are usually used for such proof of identity. Here, users have full control over their documents as they are under their control, and only they can decide self-sovereignly whom and when to show them. Official identification documents are also produced and standardized to ensure the highest possible level of security and interoperability. Other countries can verify such documents without explicitly contacting authorities, simply by looking at the document. Confidence in the validity of the data arises from the fact that the verifying party trusts the authority issuing the document. \cite[p. 6]{struker_grundlagen_2021}
 
     As a result of the increasing digitalization of various branches of life, many processes are shifting to the digital world. Digital identities, which are similar to analogue identities in terms of their basic idea, are now being used for interacting with digital services. They allow entities, such as people or objects, to authenticate themselves online through certain attributes and thus prove their identity [\citealp[p. 103]{meinel_blockchain_2020}; \citealp{bundesdruckerei_so_2020}]. A more precise definition is given by Cameron \cite{cameron_laws_2005}, who defines digital identity as \textit{“A set of assertions that a digital subject makes about itself or another digital subject”}. In this context, a digital subject is \textit{“A person or thing represented or existing in the digital realm which is being described or dealt with.”} and the attributes mentioned can be represented in the form of claims, which are defined as \textit{“An assertion of the truth of something, typically one which is disputed or doubted”}. The problem is that analogue identities and their documents usually have no or not widely accepted \cite{krempl_e-government-studie_2019, koppenhofer_kabinettsbeschluss_2021} digital representations that could be used as a digital identity. From this emerged the patchwork of identity one-offs described in chapter \ref{chapter: ssi}, resulting in a divergence of digital identities from their original counterparts concerning their characteristics. To better understand this development, the next section describes the different stages of digital identities in more detail. [\citealp[p. 10]{struker_grundlagen_2021}; \citealp[p. 2]{ehrlich_self-sovereign_2021}]
     
@@ -124,7 +124,7 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
    	\section{Standards}\label{section: standards}
 	    In this section, the two most important standards \textit{\acf{DID}} and \textit{\acf{vc}} will be discussed in more detail, as they are the basis for \ac{SSI} and various subsequent standards.
         
-	    \subsection{Decentralized Identifier}
+	    \subsection{Decentralized Identifier}\label{subsection: did}
 	    
 	    Throughout history, humans have built up various imaginary networks in which they have to identify and address themselves or objects. Be it physical, mutual networks, in which one identifies itself with one's name or be it postal or telephone networks in which it is the addresses or the telephone numbers. In the age of the Internet, various others have been introduced, such as IP addresses, e-mail addresses, domain names or usernames in social networks. Consequently, there are a large number of identifier systems, which can vary greatly in their nature and place of application. Zooko Wilcox-O'Hearn published an article on this subject in 2001 \cite{wilcox-ohearn_names_2001}, in which he describes a trilemma in identifier systems. According to this, an identifier can probably have at most two of the following properties: \cite[pp. 183-186]{preukschat_self-sovereign_2021}
 	    
@@ -151,34 +151,34 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
         
         \begin{figure}[ht]
     	    \centering
-    	    \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{thesis/img/8_did_arc.png}}
+    	    \makebox[\textwidth]{\includegraphics[width=1\textwidth]{thesis/img/8_did_arc.png}}
             \caption{\ac{DID} architecture extracted from \cite{sporny_decentralized_2021} (TODO: VECTOR!)}
             \label{figure: didArchitecture}
         \end{figure}
         
         At the top is the \ac{DID} subject, which can be any entity and is represented by the \ac{DID}. The \ac{DID} itself, for example \texttt{did:example:123456789abcdefghi}, is the actual identifier, which consists of three parts. The first part \texttt{did} describes the identifier schema, \texttt{example} the \ac{DID} method and the third part \texttt{123456789abcdefghi} a \ac{DID} method-specific identifier which can be used to resolve the \ac{DID} document according to the \ac{DID} method. Since \acp{DID} are location-independent, they \textit{can} be recorded in different Verifiable Data Registries, for example blockchains or decentralized file systems. The \ac{DID} method defines any mechanisms for creating, resolving, updating and deactivating \acp{DID} and their \ac{DID} document that may be recorded on a specific data registry. Examples of \ac{DID} methods that rely on blockchains or layers built on top of them as a Verifiable Data Registry include \texttt{did:ethr}, \texttt{did:btcr}, and \texttt{did:ion} which are in contrast to static \ac{DID} methods like \texttt{did:key} which do not require a Verifiable Data Registry and usually wrap the public key from which the DID document can be derived \cite[p. 171]{preukschat_self-sovereign_2021}. The \ac{DID} document contains various metadata about the associated \ac{DID} and define things like verification methods, public keys, and possible service endpoints for interactions with the subject. Additionally, paths can be attached to \acp{DID} to address specific resources within the \ac{DID} document. These are the so-called \ac{DID} URLs. An example \ac{DID} document can be found in listing \ref{listing: didDoc}. \cite{sporny_decentralized_2021}
+        \newline
         
         \begin{lstlisting}[language=json, caption={\ac{DID} document example extracted from \cite{sporny_decentralized_2021}}, captionpos=b, label={listing: didDoc}]
-    {
-      "@context": [
-        "https://www.w3.org/ns/did/v1",
-        "https://w3id.org/security/suites/ed25519-2020/v1"
-      ]
-      "id": "did:example:123456789abcdefghi",
-        "authentication": [{
-            "id": "did:example:123456789abcdefghi#keys-1",
-            "type": "Ed25519VerificationKey2020",
-            "controller": "did:example:123456789abcdefghi",
-            "publicKeyMultibase": "zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-        }]
-    }
-        \end{lstlisting}
+{
+    "@context": [
+      "https://www.w3.org/ns/did/v1",
+      "https://w3id.org/security/suites/ed25519-2020/v1"
+    ]
+    "id": "did:example:123456789abcdefghi",
+    "authentication": [{
+      "id": "did:example:123456789abcdefghi#keys-1",
+      "type": "Ed25519VerificationKey2020",
+      "controller": "did:example:123456789abcdefghi",
+      "publicKeyMultibase": "zH3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+    }]
+}\end{lstlisting}
         
         Lastly, figure \ref{figure: didArchitecture} includes the \ac{DID} controller. This is another entity that is authorized to make changes to the \ac{DID} document. Most of the time the \ac{DID} controller is also the \ac{DID} subject, but in some cases these entities can be different (see for example parent-child relationship). \cite{sporny_decentralized_2021}
         
         In conclusion, the \ac{DID} specification is a W3C standard that enables decentralized identifiers for \ac{SSI} ecosystems. The next section presents Verifiable Credentials, which, in conjunction with \acp{DID}, form the basic building blocks of \ac{SSI}.
 	    
-	    \subsection{Verifiable Credentials}\label{vc}
+	    \subsection{Verifiable Credentials}\label{subsection: vc}
 	    
 	    Now that a standard has been created with \acp{DID}, with which entities can independently generate unique and authority-independent identifiers, there is still a need for a data model with which, in combination with \acp{DID}, identity data can be represented in a standardized way. For this purpose, the W3C defined the \acf{vc} standard. This defines \acp{vc} as a set of claims stated by an issuer in a tamper-evident way, allowing integrity and authorship to be cryptographically verified. A claim is thereby defined, similarly to subsection \ref{section: identity} by Cameron, as an \textit{“[...] assertion made about a subject.”} where a subject is a \textit{“[...] thing about which claims are made.”}. A \ac{vc} is written in JSON-LD and consists of three basic components, which are visualized in figure \ref{figure: vc components}. \cite{sporny_verifiable_2019}
 	    
@@ -189,7 +189,7 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
             \label{figure: vc components}
         \end{figure}
         
-        The credential metadata can define various properties of the \ac{vc} including its issuer, an expiration date, credential types, or a revocation mechanism that can be used to check whether the issuer has revoked the credential. After that, a set of claims can be defined by the issuer, which contains statements about the subject of the \ac{vc}. Finally, cryptographic proofs can be attached and used to verify the validity of the credential's contents. The standard distinguishes between two types of proofs: \cite{sporny_verifiable_2019}
+        The credential metadata can define various properties of the \ac{vc} including its issuer, an expiration date, credential types, or a revocation mechanism that can be used to check whether the issuer has revoked the credential. Thereafter, a set of claims can be defined by the issuer, which contains statements about the subject of the \ac{vc}. Finally, cryptographic proofs can be attached and used to verify the validity of the credential's contents. The standard distinguishes between two types of proofs: \cite{sporny_verifiable_2019}
         
         \begin{enumerate}
             \item External Proof: The contents of the credential are wrapped, thus converted into a different, cryptographically verifiable format. A well-known example of this are JSON web tokens, which are used today in many identity systems for the transfer of claims between multiple parties, providing a certain compatibility to existing systems. Effectively, the set of claims is represented in a digital signature, the JSON web signature. Since these were developed for the JSON format, proofs can only refer to an entire credential and not to individual attribute sets \cite{helmy_jwt_2020}. \cite{sporny_verifiable_2019}
@@ -226,12 +226,11 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
         "proofPurpose":"assertionMethod",
         "verificationMethod":"did:key:z6MkhMLpju5tqtbd54BSv7Sq2oRWQo6njMEywrbWAGAp3442#z6MkhM..."
     }
-}
-	   \end{lstlisting}
+}\end{lstlisting}
 	   
 	   Listing \ref{listing: vc example} also shows the basic building blocks described earlier. The document starts with a context definition to reference the semantic vocabulary. This is followed by a definition of the credential types, the issuer and the issuing time (credentials metadata). After that follows the actual claim in the object \texttt{credentialSubject}, where the subject and the corresponding degree are defined. At this point it also becomes clear how the \ac{DID} and \ac{vc} specifications are intertwined: both issuer and subject are defined by their DID.  The public private key pair belonging the issuer's DID becomes relevant especially in the next point: the proof. Here, the issuer uses the private key coupled to its DID to generate the Linked Data signature and thus makes the credential verifiable.
 	   
-	   Another important part of the standard are Verifiable Presentations. If a holder of a Verifiable Credential wants to present it to someone, it can combine one or more \acp{vc} in a Verifiable Presentation without invalidating the cryptographic proofs. This approach has several advantages. On the one hand, the owner of the credential can specify granularly which credentials it wants to disclose and, at the same time, a type of proof of ownership can be provided. This becomes particularly clear if one considers the structure of such a Verifiable Presentation in figure \ref{figure: vp components}. \cite{sporny_verifiable_2019}
+	   Another important part of the standard are \acfp{VP}. If a holder of a Verifiable Credential wants to present it to someone, it can combine one or more \acp{vc} in a Verifiable Presentation without invalidating the cryptographic proofs. This approach has several advantages. On the one hand, the owner of the credential can specify granularly which credentials it wants to disclose and, at the same time, a type of proof of ownership can be provided. This becomes particularly clear if one considers the structure of such a \ac{VP} in figure \ref{figure: vp components}. \cite{sporny_verifiable_2019}
 	   
 	   \begin{figure}[ht]
     	    \centering
@@ -240,43 +239,61 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
             \label{figure: vp components}
         \end{figure}
         
-        Once again, metadata is defined at the beginning, which can include attributed like the context and types. This is followed by the \acp{vc} to be presented, which are listed directly one after the other without any changes. Finally, a cryptographic proof follows, which the owner of the credentials generates with the private key of its \ac{DID}. This protects the integrity of the presentation and at the same time certifies that the credentials are actually presented by the owner of the \ac{DID}. The inclusion of the attributes \texttt{challenge} and \texttt{domain} in the proof can also provide protection against replay attacks, in which an attacker presents the intercepted presentation again to another verifier without authorization. \cite{sporny_verifiable_2019}
+        Once again, metadata is defined at the beginning, which can include attributes like the context and types. This is followed by the \acp{vc} to be presented, which are listed directly one after the other without any changes. Finally, a cryptographic proof follows, which the owner of the credentials generates with the private key of its \ac{DID}. This protects the integrity of the presentation and at the same time certifies that the credentials are actually presented by the owner of the \ac{DID}. The inclusion of the attributes \texttt{challenge} and \texttt{domain} in the proof can also provide protection against replay attacks, in which an attacker presents the intercepted presentation again to another verifier without authorization. \cite{sporny_verifiable_2019}
         
-        Having introduced Decentralized Identifiers and Verifiable Credentials as the backbone of an \ac{SSI} ecosystem, the next section will specify a few things in more detail. This includes the general technology stack of \ac{SSI}, and the roles and interactions in the lifecycle of a Verifiable Credential.
-        
-        \vfill
+        Having introduced Decentralized Identifiers and Verifiable Credentials as the backbone of an \ac{SSI} ecosystem, the next section will specify a few things in more detail.
 	   
     \section{Architecture}
-        In this section, various functional aspects of \ac{SSI} are described in more detail. For this purpose, the roles in a \ac{SSI} system indicated in figure \ref{figure: shift} are described in terms of their responsibilities and permissions. Then, the general technology stack is described in order to further explain the technological operations.
+        In this section, various functional aspects of \ac{SSI} are described in more detail. For this purpose, the roles and interactions in a \ac{SSI} system are described, followed by a general look at the technology stack.
         
     	\subsection{Roles}
     	
-    	In an SSI ecosystem, there are three basic roles that participants can occupy: Issuer, Verifier, and Holder. At the center of these roles are so-called credentials, which are exchanged between the participants.They contain statements about a participant whose integrity and origin can be confirmed beyond doubt, which is discussed in more detail in subsection X. The three roles are described in more detail below:
+    	In an SSI ecosystem, there are three basic roles that participants can occupy: issuer, verifier, and holder. They have already been briefly described in subsection \ref{subsection: vc} and are therefore an integral part of the \ac{vc} standard. The three roles are briefly presented below: [\citealp[pp. 25-26]{preukschat_self-sovereign_2021}; \citealp{sporny_verifiable_2019}]
     	
     	\begin{enumerate}
-        	\item Issuer
-        	\item Holder
-        	\item Verifier
+        	\item \textit{Issuer}: An entity that makes statements within a \ac{vc} about a subject. Such an entity can be organizations such as governments, universities, but also private individuals or objects such as sensors. An issuer transmits \acp{vc} to holders.
+        	\item \textit{Holder}: An entity that requests or receives \acp{vc} from issuers and manages them in a credential repository/ digital wallet. However, a holder may not always be the (credential) subject. Examples of these cases include a parent (holder) holding \acp{vc} for its child (subject) or a friend (holder) filling a prescription at the pharmacy for its sick friend (subject). Holders can also generate Presentations from Verifiable Credentials and show them to a verifier.  
+        	\item \textit{Verifier}: An entity that wants to verify certain attributes or claims of a subject. It may receive these in the form of \ac{VP}, which may contain those claims from one or more \acp{vc}. However, holders have control at all times over which attributes are passed to the verifier.
         \end{enumerate}
-    	
-    	
-    	\subsection{Components}
-    	
-    	\begin{figure}[ht]
-            \centering
-            \makebox[\textwidth]{\includegraphics[width=0.8\textwidth]{img/6_arch.eps}}
-            \caption{\ac{SSI} technology stack based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021, davie_0289_2021}}
-            \label{figure: ssi_stack}
+        
+        The roles and their relations are often called the trust triangle, as it describes how trust is formed in an \ac{SSI} ecosystem. Like in the real world, trust in the credentials comes from a verifier trusting the issuer. The figure \ref{figure: vc lifecycle} shows this triangle, but also visualizes how the roles interact with \acp{vc}, which is why this process is also called the Verifiable Credential Lifecycle. [\citealp[pp. 25-26]{preukschat_self-sovereign_2021}; \citealp{sporny_verifiable_2019}]
+        
+        \begin{figure}[htp]
+    	    \centering
+    	    \makebox[\textwidth]{\includesvg[inkscapelatex=false, width=0.75\textwidth]{img/11_vc_lifecycle.svg}}
+            \caption{Verifiable Credential Lifecycle edited and extracted from \cite{sporny_verifiable_2019}}
+            \label{figure: vc lifecycle}
         \end{figure}
+        
+        The lifecycle shows which phases a Verifiable Credential goes through and which roles perform which actions in these phases. At this point, the process is described using a Verifiable Credential representing a bachelor's degree as an example. Here, the issuer is a university, the holder is an alumnus, and the verifier is a potential employer. The process is as follows:  \cite{sporny_verifiable_2019}
+        
+        \begin{enumerate}
+            \item \textit{Issue}: The now alumnus has successfully defended its thesis. Its university then issues a Verifiable Credential to the \ac{DID} of the alumnus with its own \ac{DID}. As holder and subject, the alumnus stores the \ac{vc} in its digital wallet.
+            \item \textit{Transfer}: The alumnus can transfer this \ac{vc} to another holder, e.g., if he authorizes a friend to go to a governmental authority for him with the degree.
+            \item \textit{Present}: The alumnus presents the \ac{vc} of the bachelor's degree, optionally inside a \ac{VP}, to the potential employer as part of his application in order to have his degree verified.
+            \item \textit{Verify \& Check Status}: The potential employer checks the authenticity of the credential. This includes firstly checking that the credential meets the standard, the proofs are valid and is not revoked. To check the proof, the employer must resolve the \ac{DID} documents of the \acp{DID} in the credential to obtain the public keys. For this, depending on the DID methods used, the employer may need to query a verifiable data registry (see subsection \ref{subsection: did}. 
+            \item \textit{Revoke}: If the university wants to revoke and thus invalidate a \ac{vc} for some reason, it can do so. Depending on the implementation, this is also done with some kind of decentralized or central registry. One of them is described later on in subsection \ref{subsection: revocationlist2020}.
+            \item \textit{Delete}: A holder can delete a \ac{vc} from its digital wallet at any time, which does not affect its overall validity.
+        \end{enumerate}
+        
+        This process can be applied to any other use case and creates a system through defined standards, technologies and the described trust model, which in its basic characteristics also takes place in real interactions and where trust can form between entities.
+        
+    	\subsection{Technology Stack}
+    	
+    	Looking at the \ac{SSI} technology stack, figure \ref{figure: ssi_stack_detail} provides an overview that divides it into five basic layers. This is based on previous work from the Decentralized Identity Foundation and the Trust over IP organization \cite{heck_ssi_2020,hakan_yildiz_layers_2021, davie_0289_2021}. A notable change is that here the communication layer has been broken out of the agent layer. Even though it is mostly used by agents, it's not part of the agents itself, but rather an implemented software module leveraging the communication layer.
+    	
+		\begin{figure}[h]
+            \centering
+            \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{img/7_arch_detail.eps}}
+            \caption{\ac{SSI} technology stack, standards, and efforts based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021,davie_0289_2021}}
+            \label{figure: ssi_stack_detail}
+        \end{figure}
+        
+        The public trust layer is the baseline layer and thus forms the basis for all other layers above it. The aim here is to create a public trust registry that includes, for example, DIDs and their DID methods and thus serves as a (decentralized) public key infrastructure. As already mentioned, this may or may not imply the need for technologies like blockchains or decentralized file systems. In the subsequent agent layer, which fundamentally allows an entity to \textit{“[...] take actions, perform communications, store information, and track usage of the digital wallet.”} \cite[p. 192]{preukschat_self-sovereign_2021} and thus handles tasks related to storing \acp{vc} and \acp{DID} and performing key operations. This includes for example the generation of proofs, but also the deactivation or generation of new key pairs. On top of this is the communication layer, which handles the communication between agents. This includes transport, envelope, and credential exchange standards and protocols. On the fourth level is the credential layer, which includes all standards and technology used in the credentials' data model, such as formats, types of proofs, disclosure, and revocation. The top level is the application layer, which creates user applications based on the underlying layers that cover and implement specific use cases. This includes concrete data models for the credentials, but also business and application-specific logic and technology. \cite{heck_ssi_2020,hakan_yildiz_layers_2021, davie_0289_2021, preukschat_self-sovereign_2021}
+        
+        In addition to the general structure and elements of the layers, figure \ref{figure: ssi_stack_detail} contains concrete standards and community efforts which provide the layers with a technological basis. A differentiation is made here between the concrete efforts of the three most important organizations in this area. It should be noted at this point that this overview does not claim to be complete and is merely illustrative.
 		
 	\section{Recent Developments}
 		\subsection{DIDComm}
 		\subsection{Zero Knowledge Proofs}
-		\subsection{RevocationList2020}
-		
-		\begin{figure}[htp]
-            \centering
-            \makebox[\textwidth]{\includegraphics[width=\textwidth]{img/7_arch_detail.eps}}
-            \caption{\ac{SSI} technology stack, standards, and community efforts based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021}}
-            \label{figure: ssi_stack_detail}
-        \end{figure}
+		\subsection{RevocationList2020}\label{subsection: revocationlist2020}
