@@ -88,7 +88,7 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
 	    
 	    These thoughts were guiding and influenced various future organizations and initiatives. One influential organization in this area has been the \acf{IIW}, which grew out of efforts by the Identity Commons and the Identity Gang. The \ac{IIW} community played a major role in shaping what is understood by user-centric identity and supported key standards such as OpenID (2005), OpenID 2.0 (2006), OAuth (2010), and OpenID Connect (2014). \cite{allen_path_2016} summarizes the focus of these efforts with the terms user consent and interoperability, which were non-existent or difficult to implement in previous models. These protocols have also been able to achieve significant success when considering the abundance of social logins from for example Facebook, Google, GitHub and Microsoft, which have taken a central position on various websites \cite[p. 8]{preukschat_self-sovereign_2021}. Nevertheless, the original approach of user-centric identities could not be realized further. Like in previous approaches, the identity data and thus absolute control remain with the \ac{SSO} providers who register them. \cite{allen_path_2016} mentions OpenID as an example, which theoretically allows users to set up their own OpenID providers. However, the complexity is so great that in reality this option is hardly ever used. Accordingly, the original problems that user-centric identities were supposed to solve could only be partially solved, since central, mostly private actors have maintained their authority over identity data. Fundamentally, user-centric identities are still federated identities that are now merely interoperable, which is why some literature \cite{ehrlich_self-sovereign_2021, preukschat_self-sovereign_2021} does not list them separately. \cite{allen_path_2016} 
 	    
-	    \subsection{Self-sovereign Identity}
+	    \subsection{Self-sovereign Identity}\label{subsection: stage ssi}
 	    \cite{allen_path_2016} refers to Self-sovereign Identity as the next and most current stage of digital identities, which is intended to solve the issues of all previous stages. In contrast to user-centric identities, users are not only at the center of the identity process, but should also be able to completely own and manage their identities. \cite[p. 12]{preukschat_self-sovereign_2021} describes this as a “[...] shift in control from the centers of the network [...] to the edges of the network [...]”, according to which all users interact directly with each other in a self-sovereign manner as peers. This evolution can be seen in figure \ref{figure: shift}. 
 	    
 	    \begin{figure}[ht]
@@ -285,15 +285,61 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
 		\begin{figure}[h]
             \centering
             \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{img/7_arch_detail.eps}}
-            \caption{\ac{SSI} technology stack, standards, and efforts based on  \cite{heck_ssi_2020,hakan_yildiz_layers_2021,davie_0289_2021}}
+            \caption{\ac{SSI} technology stack, standards, and efforts based on  \cite{heck_ssi_2020, yildiz_layers_2021,davie_0289_2021}}
             \label{figure: ssi_stack_detail}
         \end{figure}
         
-        The public trust layer is the baseline layer and thus forms the basis for all other layers above it. The aim here is to create a public trust registry that includes, for example, DIDs and their DID methods and thus serves as a (decentralized) public key infrastructure. As already mentioned, this may or may not imply the need for technologies like blockchains or decentralized file systems. In the subsequent agent layer, which fundamentally allows an entity to \textit{“[...] take actions, perform communications, store information, and track usage of the digital wallet.”} \cite[p. 192]{preukschat_self-sovereign_2021} and thus handles tasks related to storing \acp{vc} and \acp{DID} and performing key operations. This includes for example the generation of proofs, but also the deactivation or generation of new key pairs. On top of this is the communication layer, which handles the communication between agents. This includes transport, envelope, and credential exchange standards and protocols. On the fourth level is the credential layer, which includes all standards and technology used in the credentials' data model, such as formats, types of proofs, disclosure, and revocation. The top level is the application layer, which creates user applications based on the underlying layers that cover and implement specific use cases. This includes concrete data models for the credentials, but also business and application-specific logic and technology. \cite{heck_ssi_2020,hakan_yildiz_layers_2021, davie_0289_2021, preukschat_self-sovereign_2021}
+        The public trust layer is the baseline layer and thus forms the basis for all other layers above it. The aim here is to create a public trust registry that includes, for example, \acp{DID} and their \ac{DID} methods and thus serves as a (decentralized) public key infrastructure. As already mentioned, this may or may not imply the need for technologies like blockchains or decentralized file systems. In the subsequent agent layer, which fundamentally allows an entity to \textit{“[...] take actions, perform communications, store information, and track usage of the digital wallet.”} \cite[p. 192]{preukschat_self-sovereign_2021} and thus handles tasks related to storing \acp{vc} and \acp{DID} and performing key operations. This includes for example the generation of proofs, but also the deactivation or generation of new key pairs. On top of this is the communication layer, which handles the communication between agents. This includes transport, envelope, and credential exchange standards and protocols. On the fourth level is the credential layer, which includes all standards and technology used in the credentials' data model, such as formats, types of proofs, disclosure, and revocation. The top level is the application layer, which creates user applications based on the underlying layers that cover and implement specific use cases. This includes concrete data models for the credentials, but also business and application-specific logic and technology. \cite{heck_ssi_2020, yildiz_layers_2021, davie_0289_2021, preukschat_self-sovereign_2021}
         
         In addition to the general structure and elements of the layers, figure \ref{figure: ssi_stack_detail} contains concrete standards and community efforts which provide the layers with a technological basis. A differentiation is made here between the concrete efforts of the three most important organizations in this area. It should be noted at this point that this overview does not claim to be complete and is merely illustrative.
 		
 	\section{Recent Developments}
+	    As mentioned in the last subsection and in figure \ref{figure: ssi_stack_detail}, there are various community efforts that try to fill the gaps in the SSI stack. Therefore, three of the most important efforts are examined in more detail in the following subsections. The selection was made by observations of the reference implementation and the last Internet Identity Workshop in April 2021.
+	    
 		\subsection{DIDComm}
-		\subsection{Zero Knowledge Proofs}
+		
+		DIDComm, or DID communication, is a standard for secure, asynchronous, peer-to-peer communication between agents based on the DID standard. It is managed by the DID-Comm Working Group of the Decentralized Identity Foundation \cite{hardman_didcomm_2021} and originated from efforts of the Hyperledger project \cite{hardman_aries_2019}. Messages are agnostic of the transport medium, so existing protocols such as HTTP, Bluetooth, NFC, or even QR codes can be used.  Moreover, the standard focuses on machine-readable messages, which enables a broader mass of use cases where all kinds of entities can exchange any kind of encrypted messages. \cite[pp. 96-97]{preukschat_self-sovereign_2021}
+		
+		If an entity A wants to send a message to entity B, it prepares a JSON message and retrieves the DID document of B's DID. Out of this, it needs two pieces of information: A messaging endpoint and the public key. With the latter, A can encrypt the message so that only B can decrypt it. In addition, A attaches a signature that it created with its own private key. This allows B to verify the integrity and origin of the message. Depending on the messaging endpoint and the transport route, the message is either delivered directly or scheduled for several hops via intermediaries. The standard provides various routing-specific information for this. If B now receives the message, it can decrypt it with its private key and verify the signature with As public key. If everything is correct, B can reply in the analogous way to As's procedure. The specification describes its goals in eight points: \cite{hardman_didcomm_2021}
+		
+		\begin{enumerate}
+		    \item Secure: Temper-proof using cryptography.
+		    \item Private: Intermediaries don't know who is when communicating about what. Senders can be anonymous.
+		    \item Decentralized: Trust is based on keys derived from control of \acp{DID}
+		    \item Transport-agnostic: Usable with any transport protocol. No matter if simplex, duplex, synchronous, asynchronous, online, or offline.
+		    \item Routable: Messages can be routed like email through any kind of infrastructure.
+		    \item Interoperable: Independent of hardware or software.
+		    \item Extensible: Easily extensible by developers.
+		    \item Efficient: Low resource requirements.
+		\end{enumerate}
+		
+		To better understand the structure of a DIDcomm message, listing \ref{listing: didcomm example} shows a plaintext version.
+		\newline
+		
+		        \begin{lstlisting}[language=json, caption={Plaintext DIDComm message extracted from \cite{hardman_didcomm_2021}}, captionpos=b, label={listing: didcomm example}]  
+{
+    "typ": "application/didcomm-plain+json",
+    "id": "1234567890",
+    "type": "<message-type-uri>",
+    "from": "did:example:alice",
+    "to": ["did:example:bob"],
+    "created_time": 1516269022,
+    "expires_time": 1516385931,
+    "body": {
+      "messagespecificattribute": "and its value"
+    }
+}\end{lstlisting}
+
+        Subsequently, \texttt{type} describes the media type of the message, i.e. whether it is unencrypted, encrypted, and or signed. This is relevant for the corresponding library how to handle the content. DIDComm relies here on some JSON Web Algorithms from the JOSE (Javascript Object Signing and Encryption) family, which standardizes these cryptographic operations. \texttt{id} is the message ID and identifies the message exactly. Next, \texttt{type} describes what kind of message is in plaintext so that it can be handled correctly at the application level later. The next two attributes \texttt{from} and \texttt{to} define the \ac{DID} of the sender and the \acp{DID} of the recipients, followed by timestamps defining the creation and expiration time of the message. All attributes up to this point are the so-called message header, which is followed by the \texttt{body} containing the actual message. \cite{hardman_didcomm_2021}
+        
+        The specification is much more detailed in many points, but this will not be considered further here with regard to the scope of this work. DIDComm as a secure communication method over \acp{DID} is considered one of the most promising specifications in this area \cite[p. 97]{preukschat_self-sovereign_2021} and can significantly contribute to how entities can exchange simple messages or even \acp{vc} peer-to-peer. Nevertheless, DIDComm is still relatively new, so its toolset and adoption is still relatively small.
+		
+		\subsection{BBS+}
+		
+		With regard to subsection \ref{subsection: stage ssi}, Allen describes in his ten principles for SSI, among other things, the principle of “minimization”, according to which the number of released claims should be kept as low as possible. This is also known as selective disclosures, according to which a user can keep certain attributes of a credential secret, which corresponds to the blackening of documents in the analog world. The next step to this approach are so-called zero knowledge proofs, where the actual attribute is not shared, but a value that confirms what the verifier wants to know. For example, if an age check takes place, the verifier does not actually need to know the exact age but only the fact whether the person is over 18 or not. There are two basic approaches to this in the community: Camenisch-Lysyanskaya signatures and BBS+ signatures. Camenisch-Lysyanskaya signatures were one of the first implementations in the form of Anoncreds v1, but were dependent on published schemes for each credential on a ledger and therefore not standard-compliant. Furthermore, they were accompanied by large keys and large credentials that were costly to generate \cite{zundel_why_2021}. \cite{young_verifiable_2021}
+		
+		In the fall of 2020, MATTR announced BBS+ LD proofs that promised the same benefits while maintaining compatibility with the \ac{vc} specification and reducing credentials and signature size. In addition, credentials were significantly smaller and signatures were faster to generate. \cite{zundel_why_2021}
+		
+		... to be continued.
+		
 		\subsection{RevocationList2020}\label{subsection: revocationlist2020}
