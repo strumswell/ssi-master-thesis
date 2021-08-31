@@ -1,0 +1,3227 @@
+{
+  "renovate[bot]": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/686",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-30T09:16:19Z",
+        "updated_at": "2021-08-30T17:57:07Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/686",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-30T09:16:19Z",
+        "updated_at": "2021-08-30T17:57:07Z",
+        "closed_at": null,
+        "labels": []
+      }
+    ]
+  },
+  "mirceanis": {
+    "author_association": "MEMBER",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/681",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-26T13:11:22Z",
+        "updated_at": "2021-08-26T14:01:20Z",
+        "closed_at": "2021-08-26T14:01:20Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/676",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-24T15:03:35Z",
+        "updated_at": "2021-08-31T12:11:02Z",
+        "closed_at": "2021-08-31T12:11:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/618",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-14T08:17:10Z",
+        "updated_at": "2021-07-14T09:47:14Z",
+        "closed_at": "2021-07-14T09:47:14Z",
+        "labels": ["bug", "enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/583",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-21T08:30:31Z",
+        "updated_at": "2021-07-12T13:21:21Z",
+        "closed_at": null,
+        "labels": ["enhancement", "pinned"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/559",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-11T15:15:42Z",
+        "updated_at": "2021-06-26T05:11:49Z",
+        "closed_at": "2021-06-26T05:11:49Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/558",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-11T15:13:32Z",
+        "updated_at": "2021-06-26T05:11:49Z",
+        "closed_at": "2021-06-26T05:11:49Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/556",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-10T09:48:14Z",
+        "updated_at": "2021-06-11T10:08:04Z",
+        "closed_at": "2021-06-11T10:08:04Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/681",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-26T13:11:22Z",
+        "updated_at": "2021-08-26T14:01:20Z",
+        "closed_at": "2021-08-26T14:01:20Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/676",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-24T15:03:35Z",
+        "updated_at": "2021-08-31T12:11:02Z",
+        "closed_at": "2021-08-31T12:11:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/618",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-14T08:17:10Z",
+        "updated_at": "2021-07-14T09:47:14Z",
+        "closed_at": "2021-07-14T09:47:14Z",
+        "labels": ["bug", "enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/583",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-21T08:30:31Z",
+        "updated_at": "2021-07-12T13:21:21Z",
+        "closed_at": null,
+        "labels": ["enhancement", "pinned"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/559",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-11T15:15:42Z",
+        "updated_at": "2021-06-26T05:11:49Z",
+        "closed_at": "2021-06-26T05:11:49Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/558",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-11T15:13:32Z",
+        "updated_at": "2021-06-26T05:11:49Z",
+        "closed_at": "2021-06-26T05:11:49Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/556",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-10T09:48:14Z",
+        "updated_at": "2021-06-11T10:08:04Z",
+        "closed_at": "2021-06-11T10:08:04Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/549",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-07T10:22:54Z",
+        "updated_at": "2021-06-07T14:44:20Z",
+        "closed_at": "2021-06-07T14:44:20Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/541",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-05-28T11:06:55Z",
+        "updated_at": "2021-06-10T10:18:58Z",
+        "closed_at": "2021-06-10T10:18:58Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/540",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-05-28T11:04:15Z",
+        "updated_at": "2021-07-12T13:49:04Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/539",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-05-28T11:03:32Z",
+        "updated_at": "2021-07-01T11:01:17Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/538",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-05-28T11:01:55Z",
+        "updated_at": "2021-06-07T13:22:52Z",
+        "closed_at": "2021-06-07T13:22:52Z",
+        "labels": ["bug", "enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/523",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-05-18T10:23:40Z",
+        "updated_at": "2021-05-18T13:59:34Z",
+        "closed_at": "2021-05-18T13:59:33Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/382",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-02-15T10:20:29Z",
+        "updated_at": "2021-04-27T11:18:51Z",
+        "closed_at": "2021-04-27T11:18:51Z",
+        "labels": ["documentation", "enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/372",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-02-08T10:55:50Z",
+        "updated_at": "2021-06-19T10:08:18Z",
+        "closed_at": null,
+        "labels": ["enhancement", "tests", "maintenance", "Epic", "pinned"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/367",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-02-04T10:20:33Z",
+        "updated_at": "2021-02-08T17:53:58Z",
+        "closed_at": "2021-02-08T17:53:58Z",
+        "labels": ["bug", "maintenance"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/359",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-29T16:57:05Z",
+        "updated_at": "2021-07-10T20:43:05Z",
+        "closed_at": null,
+        "labels": ["enhancement", "pinned"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/358",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-01-29T10:16:03Z",
+        "updated_at": "2021-02-08T16:56:41Z",
+        "closed_at": "2021-02-08T16:56:41Z",
+        "labels": ["enhancement", "help wanted", "tests", "maintenance"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/348",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-01-25T15:11:47Z",
+        "updated_at": "2021-02-22T14:51:06Z",
+        "closed_at": null,
+        "labels": ["planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/302",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-12-16T17:12:10Z",
+        "updated_at": "2020-12-17T18:43:01Z",
+        "closed_at": "2020-12-17T18:43:01Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/291",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-12-09T16:35:18Z",
+        "updated_at": "2020-12-10T10:29:23Z",
+        "closed_at": "2020-12-10T10:29:23Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/288",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-12-08T17:34:42Z",
+        "updated_at": "2020-12-09T10:48:30Z",
+        "closed_at": "2020-12-09T10:48:30Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/264",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-11-17T09:37:58Z",
+        "updated_at": "2020-12-17T18:43:01Z",
+        "closed_at": "2020-12-17T18:43:01Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/231",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-09-03T15:48:36Z",
+        "updated_at": "2020-12-16T17:36:13Z",
+        "closed_at": "2020-12-16T17:36:12Z",
+        "labels": ["bug", "enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/173",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-05-29T14:20:35Z",
+        "updated_at": "2021-01-25T17:23:28Z",
+        "closed_at": "2021-01-25T17:23:27Z",
+        "labels": ["enhancement", "help wanted", "wontfix", "tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/172",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-05-29T14:17:24Z",
+        "updated_at": "2020-12-18T16:53:39Z",
+        "closed_at": "2020-12-18T16:53:39Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/171",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-05-29T14:10:14Z",
+        "updated_at": "2020-12-26T06:24:19Z",
+        "closed_at": "2020-12-26T06:24:19Z",
+        "labels": ["enhancement", "wontfix", "veramo-core"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/170",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-05-29T14:01:57Z",
+        "updated_at": "2020-12-18T16:55:46Z",
+        "closed_at": "2020-12-18T16:55:46Z",
+        "labels": ["enhancement", "veramo-core"]
+      }
+    ]
+  },
+  "RobertoSnap": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/680",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-08-26T06:30:04Z",
+        "updated_at": "2021-08-26T08:28:05Z",
+        "closed_at": null,
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/677",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2021-08-24T15:10:06Z",
+        "updated_at": "2021-08-25T13:53:12Z",
+        "closed_at": "2021-08-25T13:53:12Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/674",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-23T20:32:11Z",
+        "updated_at": "2021-08-25T12:00:36Z",
+        "closed_at": "2021-08-25T12:00:36Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/664",
+        "state": "open",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-08-12T11:27:31Z",
+        "updated_at": "2021-08-24T15:21:02Z",
+        "closed_at": null,
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/655",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-08-09T13:58:06Z",
+        "updated_at": "2021-08-24T15:01:09Z",
+        "closed_at": "2021-08-24T15:01:09Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/586",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-06-25T08:21:44Z",
+        "updated_at": "2021-07-12T13:24:19Z",
+        "closed_at": null,
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/680",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-08-26T06:30:04Z",
+        "updated_at": "2021-08-26T08:28:05Z",
+        "closed_at": null,
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/677",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2021-08-24T15:10:06Z",
+        "updated_at": "2021-08-25T13:53:12Z",
+        "closed_at": "2021-08-25T13:53:12Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/674",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-23T20:32:11Z",
+        "updated_at": "2021-08-25T12:00:36Z",
+        "closed_at": "2021-08-25T12:00:36Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/664",
+        "state": "open",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-08-12T11:27:31Z",
+        "updated_at": "2021-08-24T15:21:02Z",
+        "closed_at": null,
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/655",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-08-09T13:58:06Z",
+        "updated_at": "2021-08-24T15:01:09Z",
+        "closed_at": "2021-08-24T15:01:09Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/586",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-06-25T08:21:44Z",
+        "updated_at": "2021-07-12T13:24:19Z",
+        "closed_at": null,
+        "labels": ["enhancement"]
+      }
+    ]
+  },
+  "awoie": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/668",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-16T13:20:36Z",
+        "updated_at": "2021-08-16T13:22:00Z",
+        "closed_at": "2021-08-16T13:22:00Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/640",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-26T13:15:12Z",
+        "updated_at": "2021-07-26T13:15:45Z",
+        "closed_at": "2021-07-26T13:15:45Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/632",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-22T10:55:57Z",
+        "updated_at": "2021-07-22T13:09:21Z",
+        "closed_at": "2021-07-22T13:07:34Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/612",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-09T10:57:56Z",
+        "updated_at": "2021-07-22T09:35:11Z",
+        "closed_at": null,
+        "labels": ["incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/611",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-08T12:07:54Z",
+        "updated_at": "2021-08-04T11:43:34Z",
+        "closed_at": null,
+        "labels": ["incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/609",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-07T17:41:12Z",
+        "updated_at": "2021-07-08T09:35:42Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/608",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-07T14:16:53Z",
+        "updated_at": "2021-07-22T09:12:16Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/607",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-07T14:15:57Z",
+        "updated_at": "2021-08-04T11:36:48Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/604",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-06T12:59:11Z",
+        "updated_at": "2021-07-06T12:59:11Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/603",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T12:50:26Z",
+        "updated_at": "2021-07-12T09:19:55Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/602",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T12:48:52Z",
+        "updated_at": "2021-07-07T14:31:29Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/596",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-30T18:06:08Z",
+        "updated_at": "2021-07-06T12:52:40Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/595",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-30T18:05:48Z",
+        "updated_at": "2021-07-08T17:40:25Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/585",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-21T14:29:04Z",
+        "updated_at": "2021-07-07T13:14:33Z",
+        "closed_at": "2021-07-07T13:14:33Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/668",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-08-16T13:20:36Z",
+        "updated_at": "2021-08-16T13:22:00Z",
+        "closed_at": "2021-08-16T13:22:00Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/640",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-26T13:15:12Z",
+        "updated_at": "2021-07-26T13:15:45Z",
+        "closed_at": "2021-07-26T13:15:45Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/632",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-22T10:55:57Z",
+        "updated_at": "2021-07-22T13:09:21Z",
+        "closed_at": "2021-07-22T13:07:34Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/612",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-09T10:57:56Z",
+        "updated_at": "2021-07-22T09:35:11Z",
+        "closed_at": null,
+        "labels": ["incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/611",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-08T12:07:54Z",
+        "updated_at": "2021-08-04T11:43:34Z",
+        "closed_at": null,
+        "labels": ["incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/609",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-07T17:41:12Z",
+        "updated_at": "2021-07-08T09:35:42Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/608",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-07T14:16:53Z",
+        "updated_at": "2021-07-22T09:12:16Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/607",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-07T14:15:57Z",
+        "updated_at": "2021-08-04T11:36:48Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/604",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-06T12:59:11Z",
+        "updated_at": "2021-07-06T12:59:11Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/603",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T12:50:26Z",
+        "updated_at": "2021-07-12T09:19:55Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/602",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T12:48:52Z",
+        "updated_at": "2021-07-07T14:31:29Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/596",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-30T18:06:08Z",
+        "updated_at": "2021-07-06T12:52:40Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/595",
+        "state": "open",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-30T18:05:48Z",
+        "updated_at": "2021-07-08T17:40:25Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/585",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-21T14:29:04Z",
+        "updated_at": "2021-07-07T13:14:33Z",
+        "closed_at": "2021-07-07T13:14:33Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/553",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-08T16:40:12Z",
+        "updated_at": "2021-06-25T14:28:10Z",
+        "closed_at": "2021-06-25T14:28:09Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/552",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-06-08T16:39:24Z",
+        "updated_at": "2021-07-08T13:26:03Z",
+        "closed_at": "2021-07-08T13:26:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/493",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-26T13:59:59Z",
+        "updated_at": "2021-07-08T00:46:45Z",
+        "closed_at": "2021-07-08T00:46:45Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/492",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-26T13:59:30Z",
+        "updated_at": "2021-07-08T00:46:46Z",
+        "closed_at": "2021-07-08T00:46:46Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/491",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:59:06Z",
+        "updated_at": "2021-06-25T14:29:27Z",
+        "closed_at": "2021-06-25T14:29:27Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/490",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:58:40Z",
+        "updated_at": "2021-06-25T14:29:27Z",
+        "closed_at": "2021-06-25T14:29:27Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/489",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:58:12Z",
+        "updated_at": "2021-06-25T14:29:28Z",
+        "closed_at": "2021-06-25T14:29:27Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/488",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:57:13Z",
+        "updated_at": "2021-06-25T14:30:07Z",
+        "closed_at": "2021-06-25T14:29:27Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/487",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:56:47Z",
+        "updated_at": "2021-06-25T14:28:43Z",
+        "closed_at": "2021-06-25T14:28:43Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/486",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-26T13:56:23Z",
+        "updated_at": "2021-06-25T14:28:47Z",
+        "closed_at": "2021-06-25T14:28:47Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/485",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-26T13:55:49Z",
+        "updated_at": "2021-07-08T00:46:47Z",
+        "closed_at": "2021-07-08T00:46:47Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/484",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-04-26T13:55:08Z",
+        "updated_at": "2021-07-06T13:00:07Z",
+        "closed_at": "2021-07-06T13:00:06Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/483",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-04-26T13:54:39Z",
+        "updated_at": "2021-07-06T13:00:37Z",
+        "closed_at": "2021-07-06T13:00:30Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/476",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-21T09:03:44Z",
+        "updated_at": "2021-07-09T13:08:37Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/475",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-20T15:04:57Z",
+        "updated_at": "2021-06-25T14:28:30Z",
+        "closed_at": "2021-06-25T14:28:30Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/474",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-04-20T15:03:03Z",
+        "updated_at": "2021-06-25T14:28:22Z",
+        "closed_at": "2021-06-25T14:28:22Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/473",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-04-20T15:02:06Z",
+        "updated_at": "2021-06-25T14:23:50Z",
+        "closed_at": "2021-06-25T14:23:09Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/472",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-04-20T15:00:42Z",
+        "updated_at": "2021-06-01T14:16:12Z",
+        "closed_at": "2021-06-01T14:15:55Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/471",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-04-20T14:58:44Z",
+        "updated_at": "2021-06-14T14:23:08Z",
+        "closed_at": "2021-06-14T14:23:07Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/470",
+        "state": "closed",
+        "locked": false,
+        "comments": 7,
+        "created_at": "2021-04-20T14:56:53Z",
+        "updated_at": "2021-07-21T11:40:13Z",
+        "closed_at": "2021-07-21T11:40:12Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/469",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-04-20T14:56:19Z",
+        "updated_at": "2021-07-08T13:26:03Z",
+        "closed_at": "2021-07-08T13:26:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/468",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-04-20T14:55:46Z",
+        "updated_at": "2021-08-22T19:46:49Z",
+        "closed_at": "2021-08-22T19:46:49Z",
+        "labels": ["wontfix", "Epic"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/467",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-20T14:54:52Z",
+        "updated_at": "2021-06-09T09:04:58Z",
+        "closed_at": "2021-06-09T09:04:58Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/466",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-20T14:54:14Z",
+        "updated_at": "2021-06-14T15:03:21Z",
+        "closed_at": "2021-06-14T15:03:20Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/465",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-20T14:53:33Z",
+        "updated_at": "2021-06-20T12:13:12Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature", "Epic", "pinned"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/436",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-03-29T15:38:45Z",
+        "updated_at": "2021-05-03T13:52:02Z",
+        "closed_at": "2021-05-03T13:52:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/435",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-03-29T15:34:52Z",
+        "updated_at": "2021-07-08T00:46:44Z",
+        "closed_at": "2021-07-08T00:46:44Z",
+        "labels": ["wontfix", "blocked"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/376",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-02-08T15:44:05Z",
+        "updated_at": "2021-03-22T13:36:04Z",
+        "closed_at": "2021-03-22T13:36:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/352",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-01-26T13:33:46Z",
+        "updated_at": "2021-04-16T16:08:38Z",
+        "closed_at": "2021-04-16T16:08:38Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/336",
+        "state": "open",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-01-18T14:28:24Z",
+        "updated_at": "2021-07-08T01:29:38Z",
+        "closed_at": null,
+        "labels": ["enhancement", "blocked"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/85",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-02-21T13:52:23Z",
+        "updated_at": "2020-02-25T16:11:41Z",
+        "closed_at": "2020-02-25T16:11:41Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/84",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2020-02-21T13:50:10Z",
+        "updated_at": "2020-02-25T16:11:20Z",
+        "closed_at": "2020-02-25T16:11:20Z",
+        "labels": []
+      }
+    ]
+  },
+  "atz3n": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/656",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-08-09T15:31:06Z",
+        "updated_at": "2021-08-10T15:52:11Z",
+        "closed_at": "2021-08-10T15:52:10Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/656",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-08-09T15:31:06Z",
+        "updated_at": "2021-08-10T15:52:11Z",
+        "closed_at": "2021-08-10T15:52:10Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "rtang03": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/649",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-07-29T15:11:06Z",
+        "updated_at": "2021-08-05T12:28:47Z",
+        "closed_at": "2021-08-05T12:28:47Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/649",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-07-29T15:11:06Z",
+        "updated_at": "2021-08-05T12:28:47Z",
+        "closed_at": "2021-08-05T12:28:47Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "devrajsinghrawat": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/646",
+        "state": "closed",
+        "locked": true,
+        "comments": 1,
+        "created_at": "2021-07-29T10:05:14Z",
+        "updated_at": "2021-07-29T10:49:48Z",
+        "closed_at": "2021-07-29T10:49:48Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/646",
+        "state": "closed",
+        "locked": true,
+        "comments": 1,
+        "created_at": "2021-07-29T10:05:14Z",
+        "updated_at": "2021-07-29T10:49:48Z",
+        "closed_at": "2021-07-29T10:49:48Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/399",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-03-03T12:03:48Z",
+        "updated_at": "2021-03-03T14:56:41Z",
+        "closed_at": "2021-03-03T14:56:41Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/244",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-10-07T10:58:10Z",
+        "updated_at": "2020-10-07T14:38:21Z",
+        "closed_at": "2020-10-07T14:38:21Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/243",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-10-06T11:01:40Z",
+        "updated_at": "2020-10-06T13:52:44Z",
+        "closed_at": "2020-10-06T13:52:43Z",
+        "labels": ["question"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/240",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-09-17T02:43:00Z",
+        "updated_at": "2020-11-04T12:46:29Z",
+        "closed_at": "2020-11-04T12:41:11Z",
+        "labels": ["question"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/238",
+        "state": "closed",
+        "locked": false,
+        "comments": 9,
+        "created_at": "2020-09-16T11:33:22Z",
+        "updated_at": "2020-09-16T16:00:11Z",
+        "closed_at": "2020-09-16T16:00:11Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/232",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-09-04T14:31:43Z",
+        "updated_at": "2021-01-04T20:55:37Z",
+        "closed_at": "2021-01-04T20:55:37Z",
+        "labels": ["enhancement", "wontfix", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/220",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-08-16T22:20:03Z",
+        "updated_at": "2020-08-26T12:21:52Z",
+        "closed_at": "2020-08-26T12:21:51Z",
+        "labels": ["question"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/217",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-08-12T06:49:44Z",
+        "updated_at": "2020-08-12T08:47:12Z",
+        "closed_at": "2020-08-12T08:47:11Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/213",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-07-23T11:51:29Z",
+        "updated_at": "2020-09-04T08:32:27Z",
+        "closed_at": "2020-09-03T15:41:46Z",
+        "labels": ["question"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/205",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2020-06-29T14:04:03Z",
+        "updated_at": "2020-12-17T18:43:00Z",
+        "closed_at": "2020-12-17T18:43:00Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/201",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-11T07:45:29Z",
+        "updated_at": "2020-08-28T05:26:30Z",
+        "closed_at": "2020-08-26T12:28:29Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/200",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-06-10T14:43:21Z",
+        "updated_at": "2020-12-26T06:24:21Z",
+        "closed_at": "2020-12-26T06:24:21Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/198",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-06-09T18:18:36Z",
+        "updated_at": "2020-06-10T14:42:22Z",
+        "closed_at": "2020-06-10T14:42:21Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/197",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-09T15:30:02Z",
+        "updated_at": "2020-06-10T08:06:23Z",
+        "closed_at": "2020-06-10T06:50:57Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/196",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-09T14:40:24Z",
+        "updated_at": "2020-06-10T08:31:40Z",
+        "closed_at": "2020-06-10T06:54:22Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/195",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-08T11:26:21Z",
+        "updated_at": "2020-06-16T03:06:52Z",
+        "closed_at": "2020-06-08T12:57:00Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/182",
+        "state": "closed",
+        "locked": false,
+        "comments": 13,
+        "created_at": "2020-06-04T17:21:18Z",
+        "updated_at": "2020-06-09T05:28:37Z",
+        "closed_at": "2020-06-09T05:28:37Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/181",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-03T12:30:42Z",
+        "updated_at": "2020-06-05T09:18:30Z",
+        "closed_at": "2020-06-05T09:18:30Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/179",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-02T09:38:10Z",
+        "updated_at": "2020-06-03T09:53:25Z",
+        "closed_at": "2020-06-03T09:53:25Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/110",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-03-26T08:02:30Z",
+        "updated_at": "2020-03-26T10:35:54Z",
+        "closed_at": "2020-03-26T10:35:54Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/97",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-03-03T16:27:13Z",
+        "updated_at": "2020-03-13T11:15:13Z",
+        "closed_at": "2020-03-13T11:15:13Z",
+        "labels": []
+      }
+    ]
+  },
+  "Muhammad-Altabba": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/645",
+        "state": "closed",
+        "locked": true,
+        "comments": 1,
+        "created_at": "2021-07-29T08:20:47Z",
+        "updated_at": "2021-07-29T10:49:00Z",
+        "closed_at": "2021-07-29T10:49:00Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/645",
+        "state": "closed",
+        "locked": true,
+        "comments": 1,
+        "created_at": "2021-07-29T08:20:47Z",
+        "updated_at": "2021-07-29T10:49:00Z",
+        "closed_at": "2021-07-29T10:49:00Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/527",
+        "state": "closed",
+        "locked": true,
+        "comments": 8,
+        "created_at": "2021-05-18T14:18:02Z",
+        "updated_at": "2021-06-01T13:49:46Z",
+        "closed_at": "2021-06-01T13:49:44Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/520",
+        "state": "closed",
+        "locked": false,
+        "comments": 8,
+        "created_at": "2021-05-16T16:28:54Z",
+        "updated_at": "2021-05-18T10:12:43Z",
+        "closed_at": "2021-05-18T09:42:28Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/501",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-05-01T22:21:03Z",
+        "updated_at": "2021-05-20T16:00:59Z",
+        "closed_at": "2021-05-20T16:00:59Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/500",
+        "state": "closed",
+        "locked": false,
+        "comments": 8,
+        "created_at": "2021-05-01T22:18:06Z",
+        "updated_at": "2021-05-18T14:18:57Z",
+        "closed_at": "2021-05-18T14:18:56Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/477",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-04-22T05:01:23Z",
+        "updated_at": "2021-04-24T18:37:08Z",
+        "closed_at": "2021-04-22T09:02:36Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/460",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-04-19T03:55:25Z",
+        "updated_at": "2021-04-19T11:03:27Z",
+        "closed_at": "2021-04-19T08:08:56Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/281",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2020-11-25T12:35:45Z",
+        "updated_at": "2021-06-02T15:49:01Z",
+        "closed_at": "2021-06-02T15:49:01Z",
+        "labels": ["bug", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/252",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-10-22T10:32:55Z",
+        "updated_at": "2020-12-31T01:57:04Z",
+        "closed_at": "2020-12-31T01:57:04Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/228",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-08-31T10:21:22Z",
+        "updated_at": "2020-11-10T14:39:50Z",
+        "closed_at": "2020-11-10T14:39:49Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/225",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2020-08-23T12:17:23Z",
+        "updated_at": "2020-09-16T20:00:33Z",
+        "closed_at": "2020-08-23T15:41:24Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/202",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-06-12T09:32:59Z",
+        "updated_at": "2020-08-27T10:43:00Z",
+        "closed_at": "2020-08-26T14:13:11Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/193",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-08T08:44:03Z",
+        "updated_at": "2020-06-08T12:09:12Z",
+        "closed_at": "2020-06-08T12:09:11Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/180",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-06-02T10:36:31Z",
+        "updated_at": "2020-06-02T19:38:04Z",
+        "closed_at": "2020-06-02T19:38:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/177",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-06-02T08:16:44Z",
+        "updated_at": "2020-06-06T16:23:53Z",
+        "closed_at": "2020-06-06T16:23:53Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/169",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-05-29T10:14:59Z",
+        "updated_at": "2020-05-29T11:43:22Z",
+        "closed_at": "2020-05-29T11:43:22Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/91",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-26T10:00:55Z",
+        "updated_at": "2020-02-26T10:13:25Z",
+        "closed_at": "2020-02-26T10:12:25Z",
+        "labels": []
+      }
+    ]
+  },
+  "simonas-notcat": {
+    "author_association": "MEMBER",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/642",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-28T13:34:44Z",
+        "updated_at": "2021-08-13T09:09:06Z",
+        "closed_at": "2021-08-13T09:09:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/635",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-23T09:41:08Z",
+        "updated_at": "2021-07-23T09:49:39Z",
+        "closed_at": "2021-07-23T09:49:39Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/642",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-28T13:34:44Z",
+        "updated_at": "2021-08-13T09:09:06Z",
+        "closed_at": "2021-08-13T09:09:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/635",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-23T09:41:08Z",
+        "updated_at": "2021-07-23T09:49:39Z",
+        "closed_at": "2021-07-23T09:49:39Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/374",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-02-08T14:45:32Z",
+        "updated_at": "2021-04-27T11:19:16Z",
+        "closed_at": "2021-04-27T11:19:16Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/294",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-12-10T13:49:01Z",
+        "updated_at": "2020-12-15T18:08:22Z",
+        "closed_at": "2020-12-15T18:08:22Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/265",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2020-11-17T15:05:02Z",
+        "updated_at": "2021-02-08T16:29:02Z",
+        "closed_at": "2021-02-08T16:29:02Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/199",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-06-10T10:19:17Z",
+        "updated_at": "2020-12-17T18:42:58Z",
+        "closed_at": "2020-12-17T18:42:58Z",
+        "labels": ["work-in-progress"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/146",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-05-13T08:56:09Z",
+        "updated_at": "2020-05-13T12:06:42Z",
+        "closed_at": "2020-05-13T12:06:42Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/129",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-04-27T09:00:18Z",
+        "updated_at": "2020-04-28T11:35:24Z",
+        "closed_at": "2020-04-28T11:35:24Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/124",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-04-23T10:54:11Z",
+        "updated_at": "2020-05-29T13:53:04Z",
+        "closed_at": "2020-05-29T13:53:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/123",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-04-23T10:44:43Z",
+        "updated_at": "2020-04-29T10:33:12Z",
+        "closed_at": "2020-04-29T10:33:12Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/113",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-04-03T09:28:58Z",
+        "updated_at": "2020-12-18T16:55:02Z",
+        "closed_at": "2020-12-18T16:55:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/112",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-03-31T09:22:17Z",
+        "updated_at": "2020-04-22T13:02:19Z",
+        "closed_at": "2020-04-22T13:02:19Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/103",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-03-16T15:04:04Z",
+        "updated_at": "2020-03-16T16:57:24Z",
+        "closed_at": "2020-03-16T16:57:24Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/89",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-02-25T16:43:59Z",
+        "updated_at": "2021-02-18T08:19:43Z",
+        "closed_at": null,
+        "labels": ["planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/65",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-02-11T11:25:06Z",
+        "updated_at": "2020-02-19T12:49:04Z",
+        "closed_at": "2020-02-19T12:49:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/64",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-11T11:05:58Z",
+        "updated_at": "2020-12-26T06:24:15Z",
+        "closed_at": "2020-12-26T06:24:15Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/57",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-01-21T14:20:11Z",
+        "updated_at": "2020-12-18T16:55:01Z",
+        "closed_at": "2020-12-18T16:55:01Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/52",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-01-09T11:12:57Z",
+        "updated_at": "2020-02-19T12:49:04Z",
+        "closed_at": "2020-02-19T12:49:04Z",
+        "labels": ["veramo-core"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/51",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-01-09T11:12:04Z",
+        "updated_at": "2020-02-19T12:49:03Z",
+        "closed_at": "2020-02-19T12:49:03Z",
+        "labels": ["veramo-core"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/50",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-01-09T11:10:39Z",
+        "updated_at": "2020-12-26T06:24:14Z",
+        "closed_at": "2020-12-26T06:24:14Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/49",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-01-09T11:02:41Z",
+        "updated_at": "2020-04-22T13:11:11Z",
+        "closed_at": "2020-04-22T13:11:11Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/48",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-01-09T11:01:30Z",
+        "updated_at": "2020-01-10T11:50:09Z",
+        "closed_at": "2020-01-10T11:50:09Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/47",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-01-09T10:56:38Z",
+        "updated_at": "2021-01-21T13:32:40Z",
+        "closed_at": "2021-01-21T13:32:40Z",
+        "labels": []
+      }
+    ]
+  },
+  "bafu": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/641",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-28T11:15:10Z",
+        "updated_at": "2021-08-12T23:11:24Z",
+        "closed_at": "2021-08-11T12:59:07Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/641",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-28T11:15:10Z",
+        "updated_at": "2021-08-12T23:11:24Z",
+        "closed_at": "2021-08-11T12:59:07Z",
+        "labels": ["bug", "triage"]
+      }
+    ]
+  },
+  "Brummos": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/639",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-26T11:24:24Z",
+        "updated_at": "2021-07-27T09:28:50Z",
+        "closed_at": null,
+        "labels": ["triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/639",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-26T11:24:24Z",
+        "updated_at": "2021-07-27T09:28:50Z",
+        "closed_at": null,
+        "labels": ["triage"]
+      }
+    ]
+  },
+  "jasonhealy": {
+    "author_association": "MEMBER",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/631",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-22T09:56:18Z",
+        "updated_at": "2021-07-26T12:41:05Z",
+        "closed_at": "2021-07-26T12:41:05Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/630",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-21T11:47:56Z",
+        "updated_at": "2021-07-21T15:15:09Z",
+        "closed_at": "2021-07-21T15:15:09Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/631",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-22T09:56:18Z",
+        "updated_at": "2021-07-26T12:41:05Z",
+        "closed_at": "2021-07-26T12:41:05Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/630",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-07-21T11:47:56Z",
+        "updated_at": "2021-07-21T15:15:09Z",
+        "closed_at": "2021-07-21T15:15:09Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/522",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-05-18T10:13:38Z",
+        "updated_at": "2021-06-03T12:39:15Z",
+        "closed_at": "2021-06-03T12:39:15Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/496",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-29T10:59:43Z",
+        "updated_at": "2021-06-29T13:03:15Z",
+        "closed_at": "2021-06-29T13:03:15Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/373",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-02-08T10:56:59Z",
+        "updated_at": "2021-04-29T10:12:20Z",
+        "closed_at": "2021-04-29T10:12:20Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/361",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-02-01T12:30:38Z",
+        "updated_at": "2021-07-08T00:46:42Z",
+        "closed_at": "2021-07-08T00:46:42Z",
+        "labels": ["wontfix", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/345",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-21T17:16:22Z",
+        "updated_at": "2021-06-09T22:11:01Z",
+        "closed_at": "2021-06-09T22:11:00Z",
+        "labels": ["bug", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/276",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-11-20T18:24:28Z",
+        "updated_at": "2021-01-30T03:48:57Z",
+        "closed_at": "2021-01-30T03:48:57Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/206",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-06-29T17:47:02Z",
+        "updated_at": "2020-07-02T10:31:35Z",
+        "closed_at": "2020-07-02T10:31:35Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/162",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-05-25T09:36:59Z",
+        "updated_at": "2020-05-25T09:58:39Z",
+        "closed_at": "2020-05-25T09:58:39Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/133",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-04-30T11:07:01Z",
+        "updated_at": "2021-06-09T22:10:58Z",
+        "closed_at": "2021-06-09T22:10:58Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/115",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-04-09T11:18:28Z",
+        "updated_at": "2020-04-17T15:19:58Z",
+        "closed_at": "2020-04-17T15:19:58Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/10",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-14T14:38:41Z",
+        "updated_at": "2019-12-19T11:29:55Z",
+        "closed_at": "2019-12-19T11:29:55Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "rado0x54": {
+    "author_association": "COLLABORATOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/605",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T13:12:07Z",
+        "updated_at": "2021-07-07T11:51:36Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/588",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-06-25T10:58:19Z",
+        "updated_at": "2021-07-12T13:48:29Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/605",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-07-06T13:12:07Z",
+        "updated_at": "2021-07-07T11:51:36Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/588",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-06-25T10:58:19Z",
+        "updated_at": "2021-07-12T13:48:29Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/434",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-03-29T14:44:20Z",
+        "updated_at": "2021-03-29T14:45:59Z",
+        "closed_at": "2021-03-29T14:45:44Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/423",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-03-22T14:19:48Z",
+        "updated_at": "2021-04-27T11:18:03Z",
+        "closed_at": "2021-04-27T11:18:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/422",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-03-22T13:16:16Z",
+        "updated_at": "2021-08-16T13:13:49Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/385",
+        "state": "open",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-02-16T15:19:28Z",
+        "updated_at": "2021-07-06T13:32:01Z",
+        "closed_at": null,
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/375",
+        "state": "open",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2021-02-08T14:59:03Z",
+        "updated_at": "2021-06-24T11:07:44Z",
+        "closed_at": null,
+        "labels": ["work-in-progress", "planned-feature", "Epic", "incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/335",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-01-16T21:53:09Z",
+        "updated_at": "2021-01-28T14:13:09Z",
+        "closed_at": "2021-01-28T14:13:09Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/334",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-16T21:12:12Z",
+        "updated_at": "2021-06-09T22:10:59Z",
+        "closed_at": "2021-06-09T22:10:59Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/333",
+        "state": "open",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-01-16T21:06:27Z",
+        "updated_at": "2021-07-06T13:08:21Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/332",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-16T21:05:27Z",
+        "updated_at": "2021-05-03T14:45:27Z",
+        "closed_at": "2021-05-03T14:45:26Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/331",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2021-01-16T20:43:58Z",
+        "updated_at": "2021-07-15T11:06:58Z",
+        "closed_at": "2021-07-15T11:06:58Z",
+        "labels": ["documentation", "enhancement", "wontfix", "Epic"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/274",
+        "state": "closed",
+        "locked": false,
+        "comments": 7,
+        "created_at": "2020-11-19T14:01:04Z",
+        "updated_at": "2021-04-20T14:47:12Z",
+        "closed_at": "2021-04-20T14:47:12Z",
+        "labels": ["enhancement", "planned-feature", "incomplete"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/273",
+        "state": "open",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-11-19T13:56:16Z",
+        "updated_at": "2021-06-28T12:08:28Z",
+        "closed_at": null,
+        "labels": ["enhancement", "work-in-progress", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/272",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-11-19T13:52:30Z",
+        "updated_at": "2021-05-03T14:28:41Z",
+        "closed_at": "2021-05-03T14:28:41Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/271",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-11-19T13:51:46Z",
+        "updated_at": "2021-05-03T14:29:09Z",
+        "closed_at": "2021-05-03T14:29:09Z",
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/270",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-11-19T13:46:23Z",
+        "updated_at": "2021-01-25T15:12:55Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature", "Epic"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/269",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-11-18T14:48:46Z",
+        "updated_at": "2021-02-02T03:44:11Z",
+        "closed_at": "2021-02-02T03:44:11Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/268",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-11-17T20:00:40Z",
+        "updated_at": "2021-06-02T20:50:16Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature", "Epic"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/267",
+        "state": "open",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-11-17T19:55:54Z",
+        "updated_at": "2021-01-25T14:49:04Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature", "Epic"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/266",
+        "state": "open",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-11-17T19:53:37Z",
+        "updated_at": "2021-03-26T13:22:10Z",
+        "closed_at": null,
+        "labels": ["enhancement", "planned-feature"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/108",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-03-20T15:14:03Z",
+        "updated_at": "2020-04-22T13:09:07Z",
+        "closed_at": "2020-04-22T13:09:07Z",
+        "labels": ["enhancement"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/105",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2020-03-17T13:54:29Z",
+        "updated_at": "2020-12-22T14:49:27Z",
+        "closed_at": "2020-12-22T14:49:27Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/101",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-03-12T19:40:35Z",
+        "updated_at": "2020-03-17T13:45:30Z",
+        "closed_at": "2020-03-13T11:14:29Z",
+        "labels": []
+      }
+    ]
+  },
+  "strumswell": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/565",
+        "state": "closed",
+        "locked": false,
+        "comments": 6,
+        "created_at": "2021-06-15T11:07:03Z",
+        "updated_at": "2021-06-16T07:33:59Z",
+        "closed_at": "2021-06-15T18:51:04Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/565",
+        "state": "closed",
+        "locked": false,
+        "comments": 6,
+        "created_at": "2021-06-15T11:07:03Z",
+        "updated_at": "2021-06-16T07:33:59Z",
+        "closed_at": "2021-06-15T18:51:04Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/516",
+        "state": "closed",
+        "locked": false,
+        "comments": 8,
+        "created_at": "2021-05-14T10:16:00Z",
+        "updated_at": "2021-05-26T15:44:50Z",
+        "closed_at": "2021-05-26T15:07:15Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "rkreutzer": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/560",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-12T15:01:27Z",
+        "updated_at": "2021-06-14T09:44:08Z",
+        "closed_at": "2021-06-14T09:44:08Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/560",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-06-12T15:01:27Z",
+        "updated_at": "2021-06-14T09:44:08Z",
+        "closed_at": "2021-06-14T09:44:08Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/546",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-06-01T17:59:17Z",
+        "updated_at": "2021-06-03T17:55:27Z",
+        "closed_at": "2021-06-03T17:55:27Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/386",
+        "state": "closed",
+        "locked": false,
+        "comments": 6,
+        "created_at": "2021-02-16T20:55:35Z",
+        "updated_at": "2021-06-04T05:16:17Z",
+        "closed_at": "2021-06-04T05:16:16Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/363",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2021-02-02T11:48:11Z",
+        "updated_at": "2021-06-25T12:47:25Z",
+        "closed_at": "2021-06-25T12:47:25Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/362",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-02-02T11:33:05Z",
+        "updated_at": "2021-02-04T15:11:16Z",
+        "closed_at": "2021-02-04T12:00:00Z",
+        "labels": ["enhancement"]
+      }
+    ]
+  },
+  "thomas-tran": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/515",
+        "state": "closed",
+        "locked": false,
+        "comments": 8,
+        "created_at": "2021-05-14T06:26:41Z",
+        "updated_at": "2021-07-24T00:51:19Z",
+        "closed_at": "2021-07-24T00:51:19Z",
+        "labels": ["bug", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/328",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-01-05T13:45:59Z",
+        "updated_at": "2021-01-25T15:32:15Z",
+        "closed_at": "2021-01-25T15:32:15Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/256",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-11-03T12:40:11Z",
+        "updated_at": "2020-11-03T18:15:36Z",
+        "closed_at": "2020-11-03T18:15:36Z",
+        "labels": ["question"]
+      }
+    ]
+  },
+  "bishalkc": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/513",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2021-05-12T16:49:41Z",
+        "updated_at": "2021-05-18T14:39:26Z",
+        "closed_at": "2021-05-18T14:39:26Z",
+        "labels": ["triage"]
+      }
+    ]
+  },
+  "simibac": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/450",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2021-04-10T14:10:51Z",
+        "updated_at": "2021-04-24T11:04:32Z",
+        "closed_at": "2021-04-24T11:04:32Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/415",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-03-11T13:44:53Z",
+        "updated_at": "2021-05-11T10:41:42Z",
+        "closed_at": "2021-05-11T10:41:42Z",
+        "labels": ["bug", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/378",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-02-10T16:21:11Z",
+        "updated_at": "2021-02-10T20:17:36Z",
+        "closed_at": "2021-02-10T20:17:36Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "praveensankar": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/426",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-03-25T12:36:32Z",
+        "updated_at": "2021-03-25T14:56:39Z",
+        "closed_at": "2021-03-25T14:56:39Z",
+        "labels": []
+      }
+    ]
+  },
+  "italobb": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/394",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-02-24T23:43:49Z",
+        "updated_at": "2021-03-26T17:03:18Z",
+        "closed_at": "2021-03-26T17:03:18Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "sk91": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/383",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2021-02-15T17:15:53Z",
+        "updated_at": "2021-03-26T15:43:00Z",
+        "closed_at": "2021-03-26T15:43:00Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "BrianCraig": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/354",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2021-01-26T19:59:56Z",
+        "updated_at": "2021-01-31T17:01:15Z",
+        "closed_at": "2021-01-31T17:01:15Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "jcaporossi": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/353",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-26T18:06:59Z",
+        "updated_at": "2021-01-27T10:59:51Z",
+        "closed_at": "2021-01-27T10:59:51Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "trentlarson": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/337",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2021-01-18T17:04:20Z",
+        "updated_at": "2021-01-18T18:40:13Z",
+        "closed_at": "2021-01-18T18:40:13Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "pvanroos": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/327",
+        "state": "closed",
+        "locked": false,
+        "comments": 9,
+        "created_at": "2020-12-28T02:02:04Z",
+        "updated_at": "2020-12-29T00:58:31Z",
+        "closed_at": "2020-12-29T00:58:31Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "tscheckow": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/306",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-12-16T19:35:07Z",
+        "updated_at": "2021-06-02T15:49:00Z",
+        "closed_at": "2021-06-02T15:49:00Z",
+        "labels": ["bug", "wontfix", "triage"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/275",
+        "state": "closed",
+        "locked": false,
+        "comments": 9,
+        "created_at": "2020-11-19T16:02:16Z",
+        "updated_at": "2020-11-24T16:40:13Z",
+        "closed_at": "2020-11-24T16:40:13Z",
+        "labels": ["bug"]
+      }
+    ]
+  },
+  "nikolockenvitz": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/260",
+        "state": "closed",
+        "locked": false,
+        "comments": 6,
+        "created_at": "2020-11-11T19:30:59Z",
+        "updated_at": "2021-06-09T22:11:00Z",
+        "closed_at": "2021-06-09T22:11:00Z",
+        "labels": ["enhancement", "wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/224",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-08-21T21:29:17Z",
+        "updated_at": "2020-12-26T06:24:23Z",
+        "closed_at": "2020-12-26T06:24:23Z",
+        "labels": ["wontfix", "dependencies"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/223",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-08-21T14:36:36Z",
+        "updated_at": "2020-12-26T06:24:24Z",
+        "closed_at": "2020-12-26T06:24:24Z",
+        "labels": ["bug", "wontfix", "dependencies"]
+      }
+    ]
+  },
+  "HamzaBinSarfraz": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/255",
+        "state": "closed",
+        "locked": false,
+        "comments": 6,
+        "created_at": "2020-10-26T09:01:07Z",
+        "updated_at": "2020-11-25T15:46:14Z",
+        "closed_at": "2020-11-24T16:47:44Z",
+        "labels": ["bug"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/249",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-10-20T11:12:45Z",
+        "updated_at": "2020-10-22T21:46:43Z",
+        "closed_at": "2020-10-22T21:46:42Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/222",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-08-20T07:08:45Z",
+        "updated_at": "2020-09-20T20:19:13Z",
+        "closed_at": "2020-09-20T20:19:13Z",
+        "labels": ["deprecated"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/218",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-08-12T13:43:32Z",
+        "updated_at": "2020-08-13T07:02:42Z",
+        "closed_at": "2020-08-13T07:02:42Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/142",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-05-07T16:11:16Z",
+        "updated_at": "2020-06-24T18:25:32Z",
+        "closed_at": "2020-06-24T18:25:32Z",
+        "labels": []
+      }
+    ]
+  },
+  "rizwanzaheer": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/254",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-10-26T08:19:05Z",
+        "updated_at": "2021-01-25T01:13:10Z",
+        "closed_at": "2021-01-25T01:13:10Z",
+        "labels": ["question", "wontfix"]
+      }
+    ]
+  },
+  "jessgusclark": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/237",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-09-15T16:17:04Z",
+        "updated_at": "2020-12-26T06:24:26Z",
+        "closed_at": "2020-12-26T06:24:26Z",
+        "labels": ["wontfix"]
+      }
+    ]
+  },
+  "ajunge": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/229",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-09-02T23:28:52Z",
+        "updated_at": "2020-09-03T15:51:20Z",
+        "closed_at": "2020-09-03T15:51:20Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/204",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-06-18T16:46:58Z",
+        "updated_at": "2020-12-18T16:57:21Z",
+        "closed_at": "2020-12-18T16:57:21Z",
+        "labels": []
+      }
+    ]
+  },
+  "ilanolkies": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/221",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-08-19T21:16:21Z",
+        "updated_at": "2020-08-20T19:51:59Z",
+        "closed_at": "2020-08-20T19:51:59Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/216",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-08-03T06:17:20Z",
+        "updated_at": "2020-12-26T06:24:22Z",
+        "closed_at": "2020-12-26T06:24:22Z",
+        "labels": ["wontfix"]
+      }
+    ]
+  },
+  "ilovelili": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/211",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-07-20T03:42:38Z",
+        "updated_at": "2020-11-18T14:13:52Z",
+        "closed_at": "2020-11-18T14:13:52Z",
+        "labels": ["bug", "documentation"]
+      }
+    ]
+  },
+  "amarts": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/166",
+        "state": "closed",
+        "locked": false,
+        "comments": 2,
+        "created_at": "2020-05-28T09:51:55Z",
+        "updated_at": "2020-06-23T16:44:38Z",
+        "closed_at": "2020-06-23T16:44:38Z",
+        "labels": []
+      }
+    ]
+  },
+  "roderik": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/165",
+        "state": "closed",
+        "locked": false,
+        "comments": 5,
+        "created_at": "2020-05-26T06:51:03Z",
+        "updated_at": "2020-12-26T06:24:20Z",
+        "closed_at": "2020-12-26T06:24:20Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/155",
+        "state": "closed",
+        "locked": false,
+        "comments": 4,
+        "created_at": "2020-05-14T20:35:19Z",
+        "updated_at": "2020-12-26T06:24:26Z",
+        "closed_at": "2020-12-26T06:24:26Z",
+        "labels": ["wontfix"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/149",
+        "state": "closed",
+        "locked": false,
+        "comments": 3,
+        "created_at": "2020-05-13T20:55:20Z",
+        "updated_at": "2020-05-14T12:51:21Z",
+        "closed_at": "2020-05-14T12:51:21Z",
+        "labels": []
+      }
+    ]
+  },
+  "Eseoghene": {
+    "author_association": "CONTRIBUTOR",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/78",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:44:06Z",
+        "updated_at": "2020-12-26T06:24:18Z",
+        "closed_at": "2020-12-26T06:24:18Z",
+        "labels": ["wontfix", "tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/77",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:42:36Z",
+        "updated_at": "2020-11-16T13:30:07Z",
+        "closed_at": "2020-11-16T13:30:07Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/76",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:41:52Z",
+        "updated_at": "2020-04-22T13:13:24Z",
+        "closed_at": "2020-04-22T13:13:24Z",
+        "labels": ["tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/75",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:41:38Z",
+        "updated_at": "2020-04-22T08:36:58Z",
+        "closed_at": "2020-04-22T08:36:57Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/74",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-02-17T10:38:48Z",
+        "updated_at": "2020-04-22T13:13:04Z",
+        "closed_at": "2020-04-22T13:13:03Z",
+        "labels": ["tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/73",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-02-17T10:38:27Z",
+        "updated_at": "2020-04-22T13:13:03Z",
+        "closed_at": "2020-04-22T13:13:03Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/72",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:08:50Z",
+        "updated_at": "2020-12-26T06:24:17Z",
+        "closed_at": "2020-12-26T06:24:17Z",
+        "labels": ["wontfix", "tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/71",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:08:36Z",
+        "updated_at": "2020-11-16T13:29:46Z",
+        "closed_at": "2020-11-16T13:29:45Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/70",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:08:02Z",
+        "updated_at": "2020-11-16T13:29:32Z",
+        "closed_at": "2020-11-16T13:29:32Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/69",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:07:47Z",
+        "updated_at": "2020-02-26T11:43:43Z",
+        "closed_at": "2020-02-26T11:43:42Z",
+        "labels": ["tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/68",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:06:40Z",
+        "updated_at": "2020-12-26T06:24:16Z",
+        "closed_at": "2020-12-26T06:24:16Z",
+        "labels": ["wontfix", "tests"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/67",
+        "state": "closed",
+        "locked": false,
+        "comments": 1,
+        "created_at": "2020-02-17T10:06:27Z",
+        "updated_at": "2020-11-16T13:27:44Z",
+        "closed_at": "2020-11-16T13:27:44Z",
+        "labels": ["documentation"]
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/66",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2020-02-17T10:05:57Z",
+        "updated_at": "2020-03-19T15:41:28Z",
+        "closed_at": "2020-03-19T15:41:28Z",
+        "labels": []
+      }
+    ]
+  },
+  "sonatype-depshield[bot]": {
+    "author_association": "NONE",
+    "issues": [
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/30",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:16Z",
+        "updated_at": "2019-11-19T16:58:07Z",
+        "closed_at": "2019-11-19T16:58:07Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/29",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:13Z",
+        "updated_at": "2019-11-19T16:58:07Z",
+        "closed_at": "2019-11-19T16:58:07Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/28",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:10Z",
+        "updated_at": "2019-11-19T16:58:07Z",
+        "closed_at": "2019-11-19T16:58:07Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/27",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:06Z",
+        "updated_at": "2019-11-19T16:58:07Z",
+        "closed_at": "2019-11-19T16:58:07Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/26",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:03Z",
+        "updated_at": "2019-11-19T16:58:06Z",
+        "closed_at": "2019-11-19T16:58:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/25",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:27:00Z",
+        "updated_at": "2019-11-19T16:58:06Z",
+        "closed_at": "2019-11-19T16:58:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/24",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:57Z",
+        "updated_at": "2019-11-19T16:58:06Z",
+        "closed_at": "2019-11-19T16:58:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/23",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:54Z",
+        "updated_at": "2019-11-19T16:58:06Z",
+        "closed_at": "2019-11-19T16:58:06Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/22",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:52Z",
+        "updated_at": "2019-11-19T16:58:05Z",
+        "closed_at": "2019-11-19T16:58:05Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/21",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:48Z",
+        "updated_at": "2019-11-19T16:58:05Z",
+        "closed_at": "2019-11-19T16:58:05Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/20",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:45Z",
+        "updated_at": "2019-11-19T16:58:05Z",
+        "closed_at": "2019-11-19T16:58:05Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/19",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:42Z",
+        "updated_at": "2019-11-19T16:58:04Z",
+        "closed_at": "2019-11-19T16:58:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/18",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-19T16:26:39Z",
+        "updated_at": "2019-11-19T16:58:04Z",
+        "closed_at": "2019-11-19T16:58:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/12",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-15T17:45:55Z",
+        "updated_at": "2019-11-19T16:58:04Z",
+        "closed_at": "2019-11-19T16:58:04Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/9",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:23Z",
+        "updated_at": "2019-11-19T16:58:03Z",
+        "closed_at": "2019-11-19T16:58:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/8",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:20Z",
+        "updated_at": "2019-11-19T16:58:03Z",
+        "closed_at": "2019-11-19T16:58:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/7",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:17Z",
+        "updated_at": "2019-11-19T16:58:03Z",
+        "closed_at": "2019-11-19T16:58:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/6",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:14Z",
+        "updated_at": "2019-11-19T16:58:03Z",
+        "closed_at": "2019-11-19T16:58:03Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/5",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:11Z",
+        "updated_at": "2019-11-19T16:58:02Z",
+        "closed_at": "2019-11-19T16:58:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/4",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:08Z",
+        "updated_at": "2019-11-19T16:58:02Z",
+        "closed_at": "2019-11-19T16:58:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/3",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:05Z",
+        "updated_at": "2019-11-19T16:58:02Z",
+        "closed_at": "2019-11-19T16:58:02Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/2",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:24:02Z",
+        "updated_at": "2019-11-19T16:58:01Z",
+        "closed_at": "2019-11-19T16:58:01Z",
+        "labels": []
+      },
+      {
+        "html_url": "https://github.com/uport-project/veramo/issues/1",
+        "state": "closed",
+        "locked": false,
+        "comments": 0,
+        "created_at": "2019-11-13T08:21:04Z",
+        "updated_at": "2019-11-13T08:23:35Z",
+        "closed_at": "2019-11-13T08:23:11Z",
+        "labels": []
+      }
+    ]
+  }
+}
