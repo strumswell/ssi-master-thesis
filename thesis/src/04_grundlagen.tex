@@ -191,6 +191,7 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
         
         The credential metadata can define various properties of the \ac{vc} including its issuer, an expiration date, credential types, or a revocation mechanism that can be used to check whether the issuer has revoked the credential. Thereafter, a set of claims can be defined by the issuer, which contains statements about the subject of the \ac{vc}. Finally, cryptographic proofs can be attached and used to verify the validity of the credential's contents. The standard distinguishes between two types of proofs: \cite{sporny_verifiable_2019}
         
+        % TODO: Should probably revisit! Read identity woman paper sections on credential proof formats. Just to to be sure I'm not saying shit here.
         \begin{enumerate}
             \item External Proof: The contents of the credential are wrapped, thus converted into a different, cryptographically verifiable format. A well-known example of this are JSON web tokens, which are used today in many identity systems for the transfer of claims between multiple parties, providing a certain compatibility to existing systems. Effectively, the set of claims is represented in a digital signature, the JSON web signature. Since these were developed for the JSON format, proofs can only refer to an entire credential and not to individual attribute sets \cite{helmy_jwt_2020}. \cite{sporny_verifiable_2019}
 
@@ -336,10 +337,37 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
 		
 		\subsection{BBS+}
 		
-		With regard to subsection \ref{subsection: stage ssi}, Allen describes in his ten principles for SSI, among other things, the principle of “minimization”, according to which the number of released claims should be kept as low as possible. This is also known as selective disclosures, according to which a user can keep certain attributes of a credential secret, which corresponds to the blackening of documents in the analog world. The next step to this approach are so-called zero knowledge proofs, where the actual attribute is not shared, but a value that confirms what the verifier wants to know. For example, if an age check takes place, the verifier does not actually need to know the exact age but only the fact whether the person is over 18 or not. There are two basic approaches to this in the community: Camenisch-Lysyanskaya signatures and BBS+ signatures. Camenisch-Lysyanskaya signatures were one of the first implementations in the form of Anoncreds v1, but were dependent on published schemes for each credential on a ledger and therefore not standard-compliant. Furthermore, they were accompanied by large keys and large credentials that were costly to generate \cite{zundel_why_2021}. \cite{young_verifiable_2021}
+		With regard to subsection \ref{subsection: stage ssi}, Allen describes in his ten principles for SSI, among other things, the principle of “minimization”, according to which the number of released claims should be kept as low as possible. This is also known as selective disclosures, according to which a user can keep certain attributes of a credential secret, which corresponds to the blackening of documents in the analog world. The next step to this approach are so-called zero knowledge proofs, where the actual attribute is not shared, but an assertion of a value that confirms what the verifier wants to know (predicates). For example, if an age check takes place, the verifier does not actually need to know the exact age but only the fact whether the person is over 18 or not. There are two basic approaches to this in the community: Camenisch-Lysyanskaya signatures and BBS+ signatures. Camenisch-Lysyanskaya signatures were one of the first implementations in the form of Anoncreds v1, but were dependent on published schemes for each credential on a ledger and therefore not standard-compliant. Furthermore, they were accompanied by large keys and large credentials that were costly to generate \cite{zundel_why_2021}. \cite[pp. 17-18]{young_verifiable_2021}
 		
-		In the fall of 2020, MATTR announced BBS+ LD proofs that promised the same benefits while maintaining compatibility with the \ac{vc} specification and reducing credentials and signature size. In addition, credentials were significantly smaller and signatures were faster to generate. \cite{zundel_why_2021}
+		In the fall of 2020, MATTR announced BBS+ LD proofs that promised the same benefits while maintaining compatibility with the \ac{vc} specification and reducing credentials and signature size. In addition, signatures were significantly faster to generate and the dependency on a ledger was not needed any more. \cite{zundel_why_2021}
 		
-		... to be continued.
+    	\begin{center}
+            \captionof{table}{Comparison of BBS+ and CL signatures (based on \citealp{mattr_intro_2020, helmy_solution_2020})}
+        		\begin{threeparttable}
+            		\begin{tabular}{llll}
+            			\hline 
+            			Domain & Criterion & BBS+ Signatures\tnote{1} & CL Signatures\tabularnewline
+            			\hline 
+            			\textbf{Size} & Private Key & 32 Bytes  & 256 Bytes\tabularnewline
+            			              & Public Key  & 96 Bytes  & \begin{math}771 + \frac{257}{msg}\end{math} Bytes\tabularnewline
+            			              & Signature   & 112 Bytes & 672 Bytes\tabularnewline
+            			              & Proof       & \begin{math}368 + \frac{32}{hidden\_msg}\end{math} Bytes & \begin{math}696 + \frac{74}{msg}\end{math} Bytes\tabularnewline
+            			              
+            			\textbf{Performance} & Key Generation            & 1 ms    & 8.8 sec\tabularnewline
+            			                     & Signing\tnote{2}          & 2.58 ms & 93 ms\tabularnewline
+            			                     & Verifying\tnote{2}        & 5.23 ms & 11 ms\tabularnewline
+            			                     & Proof Generation\tnote{2} & 10.6 ms & 13 ms\tabularnewline
+            			\hline 
+            		\end{tabular}
+        
+        		\begin{tablenotes}\footnotesize 
+        			\item[1] BLS12-381 elliptic curve
+        			\item[2] For 10 messages
+        		\end{tablenotes}
+        	\end{threeparttable}
+        	\label{tab: comparison bbs+ and cl}
+    	\end{center} 
+		
+		Technically, BBS+ LD proofs rely on a combination of Linked Data proofs, the JSON-LD credential schema and BBS+ signatures. This combination allows generating proofs for presentations that can contain only a subset of attributes of the original \acp{vc} without affecting the semantic expressiveness and cryptographic integrity. Attribute filtering is performed using JSON-LD framing, while BBS+ is used to generate a so-called multi-message signature. As the name suggests, instead of one signature of one message, here a signature is composed of an array of messages. This ultimately allows the resulting signature to be derived by the holder so that it can only represent a part of the attributes. Unlike Camenisch-Lysyanskaya signatures, current implementations of BBS+ do not yet allow the use of predicates to enable comprehensive zero knowledge proofs. Cryptographically, however, such support is possible, but has not been the focus of efforts to date. Alternatively, the values of such predicates can be incorporated directly by the issuer as a separate attribute in the \ac{vc}, which can then be disclosed by the holder through selective disclosures. The associated specification “BBS+ Signatures 2020” \cite{looker_bbs_2021} is currently an unofficial draft, which is managed by the W3C Credentials Community Group. \cite[pp. 18-20]{young_verifiable_2021}
 		
 		\subsection{RevocationList2020}\label{subsection: revocationlist2020}
