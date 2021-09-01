@@ -247,7 +247,7 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
     \section{Architecture}
         In this section, various functional aspects of \ac{SSI} are described in more detail. For this purpose, the roles and interactions in a \ac{SSI} system are described, followed by a general look at the technology stack.
         
-    	\subsection{Roles}
+    	\subsection{Roles}\label{subsection: vc roles}
     	
     	In an SSI ecosystem, there are three basic roles that participants can occupy: issuer, verifier, and holder. They have already been briefly described in subsection \ref{subsection: vc} and are therefore an integral part of the \ac{vc} standard. The three roles are briefly presented below: [\citealp[pp. 25-26]{preukschat_self-sovereign_2021}; \citealp{sporny_verifiable_2019}]
     	
@@ -371,3 +371,71 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
 		Technically, BBS+ LD proofs rely on a combination of Linked Data proofs, the JSON-LD credential schema and BBS+ signatures. This combination allows generating proofs for presentations that can contain only a subset of attributes of the original \acp{vc} without affecting the semantic expressiveness and cryptographic integrity. Attribute filtering is performed using JSON-LD framing, while BBS+ is used to generate a so-called multi-message signature. As the name suggests, instead of one signature of one message, here a signature is composed of an array of messages. This ultimately allows the resulting signature to be derived by the holder so that it can only represent a part of the attributes. Unlike Camenisch-Lysyanskaya signatures, current implementations of BBS+ do not yet allow the use of predicates to enable comprehensive zero knowledge proofs. Cryptographically, however, such support is possible, but has not been the focus of efforts to date. Alternatively, the values of such predicates can be incorporated directly by the issuer as a separate attribute in the \ac{vc}, which can then be disclosed by the holder through selective disclosures. The associated specification “BBS+ Signatures 2020” \cite{looker_bbs_2021} is currently an unofficial draft, which is managed by the W3C Credentials Community Group. \cite[pp. 18-20]{young_verifiable_2021}
 		
 		\subsection{RevocationList2020}\label{subsection: revocationlist2020}
+		
+		An elementary part of the \ac{vc} lifecycle is the revocation step (see subsection \ref{subsection: vc roles}). It allows issuers of \acp{vc} to revoke them at any time due to various reasons. Such reasons may be, for example, the expiration of a credential whose expiration date was not known at the time of issuance (e.g., office building access card), or incorrectly issued credentials (e.g., fraud).
+		
+		The \ac{vc} standard describes this process step and some important requirements, but does not define a standard for it. It only provides that there could be so-called “revocation registries” which could be part of the verifiable data registry and some privacy considerations concerning data leakage and correlation  \cite{sporny_verifiable_2019}.
+		%Accordingly, the revocation mechanism should not leak any information about the subject, holder, verifier, or the credentials themselves. In addition, the issuer should not be able to draw correlations between the holder, verifier, and the verified credential by monitoring revocation requests. This would be the case, for example, if each \ac{vc} had its own revocation registry that had to be retrieved directly from the issuer. \cite{sporny_verifiable_2019}
+		Since such a registry can be located at any storage location, as already described in subsection \ref{subsection: did} and \ref{subsection: vc}, the writer thinks that a distinction could be made at this point between on-chain (on a blockchain) and off-chain (off a blockchain) storage solutions for revocation. An example of the former is Anoncreds v1, which implements such a registry on-chain that can be used to retrieve values used for the revocation process \cite{hardman_0011_2018, hyperledger_how_2018}. In contrast to this are off-chain solutions such as the Revocation List 2020 specification (see figure \ref{figure: revocationlist2020}), which is managed by the W3C Credentials Community Group and currently an unofficial draft \cite{longley_revocation_2021}.
+		
+	    \begin{figure}[htp]
+    	    \centering
+    	    \makebox[\textwidth]{\includesvg[inkscapelatex=false, width=0.95\textwidth]{img/12_revocationlist.svg}}
+            \caption{Workings of Revocation List 2020 (extracted from \cite{longley_revocation_2021})}
+            \label{figure: revocationlist2020}
+        \end{figure}
+        
+        It is a revocation mechanism based on a compressed bitstring that is compatible with existing architectures on the Internet. The issuer of \acp{vc} maintains and publishes its own revocation list (bitstring) for its credentials, which contains their status. Each credential is assigned a position in the list whose bit value describes its status (1 = revoked, 0 = not revoked). The specification advises a default bit string size of 16 KB, which can then hold the status of 131,072 credentials. However, since in most cases the majority of credentials has not been revoked and therefore have the value 0, the size can be reduced to a few hundred bytes using compression methods such as ZLIB. If a verifier now wants to retrieve the status of a credential, it retrieves the revocation list from the issuer, which contains the status of over 100,000 credentials. It can decompress this and check the position from the credential in the bit string to check the revocation status. The advantages of this approach can be summarized as follows: \cite{longley_revocation_2021}
+        
+        \begin{itemize}
+            \item Efficient: The compression of the bit string uses little storage space and bandwidth.
+            \item Privacy: The status of a credential can be hidden among several others. This makes correlation difficult for issuers, since an entire list is retrieved at any time, instead of the state of a single credential. If higher privacy is needed, the length of the bit string can be increased accordingly. Furthermore, only a minimum of information is published, so no data is published outside of an anonymous status. 
+            \item Compatibility: The list can be hosted by an issuer directly or distributed through a content distribution network, which further increases privacy since the issuer no longer handles requests directly.
+        \end{itemize}
+        
+        For its implementation, the issuer must publish the compressed bitstring in a Verifiable Credential signed by itself. The data model can be seen exemplary in listing \ref{listing: revocationlist2020credential}.
+        \newline
+
+        \begin{lstlisting}[language=json, caption={Example RevocationList2020 credentials (edited and extracted from \cite{longley_revocation_2021})}, captionpos=b, label={listing: revocationlist2020credential}]  
+{
+    "@context": [...],
+    "id": "https://example.com/credentials/status/3", 
+    "type": ["VerifiableCredential", "RevocationList2020Credential"],
+    "issuer": "did:example:12345", 
+    "credentialSubject": {
+      "id": "https://dmv.example.gov/credentials/status/3#94567",
+      "type": "RevocationList2020",
+      "encodedList": "H4sIAAAAAAAAA-3BMQEAAADCoPVPbQsvoAAAAAAAAAAAAAAA..."
+    },
+    "proof": { ... }
+}\end{lstlisting}
+
+        The specification requires that this credential must contain a \texttt{id} that references the id within the credential whose status is being represented.  In addition, the type \texttt{RevocationList2020Credential} must be included, as well as the type and encoded list under \texttt{credentialSubject}. Correspondingly, the specification also describes how the published revocation list can be correctly referenced as a revocation method in an \ac{vc} issued by the issuer. This is illustrated in listing \ref{listing: revocationlist2020usage}.
+        \newline
+        
+        \begin{lstlisting}[language=json, caption={Example \ac{vc} referencing a RevocationList2020 credential (edited and extracted from \cite{longley_revocation_2021})}, captionpos=b, label={listing: revocationlist2020usage}]  
+{
+    "@context": [...],
+    "id": "https://example.com/credentials/23894672394", 
+    "type": ["VerifiableCredential"],
+    "issuer": "did:example:12345",
+    "credentialStatus": {
+      "id": "https://dmv.example.gov/credentials/status/3#94567"
+      "type": "RevocationList2020Status",
+      "revocationListIndex": "94567",
+      "revocationListCredential": "https://example.com/credentia
+    }, 
+    "credentialSubject": {
+      "id": "did:example:6789",
+       "type": "Person"
+    },
+    "proof": { ... } 
+}\end{lstlisting}
+    
+    In \ref{listing: revocationlist2020usage}, the object \texttt{credentialStatus} is the primary object to be considered. In this, the \texttt{id} is found in the first place, which corresponds to the id in the \texttt{credentialSubject} of the RevocationList2020 credential. The \texttt{type} attribute clearly indicates that this credential uses the RevocationList2020 revocation method, followed by the index of the revocation status of the credential in the list (\texttt{revocationListIndex}) and a URL leading directly to the \ac{vc} containing the encoded revocation list (\texttt{revocationListCredential}). \cite{longley_revocation_2021}
+    
+    RevocationList2020 is a promising approach to implement privacy-preserving revocation of \acp{vc}. Despite the status of the specification, there are already possibilities to use this revocation method in production. For example, MATTR offers it to its customers on its SSI platform \cite{mattr_adding_2020}, but it can also be implemented independently using open-source libraries such as \texttt{vc-revocation-list-2020} \cite{digital_bazaar_vc-revocation-list-2020_2021} from Digital Bazaar.
+        
+        
+        
+		
