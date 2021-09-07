@@ -435,7 +435,3 @@ Over the years, these ideas, among others like \cite{marlinspike_what_2012, idcu
     In \ref{listing: revocationlist2020usage}, the object \texttt{credentialStatus} is the primary object to be considered. In this, the \texttt{id} is found in the first place, which corresponds to the id in the \texttt{credentialSubject} of the RevocationList2020 credential. The \texttt{type} attribute clearly indicates that this credential uses the RevocationList2020 revocation method, followed by the index of the revocation status of the credential in the list (\texttt{revocationListIndex}) and a URL leading directly to the \ac{vc} containing the encoded revocation list (\texttt{revocationListCredential}). \cite{longley_revocation_2021}
     
     RevocationList2020 is a promising approach to implement privacy-preserving revocation of \acp{vc}. Despite the status of the specification, there are already possibilities to use this revocation method in production. For example, MATTR offers it to its customers on its SSI platform \cite{mattr_adding_2020}, but it can also be implemented independently using open-source libraries such as \texttt{vc-revocation-list-2020} \cite{digital_bazaar_vc-revocation-list-2020_2021} from Digital Bazaar.
-        
-        
-        
-		

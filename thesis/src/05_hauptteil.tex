@@ -13,13 +13,48 @@
 	
 \chapter{Reference Implementation}\label{chapter: implementation}
 
-    \section{Requirements}
-    \section{Base Implementation}
-    \section{Architecture}
-    \section{Solution Integration}
+This chapter focuses on the development of a reference implementation covering the \ac{vc} lifecycle, which is based on learnings of the last few chapters concerning theoretical background and opinions of experts. It is intended to directly address the lack of practical considerations of \ac{SSI} solutions in the research area, by leveraging four of the previously listed solutions that can be used to implement the \ac{vc} lifecycle. In the next sections, the complete implementation process will be described, starting with preliminary considerations and ending with results and lessons learned.
+
+    \section{Considerations}\label{section: ri-considerations}
+    % Considerations: What should be done? Why? What's important? What not? Which implementations have i chosen? Which language for reference implementation? Why API?
+    As previously stated, the reference implementation should exemplarily implement four solutions in such a way that they map, based on their capabilities, the \ac{vc} lifecycle as much as possible. This enables a practical validation of the promises made by the solution providers and can thus provide a thorough insight into the existing or missing range of functionality. This way, possible blind spots or even insufficient features can be identified, which can be used to further improve the available solutions. This approach can additionally generate added value for developers who want to use \ac{SSI} technologies in their projects, since actual experiences, capabilities, and code of the individual solutions can be reused from a real implementation process.
+    
+    Since the results of the implementation are also to be incorporated directly into a new developer-oriented evaluation framework, there are some key considerations that must be defined beforehand. To meet the objectives described in this section, the following considerations were established:
+    
+    \begin{itemize}
+        \item \textit{Use-case agnostic}: In order to represent the \ac{vc} lifecycle as broadly and standardized as possible, the reference implementation should not be bound to the requirements and specifics of a use case. Focusing on a specific use-case could possibly lead to certain parts of the \ac{vc} lifecycle being underrepresented or not implemented at all. Such an open approach can also invite a closer look and implementation of specific facets of a technology that would have been unnecessary for a use case. This also means that the reference implementation must be accessible in such a way that it can be used relatively independently of the technology stack being used for a use case.
+        \item \textit{Flexible architecture}: The reference implementation should leverage a software architecture that makes it as easy as possible to plug in new \ac{SSI} solutions. Peculiarities and complexities should be abstracted away to create a flexible and resilient architecture. 
+        \item \textit{Community efforts} Since the \ac{SSI} community is very active, it should be checked beforehand which previous work can be reused for the implementation. This applies to both the architecture and the software libraries used. In this way, it can be ensured that the work does not disregard the requirements of the community and thus reality.
+        \item \textit{Implementation experience}: Throughout the entire development process, objective experiences and findings should be documented and summarized. As already mentioned, these may be relevant for other developers, the solution providers, and also for the mentioned evaluation framework.
+    \end{itemize}
+    
+    Taking these four points into account, the goal is to create a reference implementation that is as helpful as possible. The next section explores this, starting with the base implementation and community efforts to date, on which further work can be based on.
+    
+    \section{Base Implementation}\label{section: base-implementation}
+    % Basis for Implementation: vc-http-api -> why? What is it for? What changes/ additions have to be made? Why can I hijack it? API Document!
+    % Technical basis -> express app, typescript 
+    A RESTful API was chosen as the basic implementation form, since it is technology-independent and can be used in various programming languages and environments. It is only necessary that HTTP requests can be sent, which allows a high degree of flexibility in later applications. 
+    
+    As a basis, this work is roughly based on the ideas of the W3C Credentials Community Group, which has created an unofficial draft API definition called “Verifiable Credentials HTTP API”. This describes the structure of an API with all its routes, request, as well as response bodies, which can be used for the \ac{vc} “lifecycle management”. The group defined API contracts according to the OpenAPI standard, which were originally intended to be used as a basis for verifying interoperability of \acp{vc} issued by different providers (see interoperability report from \cite{homeland_security_preventing_2020}). It is important to note that the reference implementation is based on the state of the API contract as of April 2020 (v.0.0.2-unstable), as some small things have changed since then. The contract is strongly based on the \ac{vc} standard and divides the API into resources for the three roles: Issuer, verifier, and optional holder. The includes resources for issuing and verifying \acp{vc} and \acp{VP}, deriving, as well as revoking \acp{vc}. At this point, it should be emphasized again that this is an API definition and not an actual implementation. \cite{world_wide_web_consortium_credentials_community_group_vc_2021, world_wide_web_consortium_credentials_community_group_verifiable_2021}
+    
+    With regard to the reference implementation, this preliminary work is quite helpful, even if it doesn't fully cover the whole \ac{vc} lifecycle. Therefore, some changes and additions have been made. These can be summarized in the following points:
+    % might be incomplete 
+    \begin{itemize}
+        \item \textit{Provider selection}: Since four solutions should be addressable via the API, a query parameter was added to each route which is based on a custom provider schema definition. Thus, it is possible to specify which solution/ provider should handle a request.
+        \item \textit{Destination selection}: Another query parameter allows defining whether a request has the local or a remote agent as target. This mainly includes the issuing route for a \ac{vc}, which allows a \ac{vc} to be sent directly to the subject's agent or imported via QR code. In other cases, such as transferring \acp{vc} or presenting or requesting presentations, can be done directly via the request body. For this purpose, the schema \texttt{GenericMessage} was defined, which in its structure is very roughly based on the DIDComm data model.
+        \item \textit{Added routes}: To complete the lifecycle coverage, a route to create a presentation request has been added to the Verifier and routes to save, delete, transfer of \acp{vc} and presenting \acp{VP} have been added to the Holder. For the request and response bodies, existing schemas were reused as much as possible.
+        \item \textit{Response bodies}: Since some response bodies contained too much information for the requirements of the API, the schema \texttt{GenericResult} was introduced, which only contains whether the operation was successful and whether there were errors. This is the case for verifying, storing, deleting, and transferring \acp{vc} and verifying, as well as requesting/ presenting \acp{VP}.
+    \end{itemize}
+    
+    
+    \vfill
+    \section{Architecture}\label{section: architecture}
+    % Software architecture, factory method pattern -> why? Describe how solutions tap into it.
+    \section{Solution Integration}\label{section: integration}
+    % Describe implementation process, what has been done, what not. What worked, what not? What was problematic? What did I like?
     \subsection{Solution Selection}
     \subsection{MATTR}
     \subsection{Trinsic}
     \subsection{Veramo}
     \subsection{Azure AD}
-    \section{Results}
+    \section{Results}\label{section: ri-results}
