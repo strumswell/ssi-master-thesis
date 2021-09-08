@@ -20,7 +20,7 @@ This chapter focuses on the development of a reference implementation covering t
     As previously stated, the reference implementation should exemplarily implement four solutions in such a way that they map, based on their capabilities, the \ac{vc} lifecycle as much as possible. This enables a practical validation of the promises made by the solution providers and can thus provide a thorough insight into the existing or missing range of functionality. This way, possible blind spots or even insufficient features can be identified, which can be used to further improve the available solutions. This approach can additionally generate added value for developers who want to use \ac{SSI} technologies in their projects, since actual experiences, capabilities, and code of the individual solutions can be reused from a real implementation process.
     
     Since the results of the implementation are also to be incorporated directly into a new developer-oriented evaluation framework, there are some key considerations that must be defined beforehand. To meet the objectives described in this section, the following considerations were established:
-    
+    % Maybe add something along the lines of: MVP -> i don't care about error handling and edge cases
     \begin{itemize}
         \item \textit{Use-case agnostic}: In order to represent the \ac{vc} lifecycle as broadly and standardized as possible, the reference implementation should not be bound to the requirements and specifics of a use case. Focusing on a specific use-case could possibly lead to certain parts of the \ac{vc} lifecycle being underrepresented or not implemented at all. Such an open approach can also invite a closer look and implementation of specific facets of a technology that would have been unnecessary for a use case. This also means that the reference implementation must be accessible in such a way that it can be used relatively independently of the technology stack being used for a use case.
         \item \textit{Flexible architecture}: The reference implementation should leverage a software architecture that makes it as easy as possible to plug in new \ac{SSI} solutions. Peculiarities and complexities should be abstracted away to create a flexible and resilient architecture. 
@@ -37,24 +37,68 @@ This chapter focuses on the development of a reference implementation covering t
     
     As a basis, this work is roughly based on the ideas of the W3C Credentials Community Group, which has created an unofficial draft API definition called “Verifiable Credentials HTTP API”. This describes the structure of an API with all its routes, request, as well as response bodies, which can be used for the \ac{vc} “lifecycle management”. The group defined API contracts according to the OpenAPI standard, which were originally intended to be used as a basis for verifying interoperability of \acp{vc} issued by different providers (see interoperability report from \cite{homeland_security_preventing_2020}). It is important to note that the reference implementation is based on the state of the API contract as of April 2020 (v.0.0.2-unstable), as some small things have changed since then. The contract is strongly based on the \ac{vc} standard and divides the API into resources for the three roles: Issuer, verifier, and optional holder. The includes resources for issuing and verifying \acp{vc} and \acp{VP}, deriving, as well as revoking \acp{vc}. At this point, it should be emphasized again that this is an API definition and not an actual implementation. \cite{world_wide_web_consortium_credentials_community_group_vc_2021, world_wide_web_consortium_credentials_community_group_verifiable_2021}
     
-    With regard to the reference implementation, this preliminary work is quite helpful, even if it doesn't fully cover the whole \ac{vc} lifecycle. Therefore, some changes and additions have been made. These can be summarized in the following points:
-    % might be incomplete 
+    With regard to the reference implementation, this preliminary work is quite helpful, even if it doesn't fully cover the whole \ac{vc} lifecycle. Therefore, some changes and additions have been made. A graphical representation of the API definition is shown in Figure X, which also allows testing of the individual routes.
+    \newpage
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth]{\includegraphics[width=0.9\textwidth]{thesis/img/13_api_definition.png}}
+        \caption{Modified API definition (based on \cite{world_wide_web_consortium_credentials_community_group_vc_2021})}
+        \label{figure: api definition}
+    \end{figure}
+    
+    All changes made to the original definition are summarized by the following points:
+    
+    % TODO: might be incomplete 
     \begin{itemize}
-        \item \textit{Provider selection}: Since four solutions should be addressable via the API, a query parameter was added to each route which is based on a custom provider schema definition. Thus, it is possible to specify which solution/ provider should handle a request.
+        \item \textit{Provider selection}: Since four solutions should be addressable via the API, a query parameter was added to each route, which is based on a custom provider schema definition. Thus, it is possible to specify which solution/ provider should handle a request.
         \item \textit{Destination selection}: Another query parameter allows defining whether a request has the local or a remote agent as target. This mainly includes the issuing route for a \ac{vc}, which allows a \ac{vc} to be sent directly to the subject's agent or imported via QR code. In other cases, such as transferring \acp{vc} or presenting or requesting presentations, can be done directly via the request body. For this purpose, the schema \texttt{GenericMessage} was defined, which in its structure is very roughly based on the DIDComm data model.
         \item \textit{Added routes}: To complete the lifecycle coverage, a route to create a presentation request has been added to the Verifier and routes to save, delete, transfer of \acp{vc} and presenting \acp{VP} have been added to the Holder. For the request and response bodies, existing schemas were reused as much as possible.
         \item \textit{Response bodies}: Since some response bodies contained too much information for the requirements of the API, the schema \texttt{GenericResult} was introduced, which only contains whether the operation was successful and whether there were errors. This is the case for verifying, storing, deleting, and transferring \acp{vc} and verifying, as well as requesting/ presenting \acp{VP}.
     \end{itemize}
     
+    The goal of the customizations was to ensure that the original API definition did not constrain the implementation, while retaining fundamental parts of the community work. 
     
-    \vfill
+    Based on the expert survey and observations from the IIW April 2021, the solutions Veramo from ConsenSys Software Inc, MATTR VII from MATTR Limited, Trinsic Core from Trinsic Technologies Inc, and Azure AD Verifiable Credentials from Microsoft were selected as the four solutions to be included in the reference implementation. For the implementation language, TypeScript was chosen as it was the only language where Veramo, Trinsic and Azure offer SDKs for. In addition, other basic libraries in the \ac{SSI} area are written in TypeScript or at least JavaScript and would thus integrate more easily into the implementation to possibly add missing features. Unlike JavaScript, various features of TypeScript allow cleaner and more robust code \cite[p. 87]{zammetti_modern_2020} that can simultaneously benefit from much of the existing JavaScript packages being made available from the open-source community.
+    
+    Building on this decision, node.js was selected as the JavaScript runtime that can be used in combination with the express.js library to develop highly scalable web applications such as APIs \cite{openjs_foundation_about_2021, openjs_foundation_express_2021}. To make TypeScript work in this environment, various dependencies such as TypeScript, ts-node, eslint, and some type definitions were installed via the Node Package Manager. The next section describes how these components and the four solutions were combined into a flexible software architecture.
+    
     \section{Architecture}\label{section: architecture}
     % Software architecture, factory method pattern -> why? Describe how solutions tap into it.
+    
+    With regard to the considerations in section \ref{section: ri-considerations}, the factory method design pattern was chosen for the software architecture. It belongs to the creational patterns and thus influences how the instantiation process is carried out. A developer can thus decide independently of the system how, for example, objects are created, which enables a high degree of flexibility. It defines an interface or an abstract class for the creation of objects, whereby the instantiation of objects is done by subclasses instead of a class. This is useful, for example, if a class does not yet know which objects it needs to create at runtime. \cite[pp. 81, 85, 107-108]{gamma_design_1995} 
+    
+    This is pattern is appropriate because a request determines which solution and thus which objects have to be created. In addition, it allows the complexities of the individual solutions to be abstracted away, so that when defining the individual routes, only the concrete factory class must be called, which returns the correct object of the requested solution. This way, the routes only need to be programmed once and additional solutions can be added afterwards without having to change the code of the routes. Figure \ref{figure: factory method} shows a UML diagram that represents the concrete factory method pattern in the reference implementation. The interface \texttt{Factory} defines a method \texttt{createProvider()}, which is implemented by the class \texttt{ServiceProviderFactory}. This is the class which is instantiated, for example, in the routes and which is used to retrieve the object of a provider. A provider is the class of one of the four solutions that implements basic methods like the \ac{vc} issuance defined by the \texttt{ServiceProvider} interface.
+    
+    \begin{figure}[ht]
+	    \centering    	    \makebox[\textwidth]{\includesvg[inkscapelatex=false, width=0.8\textwidth]{img/14_uml_ref.svg}}
+        \caption{Factory method pattern in reference implementation (extracted and edited from \cite[p. 107]{gamma_design_1995})}
+        \label{figure: factory method}
+    \end{figure}
+    
+    A second pattern, which was integrated, is the Singleton design pattern. This is used in the individual concrete provider classes and allows that only one globally callable instance of a provider class can be created \cite[p. 127]{gamma_design_1995}. The rationale for this is that no more than one object is needed, caching is simplified, and multiple provider objects could lead to unforeseen complications.
+    
+    Looking at the complete system architecture, the previously described software architecture integrates tightly. The service provider factory sits between the routes for issuer, verifier, and holder and the concrete classes of the individual providers. Its features in the architecture can be summarized as follows and can be seen in Figure \ref{figure: sys architecture}:
+    
+    \begin{itemize}
+        \item \textit{Veramo Provider}: The provider class requires an agent class from Veramo, which enables the integration of extensions for various functionalities. This can be, for example, the Uniresolver for resolving \acp{DID} or various services with which a connection to blockchains can be established for various actions (e.g. Infura or Microsoft's Anchoring Service). The agent also offers a REST API, which allows any actions to be executed from a remote location. Furthermore, the agent can connect to other Veramo agents on the Internet and, for example, exchange messages of any kind via DIDComm or resolve their \acp{DID}. A more detailed explanation of Veramo can be found later in subsection \ref{subsection: veramo}.
+        \item \textit{MATTR Provider}: This provider communicates directly with the MATTR API, which handles any operations. Additionally, there is a callback service between the API and the provider, which can receive verification results from the MATTR platform, e.g. triggered by scanning a QR code through a mobile wallet.
+        \item \textit{Trinsic Provider}: Similar to the MATTR provider, this also communicates directly with the Trinsic API and a callback service catches verification results. Thus, as with MATTR, the actual \ac{SSI} logic is outside the reference implementation.
+        \item \textit{Azure Provider}: This provider is integrated into the architecture similar to MATTR and Trinsic. 
+    \end{itemize}
+    
+    \begin{figure}[ht]
+        \centering
+        \makebox[\textwidth]{\includegraphics[width=\textwidth]{thesis/img/15_architecture.png}}
+        \caption{System architecture}
+        \label{figure: sys architecture}
+    \end{figure}
+    
+    \vfill
+    
     \section{Solution Integration}\label{section: integration}
     % Describe implementation process, what has been done, what not. What worked, what not? What was problematic? What did I like?
-    \subsection{Solution Selection}
-    \subsection{MATTR}
-    \subsection{Trinsic}
-    \subsection{Veramo}
-    \subsection{Azure AD}
+    \subsection{MATTR}\label{subsection: mattr}
+    \subsection{Trinsic}\label{subsection: trinsic}
+    \subsection{Veramo}\label{subsection: veramo}
+    \subsection{Azure AD}\label{subsection: azure}
     \section{Results}\label{section: ri-results}
