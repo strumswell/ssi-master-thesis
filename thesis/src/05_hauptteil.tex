@@ -93,11 +93,101 @@ This chapter focuses on the development of a reference implementation covering t
         \label{figure: sys architecture}
     \end{figure}
     
-    \vfill
+    The addressed component together form the reference implementation and are enclosed only by a nginx proxy. This proxy is assigned a domain so that external components can correctly address internal components such as callback or messaging services. 
     
     \section{Solution Integration}\label{section: integration}
     % Describe implementation process, what has been done, what not. What worked, what not? What was problematic? What did I like?
+    
+    This section briefly introduces each of the solutions and addresses their implementation. First, however, the concepts of the last section will be discussed with regard to their implementation. The goal is to establish a conceptual skeleton into which the following subsections can be seamlessly integrated.
+    
+    The starting point is \texttt{index.js}, which starts the web server and thus the API via Express by bundling all routes from other files here. These are divided into the files \texttt{HolderRoutes.ts}, \texttt{VerifierRoutes.ts}, and \texttt{IssuerRoutes.ts} and implement the associated methods. Listing \ref{listing: verifier routes} shows an example of a section of \texttt{VerifierRoutes.ts}.
+    \newline
+
+\begin{lstlisting}[style=ES6, caption=Extract of verifier routes, label={listing: verifier routes}]
+const router = express.Router();
+const factory = new ServiceProviderFactory();
+
+router
+  .post("/credentials/verify", providerCheck, async(req, res) => {
+    const query = req.query.provider.toUpperCase();
+    const body = req.body.verifiableCredential;
+    
+    const provider = factory.createProvider(ServiceType[query]);
+    const result: GenericResult =
+      await provider.verifyVerifiableCredential(body);
+      
+    if (result instanceof Error) {
+      res.status(500).send(<GenericResult>{ 
+        success: false, 
+        error: result.message 
+      });
+    } else {
+      res.status(200).send(result);
+    }
+  })
+  ...
+export = router;
+\end{lstlisting}
+
+    Here, the POST method for verifying a \ac{vc} is attached to the \texttt{router} (line 10). A \texttt{providerCheck} is appended as middleware, which checks whether the provider specified in the query is indeed valid. Within the route body, the provider object is created via the \texttt{ServiceProviderFactory}, which should handle the request (line 14). This object is then used in lines 15 and 16 to verify the \ac{vc} in the request body, the result of which is then sent as a response to the requestor. By exporting the router object (line 28), all injected routes can be imported into \texttt{index.js} and made available. This example shows that no provider-specific code is present in the route code due to the factory method pattern. To demonstrate how the \texttt{ServiceProviderFactory} works, its code can be seen in listing \ref{listing: factory}.
+    \newpage
+
+\begin{lstlisting}[style=ES6, caption=Extract of service provider factory, label={listing: factory}]
+export class ServiceProviderFactory implements Factory {
+  createProvider(type: ServiceType): ServiceProvider {
+    switch (type) {
+      case ServiceType.VERAMO:
+        return VeramoProvider.getInstance();
+      case ServiceType.MATTR:
+        return MattrProvider.getInstance();
+      case ServiceType.TRINSIC:
+        return TrinsicProvider.getInstance();
+      case ServiceType.AZURE:
+        return AzureProvider.getInstance();
+      default:
+        return null;
+    }
+  }
+}
+\end{lstlisting}
+
+    The class \texttt{ServiceProviderFactory} implements the createProvider method according to the \texttt{Factory} interface. If this method is called with the desired provider (ServiceType), as e.g. in listing \ref{listing: verifier routes} line 14, then the Singleton object corresponding to the provider is returned via a switch statement. According to the factory method pattern, all provider classes implement the \texttt{ServiceProvider} interface and its signatures as concrete methods. This can be seen exemplarily in listing \ref{listing: provider}.
+    \newline
+\begin{lstlisting}[style=ES6, caption=Example of provider implementation, label={listing: provider}]
+export interface ServiceProvider {
+  deleteVerifiableCredential(identifier: string): 
+   Promise<CredentialDeleteResult>;
+  ...
+}
+
+export class VeramoProvider implements ServiceProvider {
+  async deleteVerifiableCredential(identifier: string): 
+   Promise<CredentialDeleteResult> {
+    const db = new VeramoDatabase();
+    const result: CredentialDeleteResult = { isDeleted: false };
+    try {
+      const isDeleted = await db.deleteCredential(identifier);
+      result.isDeleted = isDeleted[0];
+      result.message = isDeleted[1];
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+  ...
+}\end{lstlisting}
+
+    In this case, the class \texttt{VeramoProvider} implements the interface \texttt{ServiceProvider} with its signatures like \texttt{deleteVerifiableCredential()} concretely, to delete a \ac{vc} from the Veramo agent database.
+    
+    Having described the programmatic skeleton, the following subsection describes the first solution MATTR and its integration into the reference implementation.
+    
     \subsection{MATTR}\label{subsection: mattr}
+    MATTR Limited is a New Zealand-based company \cite{mattr_privacy_2021} that specializes in providing solutions for “[...] a new world of digital trust.” \cite{mattr_mattr_2021-1}. This primarily includes their MATTR VII platform, which can be used to technically implement key components of an \ac{SSI} ecosystem \cite{mattr_products_2021}. According to the company, the platform can be divided into the following components: \cite{mattr_mattr_2021}
+
+    \begin{itemize}
+        \item \textit{VII Core}: ...
+    \end{itemize}
+    
     \subsection{Trinsic}\label{subsection: trinsic}
     \subsection{Veramo}\label{subsection: veramo}
     \subsection{Azure AD}\label{subsection: azure}
