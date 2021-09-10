@@ -182,12 +182,67 @@ export class VeramoProvider implements ServiceProvider {
     Having described the programmatic skeleton, the following subsection describes the first solution MATTR and its integration into the reference implementation.
     
     \subsection{MATTR}\label{subsection: mattr}
-    MATTR Limited is a New Zealand-based company \cite{mattr_privacy_2021} that specializes in providing solutions for “[...] a new world of digital trust.” \cite{mattr_mattr_2021-1}. This primarily includes their MATTR VII platform, which can be used to technically implement key components of an \ac{SSI} ecosystem \cite{mattr_products_2021}. According to the company, the platform can be divided into the following components: \cite{mattr_mattr_2021}
+    MATTR Limited is a New Zealand-based company \cite{mattr_privacy_2021} that specializes in providing solutions for “[...] a new world of digital trust.” \cite{mattr_mattr_2021-4}. This primarily includes their MATTR VII platform, which can be used to technically implement key components of an \ac{SSI} ecosystem \cite{mattr_products_2021}. According to the company, the platform can be divided into the following components: \cite{mattr_mattr_2021-2}
 
     \begin{itemize}
-        \item \textit{VII Core}: ...
+        \item \textit{VII Core}: Since MATTR is a platform solution, Core includes a variety of web APIs that serve as the foundation. This includes APIs for \acp{DID}, \acp{vc}, \acp{VP}, and secure messaging between \acp{DID}. \cite{mattr_vii_2021}
+        \item \textit{VII Extensions}: These are additional components that build on VII Core, such as a bridge for OpenID Connect systems (see user-centric identities), or white label mobile wallets and SDKs. \cite{mattr_vii_2021-1}
+        \item \textit{VII Drivers}: Similar to PCs, this component allows flexible integration of basic elements. This includes support for various DID methods (did:key, did:web, did:sov), crypto suites (ed25519, bls12381g2)\cite{mattr_vii_2021-2}, and storage options. \cite{mattr_vii_2021-3}
     \end{itemize}
     
+    In addition, the company offers resources for developers to learn the basics of SSI \cite{mattr_resources_2021} but also comprehensive API documentation, tutorials in written and in some cases video form \cite{mattr_mattr_2021}, mobile wallets, and sample app \cite{mattr_mattr_2021-1, mattr_vii_2021}. Within the \ac{SSI} community, they participate in the development of open standards \cite{mattr_approach_2021, looker_bbs_2021} and software libraries \cite{mattr_mattr_2021-5} and have demonstrated interoperability  in the Homeland Security Plugfest in 2021 \cite{homeland_security_interoperability_2021}.
+    
+    With regard to the integration into the reference implementation, the generous free tier and the  well-structured documentation proved to be very helpful. Thus, a large part of the \ac{vc} lifecycle could be integrated relatively unproblematically by simply addressing the corresponding endpoints of the MATTR VII REST API. These take care of any logic and can also be used to manage \acp{DID} and their keys as well as \acp{vc}. The support of BBS+ for ZKP credentials and revocable credentials (RevocationList2020) is directly integrated into the API as well. For interactions like issuance and presentation with the MATTR mobile wallet, an OIDC provider (see user-centric identity) like Auth0 is currently necessary. Its initial setup took some time, but was feasible due to the good documentation. To receive the verification result from a mobile wallet presentation, the sample apps were used to integrate a callback service into the reference implementation. In summary, the broad coverage of the \ac{vc} lifecycle, the large number of features, and the very developer-friendly documentation with tutorials stood out positively.
+    
+    Nevertheless, some things were noticed that could be problematic and restrictive under certain circumstances. For example, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentation to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users.
+    
+    The majority of the integration took place in \texttt{MattrProvider.ts}, which implements the \texttt{ServiceProvider} interface. Since this class implements any functionality via HTTP requests, listing \ref{listing: mattr verification} is an example of how this works. However, it should be noted that methods such as \texttt{issueVerifiableCredential()} are significantly more complex, as specific logic such as the distinction in issuance to a wallet or not must be considered accordingly.
+    \newline
+    
+\begin{lstlisting}[style=ES6, caption=Example of mattr verification implementation, label={listing: mattr verification}]
+async verifyVerifiablePresentation(body: VerifiablePresentation): 
+ Promise<GenericResult> {
+  const request = { presentation: body };
+  const authToken: string = await this.getBearerToken();
+  const result: GenericResult = {
+   success: null,
+  };
+
+  try {
+    const response = await fetch(`.../presentations/verify`, {
+      method: "POST",
+      body: JSON.stringify(request),
+      headers: { 
+        "Content-Type": "application/json", 
+        Authorization: `Bearer ${authToken}` 
+      },
+    });
+    const verificationResult = await response.json();
+    result.success = verificationResult.verified;
+    result.error = verificationResult.reason;
+    return result;
+  } catch (error) {
+    return error;
+  }
+}\end{lstlisting}
+    
+    Furthermore, helper methods were implemented to generate authentication tokens for the requests or to cache QR codes for issuing \acp{vc} to mobile wallets. Especially, interactions with the latter required several extra implementations that enable the generation of issuance and presentation requests in the form of QR codes via an OIDC provider to MATTR. Starting with the issuance of a \ac{vc} to such a wallet, the type, and attributes of the \ac{vc} must be prepared at the OIDC provider and MATTR. The resulting provider ID can then simply be referenced in an issuance URL and, if desired, encoded in a QR code. This can be seen in listing \ref{listing: mattr oidc issuance}.
+    \newline
+    
+\begin{lstlisting}[style=ES6, caption=OIDC issuance QR code generation, label={listing: mattr oidc issuance}]
+private getOIDCIssuerQRCode(oidcIssuer: string): Buffer {
+  if (this.issuerQrCache.has(oidcIssuer)) 
+    return this.issuerQrCache.get(oidcIssuer).image;
+
+  const qrcode: Buffer = qr.imageSync(
+    `openid://discovery?issuer=${process.env.MATTR_URL}
+    /ext/oidc/v1/issuers/${oidcIssuer}`,
+    { type: "png" }
+    );
+  this.issuerQrCache.set(oidcIssuer, qrcode);
+  return qrcode;
+  }
+}\end{lstlisting}
     \subsection{Trinsic}\label{subsection: trinsic}
     \subsection{Veramo}\label{subsection: veramo}
     \subsection{Azure AD}\label{subsection: azure}
