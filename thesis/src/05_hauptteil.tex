@@ -194,7 +194,7 @@ export class VeramoProvider implements ServiceProvider {
     
     With regard to the integration into the reference implementation, the generous free tier and the  well-structured documentation proved to be very helpful. Thus, a large part of the \ac{vc} lifecycle could be integrated relatively unproblematically by simply addressing the corresponding endpoints of the MATTR VII REST API. These take care of any logic and can also be used to manage \acp{DID} and their keys as well as \acp{vc}. The support of BBS+ for ZKP credentials, revocable credentials (RevocationList2020) and LD proofs is directly integrated into the API as well. For interactions like issuance and presentation with the MATTR mobile wallet, an OIDC provider (see user-centric identity) like Auth0 is currently necessary. Its initial setup took some time, but was feasible due to the good documentation. To receive the verification result from a mobile wallet presentation, the sample apps were used to integrate a callback service into the reference implementation. In summary, the broad coverage of the \ac{vc} lifecycle, the large number of features, and the very developer-friendly documentation with tutorials stood out positively.
     
-    Nevertheless, some things were noticed that could be problematic and restrictive under certain circumstances. For example, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
+    Nevertheless, some things were noticed that could be problematic and restrictive under certain circumstances. For example, on-boarding to the platform has been relatively cumbersome in April 2021, as it was necessary to join the official Slack channel after successful registration, where support then triggers the rest of the process manually. After the cloud agent had been created, the password was communicated by the support via Keybase. Additionally, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
     
     The majority of the integration took place in \texttt{MattrProvider.ts}, which implements the \texttt{ServiceProvider} interface. Since this class implements any functionality via HTTP requests, listing \ref{listing: mattr verification} is an example of how this works. However, it should be noted that methods such as \texttt{issueVerifiableCredential()} are significantly more complex, as specific logic such as the distinction in issuance to a wallet or not must be considered accordingly.
     \newline
@@ -247,12 +247,14 @@ private getOIDCIssuerQRCode(oidcIssuer: string): Buffer {
     To verify a \ac{vc} from the MATTR wallet app, a presentation request must be prepared. For this purpose, a presentation template is first defined on the MATTR platform, which contains, for example, the allowed issuers or the requested attributes of a requested \ac{vc}. MATTR assigns a unique ID to this template. This ID can then be used in the first step of provisioning in the reference implementation. Here the actual presentation request is prepared with the verifier DID, the template ID, an expiration date and a callback URL via the MATTR API. In the next step, authentication keys are retrieved as a DID URL from the verifier DID document via the MATTR platform to sign the presentation request via the same platform in the next step. The resulting JWS payload is cached and a QR code is generated with a public URL of the reference implementation. This process can be seen in listing \ref{listing: mattr oidc presentation}.
     \newline
 \begin{lstlisting}[style=ES6, caption=Generate QR code for OIDC presentation reqest, label={listing: mattr oidc presentation}]
-public async generateQRCode(request: GenericMessage): 
- Promise<Buffer> {
+public async generateQRCode(request: GenericMessage): Promise<Buffer> {
   const templateId: string = request.body.request.credentialType;
+  
+  // Check cache
   if (this.qrCache.has(templateId)) 
     return this.qrCache.get(templateId).image;
 
+  // Prepare QR code and JWS payload URL
   const publicUrl = this.publicUrl;
   const provisionRequest = 
     await this.provisionPresentationRequest(publicUrl, request);
@@ -260,7 +262,8 @@ public async generateQRCode(request: GenericMessage):
   const didcommUrl = 
     await this.signPayload(publicUrl, didUrl, provisionRequest); 
   const qrcode = qr.imageSync(didcommUrl, { type: "png" });
-
+    
+  // Cache and return it
   this.qrCache.set(templateId, qrcode, request.expiresTime);
   return qrcode;
 }\end{lstlisting}
@@ -274,18 +277,112 @@ public async generateQRCode(request: GenericMessage):
     The Trinsic SSI platform is developed by the US company Trinsic Technologies Inc. and offers various components for developing SSI solutions \cite{trinsic_trinsic_2021}. The company divides the platform into four components:
     
     \begin{itemize}
-        \item \textit{Trinsic Core}: \cite{trinsic_trinsic_2021-1}
-        \item \textit{Trinsic Ecosystems}: \cite{trinsic_trinsic_2021-2}
-        \item \textit{Trinsic Studio}: \cite{trinsic_trinsic_2021-3}
-        \item \textit{Identity Wallets}: \cite{trinsic_identity_2021}
+        \item \textit{Trinsic Core}: Since Trinsic is also a platform solution, Core offers a lot of APIs to issue, verify and exchange credentials. \cite{trinsic_trinsic_2021-1}
+        \item \textit{Trinsic Ecosystems}: Enables the creation of ecosystems based on organizations. It can be determined which credentials can be exchanged, who can participate in the ecosystem, and how participants can know who to trust. \cite{trinsic_trinsic_2021-2}
+        \item \textit{Trinsic Studio}: A dashboard that builds a user-friendly GUI on top of the Core APIs to manage organizations, connections, credentials, and verification templates. Trinsic also offers a white-label version of Trinsic Studio. \cite{trinsic_trinsic_2021-3}
+        \item \textit{Identity Wallets}: The wallet SDK allows the creation of cross-platform wallet apps for, for example, Flutter and React Native. Otherwise, Trinsic's own wallet app for Android and iOS can be downloaded from the app stores. \cite{trinsic_identity_2021}
     \end{itemize}
     
-    \begin{figure}[ht]
-        \centering
-        \makebox[\textwidth]{\includegraphics[width=\textwidth]{thesis/img/16_trinsic.png}}
-        \caption{Trinsic platform features (extracted from \cite{riley_hughes_announcing_2021})}
-        \label{figure: trinsic features}
-    \end{figure}
+    In addition, Trinsic offers SDKs in various languages that serve as wrappers for the REST API, providing native interfaces for programming languages \cite{trinsic_service_2021}. This includes languages such as Ruby, Python, JavaScript and more, with SDKs for additional languages that can be generated via Trinsic's swagger hub. Also worth mentioning is the clearly structured and comprehensive documentation, which also integrates code samples and a getting started tutorial \cite{trinsic_introduction_2021}. The documentation also describes the basics of SSI in a short and concise way, so that even new developers can get an introduction to the topic. The registration process is very short and in combination with the free tier, which allows 50 credentials exchanges per month and has a reduced feature set \cite{trinsic_pricing_2021}, it is possible to get started quickly. The company is also partnered with Zapier, which allows custom flows to be created with other apps, e.g. to send a credential via Gmail when there is a new attendee at Eventbrite. Trinsic follows standards like \ac{DID}, \ac{vc}, DIDComm and various Aries RFCs, for which open-source work has been done on a .NET implementation \cite{trinsic_open_2021}.
+    
+    The integration of Trinsic into the reference implementation proved to be extremely pleasant. This was mainly due to the documentation but also to Trinsic Studio. With the latter, an organization and associated credential and verification templates could be created within a few minutes. The resulting IDs could later be used to trigger the issuance and presentation flows using Trinsic's JavaScript SDK, which also includes type definitions for TypeScript. No other solution made the implementation process so quick and easy.
+    
+    The Hyperledger focus is, however, very noticeable from a technological point of view. Only JSON credentials and CL signatures for revocation, DIDComm v1, Aries exchange protocols and Hyperledger-specific DID methods like did:sov are supported. Newer technologies as well as DID methods based on public permissionless blockchains would be appreciated here. In addition, functionality is abstracted away even further in contrast to MATTR, which increases user-friendliness but hardly allows any flexibility. Thus, no custom \acp{DID} can be generated, and no custom \acp{vc} can be issued or verified without first generating a template. Direct access for generating \acp{VP} on the cloud agent or the selective disclosure functions is also not available. All these things are managed in the background by Trinsic and the mobile wallet. This can certainly be sufficient for certain use cases, but maybe too inflexible for others. Just like MATTR, developers are completely dependent on Trinsic in terms of the tech stack and private key management. The company is trying to address many of the points mentioned above with the Core v2 platform, which is currently in closed beta. Latest technologies such as JSON-LD credentials, BBS+, presentation exchange, DIDComm v2 and new DID methods such as did:key or did:web are supported here. Trinsic could thus catch up with MATTR in terms of supported technologies. Table \ref{tab: trinsic roadmap} shows the current roadmap of the Trinsic platform.
+    
+        	\begin{center}
+            \captionof{table}{Trinsic Roadmap (based on \cite{riley_hughes_announcing_2021})}
+        		\begin{threeparttable}
+            		\begin{tabular}{llll}
+            			\hline 
+            			Type & Current & Beta & Future\tabularnewline
+            			\hline 
+            			\textbf{Data Exchange} & JSON & JSON-LD   & JWT \tabularnewline
+            			\textbf{}              & CL signatures    & BBS+ signatures       & OIDC SIOP\tabularnewline
+            			\textbf{}              & Aries exchange   & Presentation exchange & \tabularnewline
+            			\textbf{Communication} & did:peer         & did:key               & WACI\tabularnewline
+            			\textbf{}              & DIDComm v1       & DIDComm v2            & BLE, NFC\tabularnewline
+            			\textbf{}              & HTTP transport   & gRPC transport        & \tabularnewline
+            			\textbf{Public Trust}  & did:sov          & did:key, did:web      & did:un, did:ion\tabularnewline
+            			\textbf{}              & Hyperledger Indy & did:indy              & \tabularnewline
+            			\hline 
+            		\end{tabular}
+        	\end{threeparttable}
+        	\label{tab: trinsic roadmap}
+    	\end{center}
+    	
+    The main part of the implementation takes place in the \texttt{TrinsicProvider.ts}, which implements the \texttt{ServiceProvider} interface. To communicate with the Trinsic API, the JavaScript SDK was used to create an object of the \texttt{CredentialsServiceClient} class. This is done in the constructor so that the object is available immediately after initialization. This can be seen in listing \ref{listing: trinsic service client}.
+    \newline
+    \begin{lstlisting}[style=ES6, caption=Connecting to Trinsic API via SDK, label={listing: trinsic service client}]
+export class TrinsicProvider implements ServiceProvider {
+  client: CredentialsServiceClient;
+
+  private constructor() {
+    this.client = new CredentialsServiceClient(
+      new Credentials(process.env.TRINSIC_KEY), 
+      { noRetryPolicy: true }
+    );
+  }
+  ...
+}\end{lstlisting}
+    
+    How to programmatically issue a \ac{vc} to the mobile wallet via Trinsic, for example, can be seen in listing \ref{listing: trinsic issuance}. As required by the \texttt{ServiceProvider} interface, this is done by implementing the \texttt{issueVerifiableCredential()} method that first checks whether the requester actually wants to issue a pre-defined credential to the wallet. If this is not the case, it is informed that only predefined credentials can be issued to a wallet. If everything is correctly defined, the ID of the credential template as well as the values for the attributes of the credential are obtained from the request body. The \texttt{GenericMessage} schema in the request body is used for this. An object is formed from these values, which is submitted to the API via the Trinsic SDK and results in a \texttt{CreateCredentialResponse} object. The \texttt{offerUrl} contained therein is then encoded in a QR code, which can then be scanned via the Trinsic wallet to retrieve the \ac{vc}. 
+    \newline
+    
+    \begin{lstlisting}[style=ES6, caption=\ac{vc} issuance with Trinsic, label={listing: trinsic issuance}]
+async issueVerifiableCredential(
+  body: IssueCredentialRequest | GenericMessage,
+  toWallet: boolean
+): Promise<IssueCredentialResponse | Buffer> {
+  try {
+    if (!toWallet) throw Error("Only issuance to Trinsic wallet...");
+    if (isGenericMessage(body)) {
+      // Prepare request body for Trinsic
+      const message: GenericMessage = body;
+      const request = {
+        definitionId: message.body.credentialType,
+          connectionId: null,
+          automaticIssuance: false,
+          credentialValues: message.body.claimValues,
+      };
+      
+      // Generate QR code with offer URL
+      const vcOffer: CreateCredentialResponse = 
+        await this.client.createCredential(request);
+      const qrcode: Buffer = 
+        qr.imageSync(vcOffer.offerUrl, { type: "png" });
+      return qrcode;
+    } else {
+      throw Error("Issuing manual VCs is not supported...");
+    }
+  } catch (error) {
+    return error;
+  }
+}\end{lstlisting}
+
+    In the case of Trinsic, 3 of 10 methods of the \texttt{ServiceProvider} interface could be implemented directly, while all parts except for the transfer of \acp{vc} are at least indirectly part of Trinsic. Among them are the methods for issuing, deleting and creating presentation requests. The method for revoking credentials could have been implemented theoretically, but was not part of the free tier. After a presentation request has been successfully performed by the user, the result of the verification can be received via a webhook in the reference implementation. Similar to MATTR, a route was created via Express, to which the Trinsic platform can send the result. This webhook URL also had to be added via the Trinsic Studio beforehand, since the URL is not part of the presentation request body, as opposed to MATTR. Listing \ref{listing: trinsic webhook} shows how the webhook route is implemented.
+    \newline
+    
+    \begin{lstlisting}[style=ES6, caption=Trinsic webhook for verification result, label={listing: trinsic webhook}]
+const router = express.Router();
+const trinsic = TrinsicProvider.getInstance();
+
+router.post("/webhook", async (req, res) => {
+  try {
+    if (req.body.message_type === "verification") {
+      const verification = 
+        await trinsic.client.getVerification(req.body.object_id);
+      console.log(verification);
+    }
+  } catch (error) {
+    console.log(error.message || error.toString());
+  }
+  res.status(200).end();
+});
+
+export = router;
+\end{lstlisting}
+
+    At this point, all the specifics of the Trinsic platform and its integration into the reference implementation have been addressed. In the next subsection, the first and only non-platform solution and its implementation will be presented.
     
     \subsection{Veramo}\label{subsection: veramo}
     \subsection{Azure AD}\label{subsection: azure}
