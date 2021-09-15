@@ -131,7 +131,6 @@ export = router;
 
     Here, the POST method for verifying a \ac{vc} is attached to the \texttt{router} (line 10). A \texttt{providerCheck} is appended as middleware, which checks whether the provider specified in the query is indeed valid. Within the route body, the provider object is created via the \texttt{ServiceProviderFactory}, which should handle the request (line 14). This object is then used in lines 15 and 16 to verify the \ac{vc} in the request body, the result of which is then sent as a response to the requestor. By exporting the router object (line 28), all injected routes can be imported into \texttt{index.js} and made available. This example shows that no provider-specific code is present in the route code due to the factory method pattern. To demonstrate how the \texttt{ServiceProviderFactory} works, its code can be seen in listing \ref{listing: factory}.
     \newpage
-
 \begin{lstlisting}[style=ES6, caption=Extract of service provider factory, label={listing: factory}]
 export class ServiceProviderFactory implements Factory {
   createProvider(type: ServiceType): ServiceProvider {
@@ -152,7 +151,7 @@ export class ServiceProviderFactory implements Factory {
 \end{lstlisting}
 
     The class \texttt{ServiceProviderFactory} implements the \texttt{createProvider} method according to the \texttt{Factory} interface. If this method is called with the desired provider (ServiceType), as e.g. in listing \ref{listing: verifier routes} line 14, then the Singleton object corresponding to the provider is returned via a switch statement. According to the factory method pattern, all provider classes implement the \texttt{ServiceProvider} interface and its signatures as concrete methods. This can be seen exemplarily in listing \ref{listing: provider}.
-    \newline
+
 \begin{lstlisting}[style=ES6, caption=Example of provider implementation, label={listing: provider}]
 export interface ServiceProvider {
   deleteVerifiableCredential(identifier: string): 
@@ -385,5 +384,36 @@ export = router;
     At this point, all the specifics of the Trinsic platform and its integration into the reference implementation have been addressed. In the next subsection, the first and only non-platform solution and its implementation will be presented.
     
     \subsection{Veramo}\label{subsection: veramo}
+    
+    Unlike the previous solutions, Veramo is a JavaScript framework for Verifiable Data in the SSI context \cite{veramo_veramo_2021-1}. It is the direct successor to the uPort project \cite{uport_uport_2021}, which was started by ConsenSys in 2015 and discontinued in 2021 due to a changing SSI ecosystem and foundational issues. The work on Veramo started around 2020 under the name “DID Agent Framework” and was intended to learn from lessons learned from uPort by creating a modular architecture whose functionalities could be extended by plugins and used both on the web, mobile, and backend. \cite{uport_veramo_2021}
+    
+    Veramo is currently in public beta and is working with the W3C and the DIF \cite{veramo_veramo_2021-1}. The center of the framework is the Veramo Agent written in TypeScript, which enables the plugin architecture and exposes its functionality to the developer through a common interface. At all times the \ac{vc} and \ac{DID} standards are taken into account, while allowing complete freedom and flexibility in all other areas. The Veramo agent implements four basic components for messaging, identifiers, credentials, and keys, which can be seen in figure \ref{figure: veramo agent}. \cite{veramo_veramo_2021-2}
+    
+    \begin{figure}[ht]
+	    \centering    	    \makebox[\textwidth]{\includesvg[inkscapelatex=false, width=\textwidth]{img/16_veramo_agent.svg}}
+        \caption{Veramo Agent (extracted from \cite{veramo_veramo_2021-2})}
+        \label{figure: veramo agent}
+    \end{figure}
+    
+    The framework provides various core plugins, which generally allow things like creating and resolving \acp{DID}, as well as issuing, retrieving, and exchanging credentials \cite{veramo_veramo_2021-2}, while providing a template for creating custom plugins \cite{veramo_uport-projectveramo-plugin_2021}. Similar to MATTR and Trinsic, Veramo provides some posts on fundamentals on \acp{vc} and \acp{DID} and some quick guides with sample code on how to use Veramo regarding setup with Node, React, React Native, the CLI, and deployment options of the agent for Heroku and AWS \cite{veramo_veramo_2021-2}.
+    
+    The integration process of Veramo into the reference implementation proved to be a mixed experience. Especially the CLI offered a good first start to try out Veramo. Thus, all basic features like creating \acp{DID} and issuing and verifying \acp{vc} could be tested in advance without any implementation process. Within the implementation, the very high degree of flexibility was especially noticeable. None of the previous solutions supports so many DID methods (did:key, did:web, did:ethr, did:ion), whereas the connection to the Uniresolver allows resolving almost any DID. In terms of deployment options, the Veramo agent can be used in web frontends, smartphone apps, and backend systems through the TypeScript backend, while the agent's modularity also allows tasks to be distributed among different agents. This allows for different architectures where, for example, one Veramo cloud agent implements only key management, another implements the issuing of \acp{vc}, and the agent in the mobile wallet implements only messaging and credentials storage. Since the Veramo agent also exposes all of its functionalities via a REST API with OpenAPI documentation, similar to MATTR and Trinsic, all functions can also be used on non-supported platforms via HTTP requests. This is not possible with any of the other solutions. In addition, with the DIDComm v1 implementation, complex communications between Veramo agents could also be implemented, such as the transfer of credentials between holders. Because of the open access to these modules, pretty much any use case can be realized, which is not possible due to limitations in the other solutions. In the meantime, Veramo already offers a DIDComm v2 implementation \cite{veramo_blog_2021}. Especially for such messaging cases, it was very helpful that a Veramo agent could be created on Heroku with a one-click button, making such multi-agent flows testable. In addition, the React Native integration was tested, with which a demo mobile wallet could be created within a very short time, with which a user could manage and receive \acp{vc}. This is relevant because Veramo does not currently provide its own wallet app in the app stores. In contrast to the platform solutions, the flexibility but also the complete control over architecture, code, and data such as the \acp{vc} and the private keys of \acp{DID} stand out. Veramo and all its components are completely open-source, with the development team being quite active with commits and answering Q\&A as well as bug tickets on GitHub.  
+    
+    Nevertheless, there were a few things that complicated the implementation process. The now updated documentation was either outdated or not available at all in April 2021. Only the code of the CLI implementation could be used as a guide, which in combination with some guesswork and trial and error led to the desired goal. Even today, not all areas and features are covered so far, such as code and explanations for the messaging system, how to issue and verify credentials, how to resolve \acp{DID}, that there is a did:ion plugin, types of events in the event system and much more. The documentation really only covers the most necessary areas to get started, which may discourage some developers. Furthermore, there are some technological limitations, which are briefly listed below:
+    
+\begin{itemize}
+    \item \textit{Credential type}: Currently only JWT credentials are supported. Support for JSON-LD signatures is currently being worked on [github citation needed].
+    \item \textit{Revocation}: There are no official, up-to-date plugins for revocation. There is only a library from two years ago that can be used with manual effort in Veramo to create revocable credentials with did:ethr and later revoke them as well. Support for RevocationList2020 does not exist, but can be retrofitted with open libraries from digital bazaar due to Veramo's open architecture.
+    \item \textit{Selective Disclosures \& ZKP}: Due to the nature of JWT credentials, this is not currently possible. Veramo recommends keeping credentials as atomic as possible so that the user can present individual credentials with only a few attributes. However, support for BBS+ in combination with LD proofs is planned.
+    \item \textit{Verification}: There is no proper API for verifying \acp{vc} and \acp{VP}. Meanwhile, only the validity of the JWT can be checked, but it does not retrieve the \ac{DID} document for the issuer's public key, does not check for revocation, integrity, or other important parameters. The developer currently has to check all of these by itself. However, this is also being looked at by the development team, which is working on a comprehensive verification API.
+\end{itemize}
+
+    This makes it clear that Veramo is really a beta and that various areas are not yet ready. Nevertheless, it should be noted that, in contrast to the other solutions, the open architecture means that missing functions can be retrofitted at any time. For example, support for RevocationList2020 was retrofitted in rudimentary form in a very short time, which is not part of the official reference implementation. This behaviour is also supported by the Veramo developers, as they want an ecosystem of various plugins.
+
+    
+    
+    
+    
+    
     \subsection{Azure AD}\label{subsection: azure}
     \section{Results}\label{section: ri-results}
