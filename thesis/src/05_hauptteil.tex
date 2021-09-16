@@ -408,11 +408,114 @@ export = router;
     \item \textit{Verification}: There is no proper API for verifying \acp{vc} and \acp{VP}. Meanwhile, only the validity of the JWT can be checked, but it does not retrieve the \ac{DID} document for the issuer's public key, does not check for revocation, integrity, or other important parameters. The developer currently has to check all of these by itself. However, this is also being looked at by the development team, which is working on a comprehensive verification API.
 \end{itemize}
 
-    This makes it clear that Veramo is really a beta and that various areas are not yet ready. Nevertheless, it should be noted that, in contrast to the other solutions, the open architecture means that missing functions can be retrofitted at any time. For example, support for RevocationList2020 was retrofitted in rudimentary form in a very short time, which is not part of the official reference implementation. This behaviour is also supported by the Veramo developers, as they want an ecosystem of various plugins.
+    This makes it clear that Veramo is really a beta and that various areas are not yet ready. Nevertheless, it should be noted that, in contrast to the other solutions, the open architecture means that missing functions can be retrofitted at any time. This behaviour is also supported by the Veramo developers, as they want an ecosystem of community plugins.
+    
+    Looking at the reference implementation, there is more effort here compared to the platform solutions, as now any logic has to be implemented via the Veramo API itself. In the middle of this is the \texttt{VeramoProvider.ts}, which implements the \texttt{ServiceProvider} interface and thus all lifecycle-specific methods. In order to access the methods of the Veramo API and its included plugins, an object of the Veramo agent is created and exported in the \texttt{VeramoSetup.ts} so that it can be directly imported and used in various places. To create the agent, all necessary plugins must be imported in the form of libraries and taken into account when initializing the object. This can be seen exemplary in listing \ref{listing: veramo agent}. 
+    \newline
+    \begin{lstlisting}[style=ES6, caption=Veramo agent creation, label={listing: veramo agent}]
+// Core interfaces
+import { createAgent, IDIDManager, ... } from "@veramo/core";
 
+// Core identity manager plugin
+import { DIDManager } from "@veramo/did-manager";
+
+// Credential Issuer
+import { CredentialIssuer, ICredentialIssuer } from "@veramo/credential-w3c";
+
+...
+
+export const veramoAgent = createAgent<
+  IDIDManager & IKeyManager & IDataStore & IResolver & ... >({
+  plugins: [
+    ...
+    new KeyManager({
+      store: new KeyStore(dbConnection, new SecretBox(secretKey)),
+      kms: {
+        local: new KeyManagementSystem(),
+      },
+    }),
+    new DIDManager({
+      store: new DIDStore(dbConnection),
+      defaultProvider: "did:key",
+      providers: {
+        "did:key": new KeyDIDProvider({
+          defaultKms: "local",
+        }),
+        ...
+      },
+    }),
+    new DIDResolverPlugin({
+      resolver: new Resolver({
+        ...
+        key: getDidKeyResolver().key,
+        ...getUniversalResolverFor(["io", "elem", "sov"]),
+      }),
+    }),
+    new CredentialIssuer(),
+    new MessageHandler({ ... }),
+    ...
+  ],
+});\end{lstlisting}
     
+    This is only a small excerpt, but it demonstrates the rough concept and functionality. For the reference implementation, various plugins were implemented for storing and managing keys, \acp{DID}, \acp{vc}, \acp{VP} as well as messages, message handlers (DIDComm, JWT, ...), DID provider, DID resolver and credential issuance. In addition, event listeners were utilized to document verification results and submitted presentation requests. Especially the latter was helpful in testing the multi-agent messaging flows to let a cloud agent automatically respond to submitted presentation requests via its API. This part is relatively well documented, but there were problems implementing the message handlers correctly, which resulted in errors with the validation of messages like JWT credentials or DIDComm messages. The author's issue report on GitHub was answered by the Veramo developers on the same day. It was described that the order in which the different message handlers are integrated in the setup is significant and was incorrect in the reference implementation. Such small details are unfortunately not documented and cost considerable time to debug. That being said, the author was able to identify an actual bug during implementation where mismatches of signatures between a \ac{vc} and its \ac{VP} occur under certain circumstances. This report was also being responded to on the same day and a fix was rolled out in under two weeks. The developers appear to respond quickly and helpfully in general on GitHub [github issues citation].
     
+    With regard to the actual implementation of the lifecycle in the \texttt{VeramoProvider} class, the methods of the Veramo agent proved to be well usable. Basic methods for creating \acp{vc}, \acp{VP}, verifying messages like JWT credentials and sending presentation requests are provided, the latter being called Selective Disclosure Requests by Veramo. Looking at the descriptions of this topic in subsection \ref{subsection: bbs} and the nature of JWT credentials, the term selective disclosure is not well-chosen, since only a set of credentials and not a set of attributes of one credential are disclosed here. In listing \ref{listing: veramo issuance} is a code snippet for creating a \ac{vc} using the Veramo agent.
+    \newline
+        \begin{lstlisting}[style=ES6, caption=Issue a \ac{vc} with Veramo, label={listing: veramo issuance}]
+async issueVerifiableCredential(body: IssueCredentialRequest, 
+ toWallet: boolean): Promise<IssueCredentialResponse> {
+    try {
+      body.credential.issuer = { id: body.credential.issuer.toString() };
+      const save: boolean = body.options.save ? body.options.save : false;
+      const credential: W3CCredential = body.credential;
+      
+      const verifiableCredential: W3CCredential = 
+       await veramoAgent.createVerifiableCredential({
+        save: false,
+        credential,
+        proofFormat: "jwt",
+      });
+
+      // Prepare response
+      const result: IssueCredentialResponse = {
+        credential: verifiableCredential,
+      };
+
+      if (toWallet) {
+        try {  // Send VC to another Veramo agent
+          const msg = await veramoAgent.sendMessageDIDCommAlpha1({
+            save: true,
+            data: {
+              from: verifiableCredential.issuer.id,
+              to: verifiableCredential.credentialSubject.id,
+              type: "jwt",
+              body: verifiableCredential.proof.jwt,
+            },
+          });
+          result.sent = true;
+          return result;
+        } catch (error) {
+          return error;
+        }
+      }
+      return result;
+    } catch (error) {
+      return error;
+    }
+  };\end{lstlisting}
     
+    At the beginning, the credential object is prepared, which is then converted to an \ac{vc} in lines 8 to 13 using the methods After that, the API response is prepared with the created \ac{vc}, or if an error occurs during issuance, the error is sent directly to the requester as a response. If the request to the API defined that the \ac{vc} should be sent directly to the agent of the DID via the messaging endpoint, lines 21 to 35 handle this, using the \texttt{sendMessageDIDCommAlpha1()} method. This method has been deprecated and should be replaced by the new DIDComm v2 implementation. Considering the scope of this work, a short-term implementation of the new module has been omitted at this point. This feature is useful, for example, to send a \ac{vc} directly to the Veramo agent of a mobile wallet. MATTR and Trinsic offer similar functions as an alternative to scanning QR codes.
+    
+    In addition, four other files and classes were created to implement or retrofit Veramo-specific features. These are briefly described below:
+    
+    \begin{itemize}
+        \item \textit{VeramoDatabase.ts}: At the time of development, there was no method to delete \acp{vc} from the local flatfile database. Since the database is in the sqlite format, the \texttt{sqlite3} library was used to add that functionality. Since v2.1.0 this is also a native DataStore functionality.
+        \item \texttt{VeramoRevoker.ts}: This class implements uPort's \texttt{ethr-status-registry} library and retrofits the functionality to revoke an \ac{vc} with a did:ethr within an on chain smart contract on the Ethereum Blockchain. This requires a connection to an Ethereum node or a service provider such as Infura.
+        \item \texttt{VeramoRemoteAgent.ts}: This class can connect to another Veramo agent that one has control over. This is more of a helper class that can be used for testing purposes, for example, to force a cloud agent to automatically respond to a presentation request via its RESTful API.
+        \item \texttt{VeramoAgentAPI.ts}: Here, the local Veramo agent exposes its methods via a RESTful API and the associated API docs. Furthermore, a did:web is automatically set up for the external URL and the associated messaging endpoint. This is relevant for multi-agent communication flows.
+    \end{itemize}
+    
+    Flexibility and liberty are the main advantages of Veramo, yet the beta status was noticeable during the implementation. Some central features are not or only partially available, and from the above description it is clear that a lot is happening. Within a few months, some features were added that made some implementations (see VeramoDatabase.ts, DIDComm) obsolete. In the next subsection, Azure AD for Verifiable Credentials will be discussed as the last of the four solutions. 
     
     
     \subsection{Azure AD}\label{subsection: azure}
