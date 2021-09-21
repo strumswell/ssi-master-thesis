@@ -193,7 +193,7 @@ export class VeramoProvider implements ServiceProvider {
     
     With regard to the integration into the reference implementation, the generous free tier and the  well-structured documentation proved to be very helpful. Thus, a large part of the \ac{vc} lifecycle could be integrated relatively unproblematically by simply addressing the corresponding endpoints of the MATTR VII REST API. These take care of any logic and can also be used to manage \acp{DID} and their keys as well as \acp{vc}. The support of BBS+ for ZKP credentials, revocable credentials (RevocationList2020) and LD proofs is directly integrated into the API as well. For interactions like issuance and presentation with the MATTR mobile wallet, an OIDC provider (see user-centric identity) like Auth0 is currently necessary. Its initial setup took some time, but was feasible due to the good documentation. To receive the verification result from a mobile wallet presentation, the sample apps were used to integrate a callback service into the reference implementation. In summary, the broad coverage of the \ac{vc} lifecycle, the large number of features, and the very developer-friendly documentation with tutorials stood out positively.
     
-    Nevertheless, some things were noticed that could be problematic and restrictive under certain circumstances. For example, on-boarding to the platform has been relatively cumbersome in April 2021, as it was necessary to join the official Slack channel after successful registration, where support then triggers the rest of the process manually. After the cloud agent had been created, the password was communicated by the support via Keybase. Additionally, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
+    Nevertheless, some things were noticed that could be problematic and restrictive under certain Partialumstances. For example, on-boarding to the platform has been relatively cumbersome in April 2021, as it was necessary to join the official Slack channel after successful registration, where support then triggers the rest of the process manually. After the cloud agent had been created, the password was communicated by the support via Keybase. Additionally, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
     
     The majority of the integration took place in \texttt{MattrProvider.ts}, which implements the \texttt{ServiceProvider} interface. Since this class implements any functionality via HTTP requests, listing \ref{listing: mattr verification} is an example of how this works. However, it should be noted that methods such as \texttt{issueVerifiableCredential()} are significantly more complex, as specific logic such as the distinction in issuance to a wallet or not must be considered accordingly.
     \newline
@@ -457,7 +457,7 @@ export const veramoAgent = createAgent<
   ],
 });\end{lstlisting}
     
-    This is only a small excerpt, but it demonstrates the rough concept and functionality. For the reference implementation, various plugins were implemented for storing and managing keys, \acp{DID}, \acp{vc}, \acp{VP} as well as messages, message handlers (DIDComm, JWT, ...), DID provider, DID resolver and credential issuance. In addition, event listeners were utilized to document verification results and submitted presentation requests. Especially the latter was helpful in testing the multi-agent messaging flows to let a cloud agent automatically respond to submitted presentation requests via its API. This part is relatively well documented, but there were problems implementing the message handlers correctly, which resulted in errors with the validation of messages like JWT credentials or DIDComm messages. The author's issue report on GitHub was answered by the Veramo developers on the same day. It was described that the order in which the different message handlers are integrated in the setup is significant and was incorrect in the reference implementation. Such small details are unfortunately not documented and cost considerable time to debug. That being said, the author was able to identify an actual bug during implementation where mismatches of signatures between a \ac{vc} and its \ac{VP} occur under certain circumstances. This report was also being responded to on the same day and a fix was rolled out in under two weeks. The developers appear to respond quickly and helpfully in general on GitHub [github issues citation].
+    This is only a small excerpt, but it demonstrates the rough concept and functionality. For the reference implementation, various plugins were implemented for storing and managing keys, \acp{DID}, \acp{vc}, \acp{VP} as well as messages, message handlers (DIDComm, JWT, ...), DID provider, DID resolver and credential issuance. In addition, event listeners were utilized to document verification results and submitted presentation requests. Especially the latter was helpful in testing the multi-agent messaging flows to let a cloud agent automatically respond to submitted presentation requests via its API. This part is relatively well documented, but there were problems implementing the message handlers correctly, which resulted in errors with the validation of messages like JWT credentials or DIDComm messages. The author's issue report on GitHub was answered by the Veramo developers on the same day. It was described that the order in which the different message handlers are integrated in the setup is significant and was incorrect in the reference implementation. Such small details are unfortunately not documented and cost considerable time to debug. That being said, the author was able to identify an actual bug during implementation where mismatches of signatures between a \ac{vc} and its \ac{VP} occur under certain Partialumstances. This report was also being responded to on the same day and a fix was rolled out in under two weeks. The developers appear to respond quickly and helpfully in general on GitHub [github issues citation].
     
     With regard to the actual implementation of the lifecycle in the \texttt{VeramoProvider} class, the methods of the Veramo agent proved to be well usable. Basic methods for creating \acp{vc}, \acp{VP}, verifying messages like JWT credentials and sending presentation requests are provided, the latter being called Selective Disclosure Requests by Veramo. Looking at the descriptions of this topic in subsection \ref{subsection: bbs} and the nature of JWT credentials, the term selective disclosure is not well-chosen, since only a set of credentials and not a set of attributes of one credential are disclosed here. In listing \ref{listing: veramo issuance} is a code snippet for creating a \ac{vc} using the Veramo agent.
     \newline
@@ -527,11 +527,116 @@ async issueVerifiableCredential(body: IssueCredentialRequest,
     \begin{figure}[ht]
 	    \centering    	   
 	    \makebox[\textwidth]{\includesvg[inkscapelatex=false, width=0.8\textwidth]{img/17_azure.svg}}
-        \caption{Azure AD for Verifiable Credentials (extracted from \cite{neira_introduction_2021})}
+        \caption{Azure AD for Verifiable Credentials (based on \cite{neira_introduction_2021})}
         \label{figure: azure ad}
     \end{figure}
     
-    With regard to the implementation, in contrast to MATTR and Trinsic, Active Directory still had to be prepared as the platform. Since the extension for Verifiable Credentials is still in public preview, a P2 licence is required, which is associated with higher costs. Alternatively, a developer account can be requested from Microsoft. Within the client a new resource group is created, which must contain a key vault for keys, a storage account for credential specific rules and display JSON files and various other settings. Microsoft provides detailed documentation with descriptions and illustrations for these steps, so this process was fairly straightforward. Nevertheless, this can definitely be confusing in some places for Azure beginners. In the next step, the actual Verifiable Credential can be defined in its content and representation, which is also described in the documentation. Azure automatically assigns a URL to this \ac{vc}, which means that it can be retrieved via an OpenID provider. There are also other steps, such as creating an application in Azure so that issuance and verification can take place in the reference implementation.So positive was the good and clear documentation to prepare a client to issue and verify \acp{vc}.  Furthermore, it is certainly interesting for companies that already use Microsoft products and Active Directory. The \ac{vc} solution would be integrated into existing architectures without much effort into existing architectures. Moreover, it is one of the few solutions that use ION as the DID method, relying on a public permissionless blockchain, thus actually creating independent \acp{DID} that can also embed endpoints in their \ac{DID} documents.
+    With regard to the implementation, in contrast to MATTR and Trinsic, Active Directory still had to be prepared as the platform. Since the extension for Verifiable Credentials is still in public preview, a P2 licence is required, which is associated with higher costs. Alternatively, a developer account can be requested from Microsoft. Within the client a new resource group is created, which must contain a key vault for keys, a storage account for credential specific rules and display JSON files and various other settings. Microsoft provides detailed documentation with descriptions and illustrations for these steps, so this process was fairly straightforward. Nevertheless, this can definitely be confusing in some places for Azure beginners. In the next step, the actual Verifiable Credential can be defined in its content and representation, which is also described in the documentation. Azure automatically assigns a URL to this \ac{vc} schema, which means that it can be retrieved via an OpenID provider. There are other steps, such as creating an application in Azure so that issuance and verification can take place in the reference implementation. So positive was the good and clear documentation to prepare a client to issue and verify \acp{vc}. Furthermore, it is certainly interesting for companies that already use Microsoft products and Active Directory. The \ac{vc} solution could be integrated into existing architectures without much effort. Moreover, it is one of the few solutions that uses ION as the \ac{DID} method, relying on a public permissionless blockchain, thus actually creating independent \acp{DID} that can also embed metadata in their \ac{DID} documents. With Azure, \ac{vc} can be issued to the mobile app in JWT format and also presented from there as a \ac{VP} on the basis of a corresponding request. In addition, \acp{vc} can be revoked through the Azure portal.  
     
+    Nevertheless, there are some points that make the Microsoft solution appear incomplete, and lack transparency compared to the other solutions. For example, Azure abstracts various logic and complexities similar to Trinsic, with the difference that even fewer features are available, and it is even less clear which standards are used at which point. Through debugging sessions of the author, it was possible to determine that simple JWT credentials are exchanged and propriety revoking mechanisms are used. Moreover, unlike MATTR and Veramo, \acp{vc} cannot be issued and verified directly based on a JSON-LD input either, which means that only \acp{vc} whose schema has been defined in Azure beforehand can be issued or verified. In addition, there appears to be no official API for revoking credentials yet, which is why it was not possible to implement this in the reference implementation. Furthermore, routes for storing, verifying, and presenting without request could not be implemented because no APIs are offered for this. These steps are abstracted away in other process steps, while the transfer and derivation for ZKPs of \ac{vc} is not possible at all. Due to the missing functionalities, it is impossible to implement the complete lifecycle with its individual steps. In addition, the example projects with code for issuers and verifiers are functional but not documented at all, which led to some confusion. Furthermore, basic type definitions for TypeScript seem to be flawed and even so the code seems to be questionable. There was a GitHub issue about this, which the author of this work also responded to, and was eventually closed without comment by the repository owner. The original creator of the issue announced that they ultimately decided against the Azure solution. With correspondingly messy modifications, functionalities for issuance and presentation request routes could still be implemented. Additional \ac{DID} methods, revocations standards, ZKP technologies such as BBS+ and associated LD proofs have not been announced. In terms of the basic approach, Microsoft's solution is most similar to Trinsic, but is not on a par in terms of functionality, documentation, SDKs and associated examples.
+    %https://github.com/Azure-Samples/active-directory-verifiable-credentials/issues/38
+
+    The main part of the implementation takes place in \texttt{AzureProvider.ts}, which implements the \texttt{ServiceProvider} interface. Unique aspects are that at the beginning of the class, an object of the \texttt{CryptoBuilder} class of the verifiablecredentials-verification-sdk-typescript library and a request cache are created as \texttt{Map<string, any>}. The former can be used to create the requests for Azure, which are then cached in the request cache, which becomes relevant in later process steps. Listing \ref{listing: azure issuance} shows an example of how to create an issuance request via the Azure SDK.
+    \newpage
+        \begin{lstlisting}[style=ES6, caption=Create a \ac{vc} issuance request with Azure, label={listing: azure issuance}]
+async issueVerifiableCredential(body: GenericMessage, 
+ toWallet: boolean): Promise<Buffer> {
+    try {
+      if (!toWallet) throw new Error("Only issuance to wallet...");
+      if (!(body.from && body.body.request.credentialType)) 
+       throw new Error("Please define from and credentialType");
+
+      const requestBuilder = new RequestorBuilder(
+        {
+          ...
+          presentationDefinition: {
+            input_descriptors: [
+              {
+                id: "credential",
+                schema: {
+                  uri: [body.body.request.credentialType],
+                },
+                issuance: [
+                  {
+                    manifest: body.from,
+                  },
+                ],
+              },
+            ],
+          },
+        } as IRequestor,
+        this.crypto
+      ).allowIssuance();
+
+      const issuanceRequest = await requestBuilder.build().create();
+      const sessionId = uuidv4();
+      this.requestCache.set(sessionId, issuanceRequest.request);
+
+      const requestUri =
+       encodeURIComponent(`/azure/issue-request.jwt?id=${sessionId}`);
+      const issueRequestReference = 
+       "openid://vc/?request_uri=" + requestUri;
+      const qrcode: Buffer = 
+       qr.imageSync(issueRequestReference, { type: "png" });
+      return qrcode;
+    } catch (error) {
+      return error;
+    }
+}\end{lstlisting}
     
+    In the beginning, some error handling is done, which can return corresponding errors to the requester. If both the credentials type and its schema URL from Azure are included in the request body, an issuance request object is created between lines 8 and 30. This is cached in the request cache with a corresponding UUID (line 32). This UUID is integrated into an issuance URL (line 34 – 37), which leads to a route within the reference implementation. In order for this to be accessed by Microsoft Authenticator, the URL is encoded into a QR code (line 38 – 39), which retrieves the issuance request object from the request cache when scanned via the contained URL. The issuance request is encoded as a JWT and contains all the information that the app can use to retrieve the actual \ac{vc} from Azure. The addressed routes for such interactions originating from the Authenticator app towards the reference implementation are implemented similarly to the other solutions in the form of express routes in the \texttt{AzureUtilRoutes.ts}.
+    
+    This subsection covered all the specifics of the Azure solution and its integration. The next section summarizes the results of the implementation in more detail.
+
     \section{Results}\label{section: ri-results}
+    %Was ging/ was nicht pro Lösung -> Tabelle? (+ evtl. was habe ich nicht implementiert, was aber ginge? -> issuance via messaging anstatt QR @ Trinsic, MATTR)
+    %Allgemeines Fazit -> how they compare
+    
+    Having covered the implemented solutions Mattr, Trinsic, Veramo, and Azure in the last section, the results are now considered with respect to the coverage of the \ac{vc} lifecycle and some summary conclusions are drawn. Furthermore, the scope of the implementation with respect to unimplemented parts of the individual solutions will be considered in order to provide an overall picture. A summary of all facets and approaches of the solutions with a final score can be found in table \ref{table: impl results}. The score is calculated as follows: If a process step could be implemented directly using the available API, one point is awarded. Half a point is awarded if the process step is indirectly contained in another process step and cannot be implemented independently via the API. Half a point is also awarded for process steps that had to implemented by the author using available API methods in order to be represented. If the process step could not be implemented, 0 points are awarded. At the end, the points received are added up and displayed as a percentage of all possible points.
+    
+    \begin{table}[htp!]
+    	\begin{threeparttable}
+            \centering
+            \caption{Implementation results (TODO: more granularity)}
+            \begin{tabular}{llllll} 
+            \hline
+            \textbf{ Step }         & \textbf{Feature }     & \textbf{Mattr } & \textbf{Trinsic } & \textbf{Veramo } & \textbf{Azure }  \\ 
+            \hline
+            \textbf{Issue VC}       & \textbf{Implemented}  & \textbf{Yes}    & \textbf{Yes}      & \textbf{Yes}     & \textbf{Yes}     \\
+                                    & Direct                & Yes             & No                & Yes              & No               \\
+                                    & QR code               & Yes             & Yes               & No\tnote{2}             & Yes              \\
+                                    & Comm                  & Yes\tnote{1}            & Yes\tnote{1}              & Yes              & No               \\
+            \textbf{Store VC}       & \textbf{Implemented}  & \textbf{No}     & \textbf{No}       & \textbf{Yes }    & \textbf{No}      \\
+                                    & Direct                & No              & No                & Yes              & No               \\
+                                    & Indirect              & Yes             & Yes               & Yes              & Yes              \\
+            \textbf{Transfer VC}    & \textbf{Implemented}  & \textbf{No }    & \textbf{No }      & \textbf{Yes\tnote{3}}  & \textbf{No }     \\
+            \textbf{Compose VP }    & \textbf{Implemented}  & \textbf{Yes }   & \textbf{No}       & \textbf{Yes }    & \textbf{No}      \\
+                                    & Direct                & Yes             & No                & Yes              & No               \\
+                                    & Indirect              & Yes             & Yes               & No\tnote{2}             & Yes              \\
+            \textbf{Present VP }    & \textbf{Implemented}  & \textbf{No}     & \textbf{No}       & \textbf{Yes}     & \textbf{No}      \\
+                                    & Direct                & No              & No                & Yes              & No               \\
+                                    & Indirect              & Yes             & Yes               & No\tnote{2}             & Yes              \\
+            \textbf{Request VP }    & \textbf{Implemented}  & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes }    & \textbf{Yes }    \\
+                                    & QR                    & Yes             & Yes               & No\tnote{2}             & Yes              \\
+                                    & Comm                  & Yes\tnote{1}            & Yes\tnote{1}              & Yes              & No               \\
+            \textbf{Verify VC/ VP } & \textbf{Implemented}  & \textbf{Yes }   & \textbf{No}       & \textbf{Yes\tnote{3}}  & \textbf{No}      \\
+                                    & Direct                & Yes             & No                & Yes\tnote{3}           & No               \\
+                                    & Indirect              & Yes             & Yes               & Yes\tnote{3}          & Yes              \\
+            \textbf{Revoke VC}      & \textbf{Implemented}  & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes\tnote{3}}  & \textbf{No}      \\
+                                    & Universal             & Yes             & Yes               & No               & Yes              \\
+                                    & Restricted            & No              & No                & Yes\tnote{3}           & No               \\
+            \textbf{Delete VC}      & \textbf{Implemented~} & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes }    & \textbf{Yes }    \\
+            \textbf{Derive VC}      & \textbf{Implemented~} & \textbf{No }    & \textbf{No }      & \textbf{No }     & \textbf{No }     \\
+                                    & Indirect              & Yes             & Yes               & No               & No               \\
+            \hline
+            \textbf{Score} &  & 75\% & 65\% & 75\% & 60\%\\
+            \hline
+            \end{tabular}
+            \begin{tablenotes}\footnotesize 
+    		    \item[1] Not implemented
+        		\item[2] Implementation with personal effort possible
+        		\item[3] Implemented with personal effort using API
+    		\end{tablenotes}
+    		\label{table: impl results}
+		\end{threeparttable}
+    \end{table}
