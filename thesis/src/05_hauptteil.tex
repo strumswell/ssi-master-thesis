@@ -592,42 +592,42 @@ async issueVerifiableCredential(body: GenericMessage,
     %Was ging/ was nicht pro Lösung -> Tabelle? (+ evtl. was habe ich nicht implementiert, was aber ginge? -> issuance via messaging anstatt QR @ Trinsic, MATTR)
     %Allgemeines Fazit -> how they compare
     
-    Having covered the implemented solutions Mattr, Trinsic, Veramo, and Azure in the last section, the results are now considered with respect to the coverage of the \ac{vc} lifecycle and some summary conclusions are drawn. Furthermore, the scope of the implementation with respect to unimplemented parts of the individual solutions will be considered in order to provide an overall picture. A summary of all facets and approaches of the solutions with a final score can be found in table \ref{table: impl results}. The score is calculated as follows: If a process step could be implemented directly using the available API, one point is awarded. Half a point is awarded if the process step is indirectly contained in another process step and cannot be implemented independently via the API. Half a point is also awarded for process steps that had to implemented by the author using available API methods in order to be represented. If the process step could not be implemented, 0 points are awarded. At the end, the points received are added up and displayed as a percentage of all possible points.
+    Having covered the implemented solutions Mattr, Trinsic, Veramo, and Azure in the last section, the results are now considered with respect to the coverage of the \ac{vc} lifecycle and some summary conclusions are drawn. Furthermore, the scope of the implementation with respect to unimplemented parts of the individual solutions will be considered in order to provide an overall picture. A summary of all facets and approaches of the solutions with a final score can be found in table \ref{table: impl results}. The score is calculated as follows: If a process step could be implemented directly using the available API, one point is awarded. Half a point is awarded if the process step is indirectly contained in another process step and cannot be implemented independently via the API. Half a point is also awarded for process steps that had to be implemented by the author using available API methods in order to be represented. If the process step could not be implemented, 0 points are awarded. At the end, the points received are added up and displayed as a percentage of all possible points. The individual steps were not weighted with regard to different requirements for different use cases.
+    
+    To show the differences in the implementation in table \ref{table: impl results} in a more granular way, there are some refinements added to some steps. \texttt{Direct} refers to the fact that in this step a JSON LD object, for example in the form of a \ac{vc}, can be used directly as an input. In contrast, \texttt{Indirect} refers to the fact that this process step is part of another process step. For example, in MATTR, the store step could not be implemented directly, but is indirectly part of the issuance step, where the created \ac{vc} is stored in the cloud agent. This distinction is helpful to show that many unimplemented steps are nevertheless represented by the solutions, but were often abstracted away. Finally, \texttt{Comm} and \texttt{QR code} are used to document different ways to interact with other agents/wallets. For example, in MATTR, a \ac{vc} can be transmitted to a wallet both by scanning a QR code but also by sending it directly through a communication module. Considering the scope of the work, not all facets of the individual solutions were necessarily implemented, which is why unimplemented features were marked accordingly. In addition, other annotations concerning (possible) self-implementations and restrictions were added as well. 
     
     \begin{table}[htp!]
     	\begin{threeparttable}
             \centering
-            \caption{Implementation results (TODO: more granularity)}
+            \caption{Implementation results}
             \begin{tabular}{llllll} 
             \hline
             \textbf{ Step }         & \textbf{Feature }     & \textbf{Mattr } & \textbf{Trinsic } & \textbf{Veramo } & \textbf{Azure }  \\ 
             \hline
-            \textbf{Issue VC}       & \textbf{Implemented}  & \textbf{Yes}    & \textbf{Yes}      & \textbf{Yes}     & \textbf{Yes}     \\
-                                    & Direct                & Yes             & No                & Yes              & No               \\
-                                    & QR code               & Yes             & Yes               & No\tnote{2}             & Yes              \\
-                                    & Comm                  & Yes\tnote{1}            & Yes\tnote{1}              & Yes              & No               \\
-            \textbf{Store VC}       & \textbf{Implemented}  & \textbf{No}     & \textbf{No}       & \textbf{Yes }    & \textbf{No}      \\
-                                    & Direct                & No              & No                & Yes              & No               \\
-                                    & Indirect              & Yes             & Yes               & Yes              & Yes              \\
-            \textbf{Transfer VC}    & \textbf{Implemented}  & \textbf{No }    & \textbf{No }      & \textbf{Yes\tnote{3}}  & \textbf{No }     \\
-            \textbf{Compose VP }    & \textbf{Implemented}  & \textbf{Yes }   & \textbf{No}       & \textbf{Yes }    & \textbf{No}      \\
-                                    & Direct                & Yes             & No                & Yes              & No               \\
-                                    & Indirect              & Yes             & Yes               & No\tnote{2}             & Yes              \\
-            \textbf{Present VP }    & \textbf{Implemented}  & \textbf{No}     & \textbf{No}       & \textbf{Yes}     & \textbf{No}      \\
-                                    & Direct                & No              & No                & Yes              & No               \\
-                                    & Indirect              & Yes             & Yes               & No\tnote{2}             & Yes              \\
-            \textbf{Request VP }    & \textbf{Implemented}  & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes }    & \textbf{Yes }    \\
-                                    & QR                    & Yes             & Yes               & No\tnote{2}             & Yes              \\
-                                    & Comm                  & Yes\tnote{1}            & Yes\tnote{1}              & Yes              & No               \\
-            \textbf{Verify VC/ VP } & \textbf{Implemented}  & \textbf{Yes }   & \textbf{No}       & \textbf{Yes\tnote{3}}  & \textbf{No}      \\
-                                    & Direct                & Yes             & No                & Yes\tnote{3}           & No               \\
-                                    & Indirect              & Yes             & Yes               & Yes\tnote{3}          & Yes              \\
-            \textbf{Revoke VC}      & \textbf{Implemented}  & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes\tnote{3}}  & \textbf{No}      \\
-                                    & Universal             & Yes             & Yes               & No               & Yes              \\
-                                    & Restricted            & No              & No                & Yes\tnote{3}           & No               \\
-            \textbf{Delete VC}      & \textbf{Implemented~} & \textbf{Yes }   & \textbf{Yes }     & \textbf{Yes }    & \textbf{Yes }    \\
-            \textbf{Derive VC}      & \textbf{Implemented~} & \textbf{No }    & \textbf{No }      & \textbf{No }     & \textbf{No }     \\
-                                    & Indirect              & Yes             & Yes               & No               & No               \\
+            \textbf{Issue VC}       & \textbf{Implemented}  & \textbf{\ding{51}}    & \ding{51}      & \ding{51}     & \ding{51}     \\
+                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}              & \ding{55}               \\
+                                    & QR code               & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
+                                    & Comm                  & \ding{51}\tnote{1}            & \ding{51}\tnote{1}              & \ding{51}              & \ding{55}               \\
+            \textbf{Store VC}       & \textbf{Implemented}  & \ding{55}     & \ding{55}       & \ding{51}    & \ding{55}      \\
+                                    & Direct                & \ding{55}              & \ding{55}                & \ding{51}              & \ding{55}               \\
+                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{51}              & \ding{51}              \\
+            \textbf{Transfer VC}    & \textbf{Implemented}  & \ding{55}    & \ding{55}      & \ding{51}\tnote{3}  & \ding{55}     \\
+            \textbf{Compose VP }    & \textbf{Implemented}  & \ding{51}   & \ding{55}       & \ding{51}    & \ding{55}      \\
+                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}              & \ding{55}               \\
+                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
+            \textbf{Present VP }    & \textbf{Implemented}  & \ding{55}     & \ding{55}       & \textbf{\ding{51}}     & \ding{55}      \\
+                                    & Direct                & \ding{55}              & \ding{55}                & \ding{51}              & \ding{55}               \\
+                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
+            \textbf{Request VP }    & \textbf{Implemented}  & \ding{51}   & \ding{51}     & \ding{51}    & \ding{51}    \\
+                                    & QR                    & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
+                                    & Comm                  & \ding{51}\tnote{1}            & \ding{51}\tnote{1}              & \ding{51}              & \ding{55}               \\
+            \textbf{Verify VC/ VP } & \textbf{Implemented}  & \ding{51}   & \ding{55}       & \ding{51}\tnote{3}  & \textbf{\ding{55}}      \\
+                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}\tnote{3}           & \ding{55}               \\
+                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{51}\tnote{3}          & \ding{51}              \\
+            \textbf{Revoke VC}      & \textbf{Implemented}  & \ding{51}   & \ding{51}     & \ding{51}\tnote{3, 4}  & \ding{55} \\
+            \textbf{Delete VC}      & \textbf{Implemented~} & \ding{51}   & \ding{51}     & \ding{51}    & \ding{51}    \\
+            \textbf{Derive VC}      & \textbf{Implemented~} & \ding{55}    & \ding{55}      & \ding{55}     & \ding{55}     \\
+                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}               & \ding{55}               \\
             \hline
             \textbf{Score} &  & 75\% & 65\% & 75\% & 60\%\\
             \hline
@@ -636,7 +636,35 @@ async issueVerifiableCredential(body: GenericMessage,
     		    \item[1] Not implemented
         		\item[2] Implementation with personal effort possible
         		\item[3] Implemented with personal effort using API
+        		\item[4] Restricted to did:ethr
     		\end{tablenotes}
     		\label{table: impl results}
 		\end{threeparttable}
     \end{table}
+    
+    From these results it is apparent that none of the solutions can directly map the complete \ac{vc} lifecycle. All of them cover the steps issuance, presentation request, and credential deletion, but none of the solutions offers a direct method to derive \acp{vc} for ZKP purposes. The different approaches taken by the solutions are also revealed here. MATTR and Veramo give developers more freedom and abstract fewer complexities than Trinsic and Azure. This is noticeable in the fact that it is possible to work directly with JSON-LD objects from credentials and more functionalities are exposed through their APIs. This allows Mattr and Veramo to achieve a score of 75\%. Nevertheless, it must be clearly distinguished that Mattr abstracts and restricts more than Veramo in some areas, which results however in more finished and production-ready APIs and tools. Especially in this area, Veramo is still lagging behind, but its high flexibility and openness makes it possible to retrofit necessary features with existing API methods with manageable effort. For example, Veramo's verify method is incomplete, as described earlier, where missing checks can be implemented by the user. This also allows, for example, that with the help of the communication module in Veramo the transfer step could be implemented as the only solution. This is not possible with Mattr. A potential developer must clearly assess what is important to its use case.
+    
+    In contrast, Trinsic and Azure abstract away significantly more complexities and functionality, but this can be accompanied by a faster and simpler implementation in some cases. In addition, no interaction with \acp{vc} as raw JSON-LD objects is possible here at any point. This ensured that Trinsic and Azure could only achieve 65\% and 60\%. To further rank the solutions, the following table \ref{tab: feature comp} provides a quick breakdown of some of the features and standards present.
+
+    \begin{table}[hp]
+        \centering
+        \caption{Rough feature comparison}
+        \begin{tabular}{lllll} 
+            \hline
+            \textbf{Feature}  & \textbf{MATTR }                                              & \textbf{Trinsic }                                                  & \textbf{Veramo }                                                 & \textbf{Azure }   \\ 
+            \hline
+            Format            & JSON-LD                                                      & JSON                                                               & JSON-LD~ ~ ~                                                     & JSON-LD           \\
+            Proof             & LD Proofs                                                    & JWT                                                                & JWT                                                              & JWT               \\
+            ZKP               & BBS+                                                         & CL Signatures                                                      & \ding{55}                                                                & \ding{55}                 \\
+            Revocation        & \begin{tabular}[t]{@{}l@{}}RevocationList\\2020\end{tabular} & \begin{tabular}[t]{@{}l@{}}Indy Revocation \\Registry\end{tabular} & \begin{tabular}[t]{@{}l@{}}EthrStatus\\Registry2019\end{tabular} & Proprietary       \\
+            \vcell{Messaging} & \vcell{JWM}                                                  & \vcell{DIDComm v1}                                                 & \vcell{DIDComm v2}                                               & \vcell{\ding{55}}         \\[-\rowheight]
+            \printcellbottom  & \printcellbottom                                             & \printcellbottom                                                   & \printcellbottom                                                 & \printcellbottom  \\
+            DID Methods       & \begin{tabular}[t]{@{}l@{}}key, web,\\sov, ion\end{tabular}  & sov, peer                                                          & \begin{tabular}[t]{@{}l@{}}key, web, \\ethr, ion\end{tabular}    & ion      
+        \end{tabular}
+        \label{tab: feature comp}
+    \end{table}
+    
+    With regard to related features, it is noteworthy that Mattr is the only solution that supports LD proofs, various \ac{DID} methods, BBS+ and RevocationList2020 as a \ac{DID} method independent revocation method. In the messaging area, only the precursor to DIDComm (JSON Web Message) is supported. Technologically, none of the other solutions can match Mattr at the current stage. Veramo only supports JWT as a proof format, which is why advanced ZKP technologies such as BBS+ cannot be supported. Furthermore, there is currently only one library that can be used to revoke did:ethr credentials with the EthrStatusRegistry2019 method. Nevertheless, many \ac{DID} methods are supported and a DIDComm v2 implementation is usable. In contrast, Trinsic currently has no support for JSON-LD, LD proofs and the benefits built on top of them. The Hyperledger link becomes apparent here, since only its technologies such as CL signatures, \ac{DID} methods, revocation format, and messaging protocol are supported. However, as described in subsection \ref{subsection: trinsic}, the current beta of Trinsic includes many of these new technologies, which could affect Trinsic's score in the future. Announcements from Veramo indicate similar plans. Azure seems to be quite behind at this point, with not supporting standards or only using proprietary ones.
+    
+    
+    
