@@ -2,13 +2,30 @@
 
 \chapter{Expert Questionnaire}\label{chapter: expert}
 
-	\section{Expert Selection}
-	
+    % Inhalt des Kapitels, Ziel, Grund für Befragung
+    %
+    %  -> Validierte Liste von SDKs im Space, Meinungen zu den Lösungen, Was ist (nicht)       wichtig, Kriterien? ...
+    
+    \section{Preparation}
+    % Herangehensweise: Recherche + Community Meetings -> IIW April
+    %
+    %  Recherche: Übersicht über generelle Projekte -> Filtern von SDKs & Co.
+    %  -> Tabelle mit wichtigsten SDKs im SSI Space 
+    % 
+    %  IIW: Gefühl für aktuelle Bemühungen, Projekte, Personen
+    %  -> Liste: Experten, vorgeführte SDKs
+    % 
+    % Fragen definieren: Was will ich erreichen? Welche Fragen notwendig? Umfang?
+
 	\section{Questionnaire}
-	\subsection{Solutions Overview Draft}
-	\subsection{Questions}
+	% Experten: Wer? Warum? Wie anschreiben? (Mail rechtfertigen)
+	% -> Wer hat geantwortet? (Quote)
+	% Antworten zusammenfassen der Teilnehmer
 
 	\section{Results}
+	% Ergebnisse der Befragung noch weiter runterbrechen -> Blick auf Framework
+	% Ableitungen für nächste Kapitel:
+	%   - Welche Solutions werden integriert & warum?
 	
 	
 \chapter{Reference Implementation}\label{chapter: implementation}
@@ -29,11 +46,13 @@ This chapter focuses on the development of a reference implementation covering t
     \end{itemize}
     
     Taking these four points into account, the goal is to create a reference implementation that is helpful for developers and meaningful for the evaluation framework. The next section explores this, starting with the base implementation and community efforts to date, on which further work can be based on.
+    %%%%%%%%%%%%%
     
     \section{Base Implementation}\label{section: base-implementation}
     % Basis for Implementation: vc-http-api -> why? What is it for? What changes/ additions have to be made? Why can I hijack it? API Document!
     % Technical basis -> express app, typescript 
     A RESTful API was chosen as the basic implementation form, since it is technology-independent and can be used in various programming languages and environments. It is only necessary that HTTP requests can be sent, which allows a high degree of flexibility in later applications. 
+    %%%%%%%%%%
     
     As a basis, this work is roughly based on the ideas of the W3C Credentials Community Group, which has created an unofficial draft API definition called “Verifiable Credentials HTTP API”. This describes the structure of an API with all its routes, request, as well as response bodies, which can be used for the \ac{vc} “lifecycle management”. The group defined API contracts according to the OpenAPI standard, which were originally intended to be used as a basis for verifying interoperability of \acp{vc} issued by different providers (see interoperability report from \cite{homeland_security_preventing_2020}). It is important to note that the reference implementation is based on the state of the API contract as of April 2020 (v0.0.2-unstable), as some small things have changed since then. The contract is strongly based on the \ac{vc} standard and divides the API into resources for the three roles issuer, verifier, and an optional holder. This includes resources for issuing and verifying \acp{vc}/ \acp{VP}, and deriving, as well as revoking \acp{vc}. At this point, it should be emphasized again that this is an API definition and not an actual implementation. \cite{world_wide_web_consortium_credentials_community_group_vc_2021, world_wide_web_consortium_credentials_community_group_verifiable_2021}
     
@@ -57,15 +76,18 @@ This chapter focuses on the development of a reference implementation covering t
     \end{itemize}
     
     The goal of the customizations was to ensure that the original API definition did not constrain the implementation, while retaining fundamental parts of the community work. 
+    %%%%%%%%%%%%%%%%%%
     
     Based on the expert survey and observations from the IIW April 2021, the solutions Veramo from ConsenSys Software Inc., MATTR VII from MATTR Limited, Trinsic Core from Trinsic Technologies Inc., and Azure AD Verifiable Credentials from Microsoft were selected as the four solutions to be included in the reference implementation. For the implementation language, TypeScript was chosen as it was the only language where Veramo, Trinsic and Azure offer SDKs for. In addition, other basic libraries in the \ac{SSI} area are written in TypeScript or at least JavaScript and would thus integrate more easily into the implementation to possibly add missing features. Unlike JavaScript, various features of TypeScript allow cleaner and more robust code \cite[p. 87]{zammetti_modern_2020} that can simultaneously benefit from much of the existing JavaScript packages being made available from the open-source community. //move
     
     Building on this decision, node.js was selected as the JavaScript runtime that can be used in combination with the express.js library to develop highly scalable web applications such as APIs \cite{openjs_foundation_about_2021, openjs_foundation_express_2021}. To make TypeScript work in this environment, various dependencies such as TypeScript, ts-node, eslint, and some type definitions were installed via the Node Package Manager. The next section describes how these components and the four solutions were combined into a flexible software architecture.
+    %%%%%%%%%%%%%%%%%
     
     \section{Architecture}\label{section: architecture}
     % Software architecture, factory method pattern -> why? Describe how solutions tap into it.
     
-    With regard to the considerations in section \ref{section: ri-considerations}, the factory method design pattern was chosen for the software architecture. It belongs to the creational patterns and thus influences how the instantiation process is carried out. A developer can thereby decide independently of the system how objects are created, which enables a high degree of flexibility. It defines an interface or an abstract class for the creation of objects, whereby the instantiation of objects is done by subclasses instead of a class. This is useful, for example, if a class does not yet know which objects it needs to create at runtime. \cite[pp. 81, 85, 107-108]{gamma_design_1995} 
+    With regard to the considerations in section \ref{section: ri-considerations}, the factory method design pattern was chosen for the software architecture.%%%%%
+    It belongs to the creational patterns and thus influences how the instantiation process is carried out. A developer can thereby decide independently of the system how objects are created, which enables a high degree of flexibility. It defines an interface or an abstract class for the creation of objects, whereby the instantiation of objects is done by subclasses instead of a class. This is useful, for example, if a class does not yet know which objects it needs to create at runtime. \cite[pp. 81, 85, 107-108]{gamma_design_1995} 
     
     This is pattern is appropriate because a request determines which solution and thus which objects have to be created. In addition, it allows the complexities of the individual solutions to be abstracted away, so that when defining the individual routes, only the concrete factory class must be called, which returns the correct object of the requested solution. This way, the routes only need to be programmed once and additional solutions can be added afterwards without having to change the code of the routes. Figure \ref{figure: factory method} shows a UML diagram that represents the concrete factory method pattern in the reference implementation. The interface \texttt{Factory} defines a method \texttt{createProvider()}, which is implemented by the class \texttt{ServiceProviderFactory}. This is the class which is instantiated, for example, in the routes and which is used to retrieve the object of a provider. A provider is the class of one of the four solutions that implements basic methods like the \ac{vc} issuance defined by the \texttt{ServiceProvider} interface.
     
@@ -76,6 +98,7 @@ This chapter focuses on the development of a reference implementation covering t
     \end{figure}
     
     A second pattern, which was integrated, is the Singleton design pattern. This is used in the individual concrete provider classes and allows that only one globally callable instance of a provider class can be created \cite[p. 127]{gamma_design_1995}. The rationale for this is that no more than one object is needed, caching is simplified, and multiple provider objects could lead to unforeseen complications.
+    %%%%%%%
     
     Looking at the complete system architecture, the previously described software architecture integrates tightly. The service provider factory sits between the routes for issuer, verifier, and holder and the concrete classes of the individual providers. Its manifestations in the architecture can be summarized as follows and can be seen in figure \ref{figure: sys architecture}:
     
@@ -100,7 +123,7 @@ This chapter focuses on the development of a reference implementation covering t
     
     This section briefly introduces each of the solutions and addresses their implementation. First, however, the concepts of the last section will be discussed with regard to their implementation. The goal is to establish a conceptual skeleton into which the following subsections can be seamlessly integrated.
     
-    The starting point is \texttt{index.js}, which starts the web server and thus the API via Express by bundling all routes from other files here. These are divided into the files \texttt{HolderRoutes.ts}, \texttt{VerifierRoutes.ts}, and \texttt{IssuerRoutes.ts} and implement the associated methods. Listing \ref{listing: verifier routes} shows an example of a section of \texttt{VerifierRoutes.ts}.
+    The starting point is \texttt{index.ts}, which starts the web server and thus the API via Express by bundling all routes from other files here. These are divided into the files \texttt{HolderRoutes.ts}, \texttt{VerifierRoutes.ts}, and \texttt{IssuerRoutes.ts} and implement the associated methods. Listing \ref{listing: verifier routes} shows an example of a section of \texttt{VerifierRoutes.ts}.
     \newline
 
 \begin{lstlisting}[style=ES6, caption=Extract of verifier routes, label={listing: verifier routes}]
@@ -177,6 +200,7 @@ export class VeramoProvider implements ServiceProvider {
 }\end{lstlisting}
 
     In this case, the class \texttt{VeramoProvider} implements the interface \texttt{ServiceProvider} with its signatures like \texttt{deleteVerifiableCredential()} concretely, to delete a \ac{vc} from the Veramo agent database.
+    %%%%%%%%%%%%
     
     Having described the programmatic skeleton, the following subsection describes the first solution MATTR and its integration into the reference implementation.
     
@@ -190,10 +214,11 @@ export class VeramoProvider implements ServiceProvider {
     \end{itemize}
     
     In addition, the company offers resources for developers to learn the basics of SSI \cite{mattr_resources_2021} but also a comprehensive API documentation, tutorials in written and in some cases video form \cite{mattr_mattr_2021}, mobile wallets, and sample app \cite{mattr_mattr_2021-1, mattr_vii_2021}. Within the \ac{SSI} community, they participate in the development of open standards \cite{mattr_approach_2021, looker_bbs_2021} and software libraries \cite{mattr_mattr_2021-5} and have demonstrated interoperability  in the Homeland Security Plugfest in 2021 \cite{homeland_security_interoperability_2021}.
+    %%%%%%%%%%%%%%
     
     With regard to the integration into the reference implementation, the generous free tier and the  well-structured documentation proved to be very helpful. Thus, a large part of the \ac{vc} lifecycle could be integrated relatively unproblematically by simply addressing the corresponding endpoints of the MATTR VII REST API. These take care of any logic and can also be used to manage \acp{DID} and their keys as well as \acp{vc}. The support of BBS+ for ZKP credentials, revocable credentials (RevocationList2020) and LD proofs is directly integrated into the API as well. For interactions like issuance and presentation with the MATTR mobile wallet, an OIDC provider (see user-centric identity) like Auth0 is currently necessary. Its initial setup took some time, but was feasible due to the good documentation. To receive the verification result from a mobile wallet presentation, the sample apps were used to integrate a callback service into the reference implementation. In summary, the broad coverage of the \ac{vc} lifecycle, the large number of features, and the very developer-friendly documentation with tutorials stood out positively.
     
-    Nevertheless, some things were noticed that could be problematic and restrictive under certain Partialumstances. For example, on-boarding to the platform has been relatively cumbersome in April 2021, as it was necessary to join the official Slack channel after successful registration, where support then triggers the rest of the process manually. After the cloud agent had been created, the password was communicated by the support via Keybase. Additionally, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
+    Nevertheless, some things were noticed that could be problematic and restrictive under certain curcumstances. For example, on-boarding to the platform has been relatively cumbersome in April 2021, as it was necessary to join the official Slack channel after successful registration, where support then triggers the rest of the process manually. After the cloud agent had been created, the password was communicated by the support via Keybase. Additionally, some features are not or only partially usable in combination, such as the support of BBS+ only for credentials based on did:key. Support for additional DID methods based on public permissionless distributed ledgers such as did:ion would also be desirable, which, unlike did:key, can also include other metadata such as messaging endpoints. In addition, an SSI native implementation for interactions with mobile wallets is missing, which could theoretically take place via DIDComm. This complicates things, since the MATTR platform requires an OIDC issuer and templates for e.g. presentations to be created for each type of credential that is to be issued to a mobile wallet. However, MATTR is already working on a \ac{SSI} native solution [citation needed]. The use of the OIDC provider is also limiting, as the only way to map the OIDC attributes to the JSON-LD attributes is to use the schema.org vocabulary. Custom schemas are not supported. Finally, it should be noted that the private keys for all \acp{DID} are managed by MATTR and cannot be exported by users. None of the mentioned problems can be solved by the developer through individual implementations, which seems to be an inherent problem of the platform infrastructure, which can only be managed by MATTR.
     
     The majority of the integration took place in \texttt{MattrProvider.ts}, which implements the \texttt{ServiceProvider} interface. Since this class implements any functionality via HTTP requests, listing \ref{listing: mattr verification} is an example of how this works. However, it should be noted that methods such as \texttt{issueVerifiableCredential()} are significantly more complex, as specific logic such as the distinction in issuance to a wallet or not must be considered accordingly.
     \newline
@@ -283,6 +308,7 @@ public async generateQRCode(request: GenericMessage): Promise<Buffer> {
     \end{itemize}
     
     In addition, Trinsic offers SDKs in various languages that serve as wrappers for the REST API, providing native interfaces for programming languages \cite{trinsic_service_2021}. This includes languages such as Ruby, Python, JavaScript and more, with SDKs for additional languages that can be generated via Trinsic's swagger hub. Also worth mentioning is the clearly structured and comprehensive documentation, which also integrates code samples and a getting started tutorial \cite{trinsic_introduction_2021}. The documentation also describes the basics of SSI in a short and concise way, so that even new developers can get an introduction to the topic. The registration process is very short and in combination with the free tier, which allows 50 credentials exchanges per month and has a reduced feature set \cite{trinsic_pricing_2021}, it is possible to get started quickly. The company is also partnered with Zapier, which allows custom flows to be created with other apps, e.g. to send a credential via Gmail when there is a new attendee at Eventbrite. Trinsic follows standards like \ac{DID}, \ac{vc}, DIDComm and various Aries RFCs, for which open-source work has been done on a .NET implementation \cite{trinsic_open_2021}.
+    %%%%%%%%%%%%%%%%%%%%%%%%%%
     
     The integration of Trinsic into the reference implementation proved to be extremely pleasant. This was mainly due to the documentation but also to Trinsic Studio. With the latter, an organization and associated credential and verification templates could be created within a few minutes. The resulting IDs could later be used to trigger the issuance and presentation flows using Trinsic's JavaScript SDK, which also includes type definitions for TypeScript. No other solution made the implementation process so quick and easy.
     
@@ -396,8 +422,13 @@ export = router;
     \end{figure}
     
     The framework provides various core plugins, which generally allow things like creating and resolving \acp{DID}, as well as issuing, retrieving, and exchanging credentials \cite{veramo_veramo_2021-2}, while providing a template for creating custom plugins \cite{veramo_uport-projectveramo-plugin_2021}. Similar to MATTR and Trinsic, Veramo provides some posts on fundamentals on \acp{vc} and \acp{DID} and some quick guides with sample code on how to use Veramo regarding setup with Node, React, React Native, the CLI, and deployment options of the agent for Heroku and AWS \cite{veramo_veramo_2021-2}.
+    %%%%%%%%
     
-    The integration process of Veramo into the reference implementation proved to be a mixed experience. Especially the CLI offered a good first start to try out Veramo. Thus, all basic features like creating \acp{DID} and issuing and verifying \acp{vc} could be tested in advance without any implementation process. Within the implementation, the very high degree of flexibility was especially noticeable. None of the previous solutions supports so many DID methods (did:key, did:web, did:ethr, did:ion), whereas the connection to the Uniresolver allows resolving almost any DID. In terms of deployment options, the Veramo agent can be used in web frontends, smartphone apps, and backend systems through the TypeScript backend, while the agent's modularity also allows tasks to be distributed among different agents. This allows for different architectures where, for example, one Veramo cloud agent implements only key management, another implements the issuing of \acp{vc}, and the agent in the mobile wallet implements only messaging and credentials storage. Since the Veramo agent also exposes all of its functionalities via a REST API with OpenAPI documentation, similar to MATTR and Trinsic, all functions can also be used on non-supported platforms via HTTP requests. This is not possible with any of the other solutions. In addition, with the DIDComm v1 implementation, complex communications between Veramo agents could also be implemented, such as the transfer of credentials between holders. Because of the open access to these modules, pretty much any use case can be realized, which is not possible due to limitations in the other solutions. In the meantime, Veramo already offers a DIDComm v2 implementation \cite{veramo_blog_2021}. Especially for such messaging cases, it was very helpful that a Veramo agent could be created on Heroku with a one-click button, making such multi-agent flows testable. In addition, the React Native integration was tested, with which a demo mobile wallet could be created within a very short time, with which a user could manage and receive \acp{vc}. This is relevant because Veramo does not currently provide its own wallet app in the app stores. In contrast to the platform solutions, the flexibility but also the complete control over architecture, code, and data such as the \acp{vc} and the private keys of \acp{DID} stand out. Veramo and all its components are completely open-source, with the development team being quite active with commits and answering Q\&A as well as bug tickets on GitHub.  
+    The integration process of Veramo into the reference implementation proved to be a mixed experience. Especially the CLI offered a good first start to try out Veramo. Thus, all basic features like creating \acp{DID} and issuing and verifying \acp{vc} could be tested in advance without any implementation process. Within the implementation, the very high degree of flexibility was especially noticeable. None of the previous solutions supports so many DID methods (did:key, did:web, did:ethr, did:ion), whereas the connection to the Uniresolver allows resolving almost any DID. In terms of deployment options, the Veramo agent can be used in web frontends, smartphone apps, and backend systems through the TypeScript backend, while the agent's modularity also allows tasks to be distributed among different agents. This allows for different architectures where, for example, one Veramo cloud agent implements only key management, another implements the issuing of \acp{vc}, and the agent in the mobile wallet implements only messaging and credentials storage. Since the Veramo agent also exposes all of its functionalities via a REST API with OpenAPI documentation, similar to MATTR and Trinsic, all functions can also be used on non-supported platforms via HTTP requests. This is not possible with any of the other solutions. In addition, with the DIDComm v1 implementation, complex communications between Veramo agents could also be implemented, such as the transfer of credentials between holders. Because of the open access to these modules, pretty much any use case can be realized, which is not possible due to limitations in the other solutions. %In the meantime, Veramo already offers a DIDComm v2 implementation \cite{veramo_blog_2021}.
+    Especially for such messaging cases, it was very helpful that a Veramo agent could be created on Heroku with a one-click button, making such multi-agent flows testable. In addition, the React Native integration was tested, with which a demo mobile wallet could be created within a very short time, with which a user could manage and receive \acp{vc}. 
+    %This is relevant because Veramo does not currently provide its own wallet app in the app stores. %
+    In contrast to the platform solutions, the flexibility but also the complete control over architecture, code, and data such as the \acp{vc} and the private keys of \acp{DID} stand out. 
+    %Veramo and all its components are completely open-source, with the development team being quite active with commits and answering Q\&A as well as bug tickets on GitHub.  %
     
     Nevertheless, there were a few things that complicated the implementation process. The now updated documentation was either outdated or not available at all in April 2021. Only the code of the CLI implementation could be used as a guide, which in combination with some guesswork and trial and error led to the desired goal. Even today, not all areas and features are covered so far, such as code and explanations for the messaging system, how to issue and verify credentials, how to resolve \acp{DID}, that there is a did:ion plugin, types of events in the event system and much more. The documentation really only covers the most necessary areas to get started, which may discourage some developers. Furthermore, there are some technological limitations, which are briefly listed below:
     
@@ -530,6 +561,8 @@ async issueVerifiableCredential(body: IssueCredentialRequest,
         \caption{Azure AD for Verifiable Credentials (based on \cite{neira_introduction_2021})}
         \label{figure: azure ad}
     \end{figure}
+    
+    %%%%%%%%%%%
     
     With regard to the implementation, in contrast to MATTR and Trinsic, Active Directory still had to be prepared as the platform. Since the extension for Verifiable Credentials is still in public preview, a P2 licence is required, which is associated with higher costs. Alternatively, a developer account can be requested from Microsoft. Within the client a new resource group is created, which must contain a key vault for keys, a storage account for credential specific rules and display JSON files and various other settings. Microsoft provides detailed documentation with descriptions and illustrations for these steps, so this process was fairly straightforward. Nevertheless, this can definitely be confusing in some places for Azure beginners. In the next step, the actual Verifiable Credential can be defined in its content and representation, which is also described in the documentation. Azure automatically assigns a URL to this \ac{vc} schema, which means that it can be retrieved via an OpenID provider. There are other steps, such as creating an application in Azure so that issuance and verification can take place in the reference implementation. So positive was the good and clear documentation to prepare a client to issue and verify \acp{vc}. Furthermore, it is certainly interesting for companies that already use Microsoft products and Active Directory. The \ac{vc} solution could be integrated into existing architectures without much effort. Moreover, it is one of the few solutions that uses ION as the \ac{DID} method, relying on a public permissionless blockchain, thus actually creating independent \acp{DID} that can also embed metadata in their \ac{DID} documents. With Azure, \ac{vc} can be issued to the mobile app in JWT format and also presented from there as a \ac{VP} on the basis of a corresponding request. In addition, \acp{vc} can be revoked through the Azure portal.  
     
@@ -665,6 +698,8 @@ async issueVerifiableCredential(body: GenericMessage,
     \end{table}
     
     With regard to related features, it is noteworthy that Mattr is the only solution that supports LD proofs, various \ac{DID} methods, BBS+ and RevocationList2020 as a \ac{DID} method independent revocation method. In the messaging area, only the precursor to DIDComm (JSON Web Message) is supported. Technologically, none of the other solutions can match Mattr at the current stage. Veramo only supports JWT as a proof format, which is why advanced ZKP technologies such as BBS+ cannot be supported. Furthermore, there is currently only one library that can be used to revoke did:ethr credentials with the EthrStatusRegistry2019 method. Nevertheless, many \ac{DID} methods are supported and a DIDComm v2 implementation is usable. In contrast, Trinsic currently has no support for JSON-LD, LD proofs and the benefits built on top of them. The Hyperledger link becomes apparent here, since only its technologies such as CL signatures, \ac{DID} methods, revocation format, and messaging protocol are supported. However, as described in subsection \ref{subsection: trinsic}, the current beta of Trinsic includes many of these new technologies, which could affect Trinsic's score in the future. Announcements from Veramo indicate similar plans. Azure seems to be quite behind at this point, with not supporting standards or only using proprietary ones.
+    
+    Now that a basic examination of the individual solutions and their features has been made, the next chapter will present a new developer-oriented evaluation framework based on these observations, which could be used to evaluate solutions for \ac{SSI} based on a defined set of criteria. For this purpose, the observation from table \ref{tab: feature comp} will also be expanded further. 
     
     
     
