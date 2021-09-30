@@ -1,5 +1,5 @@
 % Base Template: https://www.overleaf.com/latex/templates/th-koln-2018-template-for-web-science-master-thesis/hcbvkhmvddbz
-\input{./latex/preamble.tex}
+\input{thesis/latex/preamble}
 \usepackage[utf8]{inputenc}
 
 \newcommand*{\mytitle}{Self-sovereign Identity: \\Development of an Implementation-based Evaluation Framework for Verifiable Credential SDKs} % Titel
@@ -17,7 +17,7 @@
 % Seiten ohne Kopf- und Fußzeile sowie Seitenzahl
 \pagestyle{empty}
 
-\include{latex/01_titel}	% Einbinden der Titelseite
+\include{thesis/latex/01_titel}	% Einbinden der Titelseite
 \newpage 					% Um Seite nach der Titelseite einzubinden -> bei eigener Titelseite und nicht der Latex-Version erforderlich
 \thispagestyle{empty}
 \quad 
@@ -33,7 +33,7 @@ Brandenburg, \today\\[.6cm]
 Philipp Bolte\\
 \rule[0.5em]{20em}{0.5pt}
 
-\input{src/02_zusammenfassung}
+\input{thesis/src/02_zusammenfassung}
 
 \tableofcontents			%Inhaltsverzeichnis
 \listoffigures				%Verzeichnis aller Bilder
@@ -68,11 +68,11 @@ Philipp Bolte\\
 
 \pagestyle{fancy}
 
-\input{src/03_einleitung}
-\input{src/04_grundlagen}
-\input{src/05_hauptteil}
-\input{src/06_ergebnisse}
-\input{src/07_diskussion}
+\input{thesis/src/03_einleitung}
+\input{thesis/src/04_grundlagen}
+\input{thesis/src/05_hauptteil}
+\input{thesis/src/06_ergebnisse}
+\input{thesis/src/07_diskussion}
 
 %Literaturverzeichnis
 \newpage
@@ -83,6 +83,6 @@ Philipp Bolte\\
 
 \appendix
 
-\include{src/08_anhang}
+\include{thesis/src/08_anhang}
 
 \end{document}
