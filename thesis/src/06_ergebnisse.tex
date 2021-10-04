@@ -1,25 +1,68 @@
 % work in progress
 
 \chapter{Evaluation Framework}\label{chapter: framework}
-
-    Allgemeiner Einstieg; Warum noch mal eval frame? Ziel.
-
+    %Allgemeiner Einstieg; Warum noch mal eval frame? Ziel.
+    
+    In this chapter, a new developer-oriented evaluation framework for \ac{SSI} solutions based on all previous findings is presented. First, requirements for the framework are defined to clarify which areas the framework should cover. Then, the framework is built up step by step with its indexes, criteria and questions, and finally applied to the four solutions of the reference implementation in the end. 
+    
 	\section{Requirements}
+	%Grundlegende Anforderungen -> developer focus, was soll abgebildet werden (siehe implementierung, umfrage)
 	
-	Grundlegende Anforderungen -> developer focus, was soll abgebildet werden (siehe implementierung, umfrage)
+	Unlike previous evaluations from the literature, this framework is not intended to address architectures, governance models, or cover any sets of ideational principles. The goal is to provide a practical tool for developers to pragmatically evaluate, depending on the use case, \ac{SSI} solutions for their suitability. This should accelerate the selection and evaluation process and reduce the hurdles for integrating \ac{SSI} technologies into projects. To meet these objectives, the following requirements are initially defined:
 	
-	\section{Criteria \& Questions}
+	\begin{itemize}
+	    \item \textit{Developer-oriented}: A practical value should be created by mapping various facets and requirements of a developer. On the one hand, this can involve the functionalities, but also the toolset and its documentation. For this purpose, experiences from the implementation of the reference implementation as well as requirements from the expert survey are used. This is to ensure that general but also domain-specific points are included. % practical, get things done (functionality, ...)
+	    \item \textit{Expert-oriented}: As mentioned in the first point, requirements and opinions from experts in the field are to be incorporated into the framework in addition to insights from this work. This is to ensure that a broad field is covered, but also that requirements that are actually relevant to the domain are part of the framework. The findings from chapter \ref{chapter: expert} are used for this purpose.  % Know-how & experience from field
+	    \item \textit{Technologies}: Since \ac{SSI} is still a relatively young domain, many solutions and standards are either very young, not ready or not even defined yet. Therefore, it is necessary that the coverage of some important standards is also represented in the framework. Thereby, it can be recognized whether corresponding solutions provide the most current and established technologies. In addition, it must be taken into account whether governance models behind the individual solutions can react to the fast-moving area with appropriate measures to e.g. add support for new technologies.  % tech stack, Technologie support, future? (governance)
+	    \item \textit{Unopinionated}: Similar to the reference implementation, the evaluation framework should be use case agnostic. This would also imply general weightings of different areas of the framework for a heterogeneous set of use cases. Nevertheless, a generally valid evaluation with regard to different requirements would not be meaningful or even possible. Therefore, any weighting should be dispensed  at this point, and it should be left to the developer to decide which areas have a higher or lower priority.  % Weighing 
+	\end{itemize}
 	
-	Prozess: Grundlegende Bereiche/ Kategorien definieren (als Frage), definieren der Kriterien -> Fragen
+	Thus, the foundations for the development of the framework itself have been laid at this point. In the next section, the actual framework is developed and presented, taking the requirements into account.
 	
-	Darstellung in Tabellenform
+	\section{Framework}
+	%Prozess: Grundlegende Bereiche/ Kategorien definieren (als Frage), definieren der Kriterien -> Fragen, Darstellung in Tabellenform, Punktevergabesystem
 	
-	Punktevergabesystem
-	
+    
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}{@{}lll@{}}
+\toprule
+\textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
+\endfirsthead
+%
+\endhead
+%
+\endfoot
+%
+\endlastfoot
+%
+\textbf{Functionality} &                                                                                                                 &                                                                            \\
+\textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1 What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
+                       & \begin{tabular}[t]{@{}l@{}}FC2 What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double                                                                     \\
+                       & \begin{tabular}[t]{@{}l@{}}FC3 What pre-built wallet options are\\ supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud,\\ browser{]}\end{tabular}   \\
+                       & FC4 Can a wallet be built independently?                                                                        & bool                                                                       \\
+\textit{Standards}     & FS1 How many DID methods are supported?                                                                         & int                                                                        \\
+                       & FS2 What credential formats are support?                                                                        & \begin{tabular}[t]{@{}l@{}}{[}JSON,\\ JSON-LD{]}\end{tabular}              \\
+                       & FS3 What credential proofs are supported?                                                                       & \begin{tabular}[t]{@{}l@{}}{[}LD proof,\\ JWT{]}\end{tabular}              \\
+                       & FS4 What ZKP signatures are supported?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}BBS+,\\ CL, ...{]}\end{tabular}              \\
+                       & FS5 What revocation mechanisms?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}Revocation\\ List2020, ...{]}\end{tabular}   \\
+                       & FS6 Is there ODIC support?                                                                                      & bool                                                                       \\
+\textbf{Flexibility}   &                                                                                                                 &                                                                            \\
+\textit{Extensibility} & FE1 Can the functionality be extended?                                                                          & bool                                                                       \\
+                       & FE2 Can one contribute to the solution?                                                                         & bool                                                                       \\
+\textit{Deployment}    & FD1 What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
+                       & FD2 Is there a quick deployment option?                                                                         & bool                                                                       \\
+\textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1 Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
+                       & \begin{tabular}[t]{@{}l@{}}FP2 Which programming languages are\\ supported by the solution?\end{tabular}            & {[}...{]}                                                                  \\
+\textbf{Operability}   &                                                                                                                 &                                                                            \\
+\textit{Support}       & OS1 What support options are there?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}tel, mail\\ chat, forum{]}\end{tabular}      \\* \bottomrule
+\end{longtable}
+    
 	\section{Results}
+	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
 	
-	Einordnen der Lösungen in Tabelle -> Bewertung
 	
-	Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
 	
 	
