@@ -22,43 +22,86 @@
 	\section{Framework}
 	%Prozess: Grundlegende Bereiche/ Kategorien definieren (als Frage), definieren der Kriterien -> Fragen, Darstellung in Tabellenform, Punktevergabesystem
 	
+    As mentioned previously, the development of the framework is based on the experience gained from the development of the reference implementation as well as on the results of the expert survey. From the latter, first indexes were established in section \ref{section: expert results}, which will be presented and extended in this section. The corresponding five indices with their criteria are described below.
     
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
-% \usepackage{longtable}
-% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
-\begin{longtable}{@{}lll@{}}
-\toprule
-\textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
-\endfirsthead
-%
-\endhead
-%
-\endfoot
-%
-\endlastfoot
-%
-\textbf{Functionality} &                                                                                                                 &                                                                            \\
-\textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1 What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
-                       & \begin{tabular}[t]{@{}l@{}}FC2 What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double                                                                     \\
-                       & \begin{tabular}[t]{@{}l@{}}FC3 What pre-built wallet options are\\ supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud,\\ browser{]}\end{tabular}   \\
-                       & FC4 Can a wallet be built independently?                                                                        & bool                                                                       \\
-\textit{Standards}     & FS1 How many DID methods are supported?                                                                         & int                                                                        \\
-                       & FS2 What credential formats are support?                                                                        & \begin{tabular}[t]{@{}l@{}}{[}JSON,\\ JSON-LD{]}\end{tabular}              \\
-                       & FS3 What credential proofs are supported?                                                                       & \begin{tabular}[t]{@{}l@{}}{[}LD proof,\\ JWT{]}\end{tabular}              \\
-                       & FS4 What ZKP signatures are supported?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}BBS+,\\ CL, ...{]}\end{tabular}              \\
-                       & FS5 What revocation mechanisms?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}Revocation\\ List2020, ...{]}\end{tabular}   \\
-                       & FS6 Is there ODIC support?                                                                                      & bool                                                                       \\
-\textbf{Flexibility}   &                                                                                                                 &                                                                            \\
-\textit{Extensibility} & FE1 Can the functionality be extended?                                                                          & bool                                                                       \\
-                       & FE2 Can one contribute to the solution?                                                                         & bool                                                                       \\
-\textit{Deployment}    & FD1 What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
-                       & FD2 Is there a quick deployment option?                                                                         & bool                                                                       \\
-\textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1 Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
-                       & \begin{tabular}[t]{@{}l@{}}FP2 Which programming languages are\\ supported by the solution?\end{tabular}            & {[}...{]}                                                                  \\
-\textbf{Operability}   &                                                                                                                 &                                                                            \\
-\textit{Support}       & OS1 What support options are there?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}tel, mail\\ chat, forum{]}\end{tabular}      \\* \bottomrule
-\end{longtable}
+    \begin{enumerate}
+        \item \textit{Functionality}: The first index is focused on the question, which features the solution offers the developer, in order to solve its \ac{SSI} related tasks. This includes flow coverage, i.e. the extent to which the \ac{vc} lifecycle can be mapped by the solution, but also the support of standards. These are particularly important in an area where openness and interoperability between diverse user-managed flows and applications are intrinsic values. Both criteria were relevant both in the expert questionnaire and in the development of the reference implementation.
+        \item \textit{Flexibility}: This is mainly about how freely a developer can interact with the solution. This was a rather small area in the survey, but was much more apparent in the implementation in chapter \ref{chapter: implementation}. On the one hand, this contains extensibility, thus to what extent the functionality of the solution can be extended by own efforts and whether these can be integrated also by e.g. pull requests into the public code base. Furthermore, it includes the complete deployment field, i.e. on which type of devices this solution can be used, but also whether there are quick deployment options for the cloud, for example. The latter in particular is relevant during the development phase for setting up test environments as quickly and conveniently as possible. Finally, Flexibility also includes the platform criterion, which looks at the ways in which the solution can be addressed. This includes, for example, the number of supported programming languages and the existence of REST APIs to enable a platform-independent use of the solutions.
+        \item \textit{Operability}: This index primarily considers how usable the solution is in terms of the developer experience. This includes obvious criteria such as support, documentation and, for example, the maturity of the solution. It also includes attention to industry standards, creating a common conversational and well-thought-out technological foundation. The last criterion defined was overhead, which considers the initial effort required to get the solution up and running. The contents of the index were often part of the expert survey and also appeared in the reference implementation.
+        \item \textit{Dependency}: This index was not directly part of the experts' answers, but was partly addressed secondary, for example by Stefan Adolf, and should not be disregarded considering the principles of \ac{SSI}. This involves questions about the extent to which a developer is dependent on the solution creators. For example, this includes the keys criterion, which is whether a developer has complete control and access to the private keys of its \acp{DID}. In addition, it considers whether the tech stack can be under full control of the developer. Finally, this also includes the cost of the solution and whether there are developer-specific test accounts, for example. Especially the latter is quite helpful for a development phase in order not to generate high costs.
+        \item \textit{Involvement}: In the last index, the involvement of the solution creators in the \ac{SSI} community is considered and thus the closeness to technological changes. This includes participation in the development of standards as well as open-source libraries. Additionally, it includes the commitment related to the own product, i.e. whether the solution is being developed further, whether it uses existing community work or whether it also incentivizes community help. This index was created primarily from the results of the expert survey.
+    \end{enumerate}
+	
+    
+    \setlength\LTleft{0pt}
+    \setlength\LTright{0pt}
+    \begin{longtable}{@{\extracolsep{\fill}}lll@{}}
+    \toprule
+    \textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
+    \endfirsthead
+    %
+    \endhead
+    %
+    \endfoot
+    %
+    \endlastfoot
+    %
+    \textbf{Functionality} &                                                                                                                 &                                                                            \\
+    \textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1: What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
+                           & \begin{tabular}[t]{@{}l@{}}FC2: What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double \\
+                           & FC3: Can a wallet be built independently? & bool  \\
+                           & \begin{tabular}[t]{@{}l@{}}FC4: What pre-built wallet options are\\ supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud,\\ browser{]}\end{tabular}   \\
+    \textit{Standards}     & FS1: How many DID methods are supported?                                                                         & int                                                                        \\
+                           & FS2: Are JSON-LD credentials supported? & bool  \\
+                           & FS3: Are linked data proofs supported? & bool \\
+                           & FS4: Are BBS+ or CL signatures supported? & bool \\                        & FS5: Is RevocationList2020 supported & bool  \\
+                           & FS6: Is there ODIC support? & bool \\
+                           \midrule
+    \textbf{Flexibility}   &                                                                                                                 &                                                                            \\
+    \textit{Extensibility} & FE1: Can the functionality be extended?                                                                          & bool                                                                       \\
+                           & FE2: Can one contribute to the solution?                                                                         & bool                                                                       \\
+    \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
+                           & FD2: Is there a quick deployment option?                                                                         & bool                                                                       \\
+    \textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1: Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
+                           & \begin{tabular}[t]{@{}l@{}}FP2: Are multiple programming languages\\ supported by the solution?\end{tabular}            & bool \\
+                           \midrule
+    \textbf{Operability}   &                                                                                                                 &                                                                            \\
+    \textit{Support}       & OS1: What support options are there?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}tel, mail\\ chat, forum{]}\end{tabular}      \\
+    
+    \textit{Documentation} & \begin{tabular}[t]{@{}l@{}}OD1: What percentage of the flow\\ is described?\end{tabular}   
+                            & double  \\
+                           & OD2: Is there an API Documentation? & bool\\
+                           & OD3: Are there any code examples? & bool\\
+    \textit{Maturity}      & OM1: Is there a release version? & bool \\  
+                           & OM2: Are any features subject to change? & bool\\
+                           & OM3: Is the solution older than a year? & bool\\
+                           & (OM4: How many reliability issues are there?) & int\\
+    \textit{Standards}     & OT1: Are industry standards being used? & bool \\  
+                           & OT2: Is interoperability proven by Plugfest? & bool\\
+    \textit{Overhead}      & OO1: How many LoCs are needed for set up? & int \\  
+                           & OO2: How many things have to be set up? & int\\
+                           \midrule
+    \textbf{Dependency}    & & \\
+    \textit{Keys}          & DK1: Is full control over private keys given? & bool \\  
+    \textit{Stack}         & DS1: Can one own the whole tech stack? & bool \\  
+                           & \begin{tabular}[t]{@{}l@{}}DS2: Is the still stack usable after\\
+                           the original developers are gone?\end{tabular} & bool \\ 
+    \textit{Cost}          & DC1: Is the solution free of charge? & bool \\  
+                           & DC2: Is there a free developer plan? & bool \\
+                           \midrule
+    \textbf{Involvement}   & & \\
+    \textit{Community}     & \begin{tabular}[t]{@{}l@{}}IC1: Does the solution provider participate 
+                            \\in community events?\end{tabular} & bool \\
+                           & \begin{tabular}[t]{@{}l@{}}IC2: How many open-source repositories have \\they worked on?\end{tabular} & int \\ 
+                           & \begin{tabular}[t]{@{}l@{}}IC3: Have they co-worked on \ac{SSI}-related \\standards?\end{tabular} & bool \\ 
+    \textit{Product}       & IP1: Is the solution being worked on? & bool \\
+                           & IP2: Is the solution leveraging open-source work? & bool\\
+                           & \begin{tabular}[t]{@{}l@{}}IP3: Does the governance structure encourage 
+                            \\community efforts?\end{tabular} & bool \\*
+    \bottomrule
+    \end{longtable}
+    
+    With regard to the evaluation and the lack of weightings, one point can be obtained with each question. For questions with more than one option, the sum of all options results in one point. To compensate for the different number of questions within the indexes, the results are normalized so that all indexes are equally weighted.
     
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
