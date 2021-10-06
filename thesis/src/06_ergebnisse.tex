@@ -26,82 +26,173 @@
     
     \begin{enumerate}
         \item \textit{Functionality}: The first index is focused on the question, which features the solution offers the developer, in order to solve its \ac{SSI} related tasks. This includes flow coverage, i.e. the extent to which the \ac{vc} lifecycle can be mapped by the solution, but also the support of standards. These are particularly important in an area where openness and interoperability between diverse user-managed flows and applications are intrinsic values. Both criteria were relevant both in the expert questionnaire and in the development of the reference implementation.
-        \item \textit{Flexibility}: This is mainly about how freely a developer can interact with the solution. This was a rather small area in the survey, but was much more apparent in the implementation in chapter \ref{chapter: implementation}. On the one hand, this contains extensibility, thus to what extent the functionality of the solution can be extended by own efforts and whether these can be integrated also by e.g. pull requests into the public code base. Furthermore, it includes the complete deployment field, i.e. on which type of devices this solution can be used, but also whether there are quick deployment options for the cloud, for example. The latter in particular is relevant during the development phase for setting up test environments as quickly and conveniently as possible. Finally, Flexibility also includes the platform criterion, which looks at the ways in which the solution can be addressed. This includes, for example, the number of supported programming languages and the existence of REST APIs to enable a platform-independent use of the solutions.
+        \item \textit{Flexibility}: This is mainly about how freely a developer can interact with the solution. This was a rather small area in the survey, but was much more apparent in the implementation in chapter \ref{chapter: ref implementation}. On the one hand, this contains extensibility, thus to what extent the functionality of the solution can be extended by own efforts and whether these can be integrated also by e.g. pull requests into the public code base. Furthermore, it includes the complete deployment field, i.e. on which type of devices this solution can be used, but also whether there are quick deployment options for the cloud, for example. The latter in particular is relevant during the development phase for setting up test environments as quickly and conveniently as possible. Finally, Flexibility also includes the platform criterion, which looks at the ways in which the solution can be addressed. This includes, for example, the number of supported programming languages and the existence of REST APIs to enable a platform-independent use of the solutions.
         \item \textit{Operability}: This index primarily considers how usable the solution is in terms of the developer experience. This includes obvious criteria such as support, documentation and, for example, the maturity of the solution. It also includes attention to industry standards, creating a common conversational and well-thought-out technological foundation. The last criterion defined was overhead, which considers the initial effort required to get the solution up and running. The contents of the index were often part of the expert survey and also appeared in the reference implementation.
         \item \textit{Dependency}: This index was not directly part of the experts' answers, but was partly addressed secondary, for example by Stefan Adolf, and should not be disregarded considering the principles of \ac{SSI}. This involves questions about the extent to which a developer is dependent on the solution creators. For example, this includes the keys criterion, which is whether a developer has complete control and access to the private keys of its \acp{DID}. In addition, it considers whether the tech stack can be under full control of the developer. Finally, this also includes the cost of the solution and whether there are developer-specific test accounts, for example. Especially the latter is quite helpful for a development phase in order not to generate high costs.
         \item \textit{Involvement}: In the last index, the involvement of the solution creators in the \ac{SSI} community is considered and thus the closeness to technological changes. This includes participation in the development of standards as well as open-source libraries. Additionally, it includes the commitment related to the own product, i.e. whether the solution is being developed further, whether it uses existing community work or whether it also incentivizes community help. This index was created primarily from the results of the expert survey.
     \end{enumerate}
-	
+    
+    During the development of the above criteria, it was considered in the meantime whether GitHub stats regarding the processing time and response rate to opened issues should also be considered for the support criterion. This would certainly be of added value for developers, as they serve as a point of contact for questions and problems. However, it was decided not to do this, since not all solutions have corresponding offers and this would make a generally valid and comparable evaluation problematic. As an alternative, a question on the existence of public issue trackers was added. The result of all considerations can be found in table \ref{tab: eval framework}. In addition, corresponding questions were defined for each category, as well as their answer type. By working through these questions, comparability can be created in an evaluation process.
     
     \setlength\LTleft{0pt}
     \setlength\LTright{0pt}
     \begin{longtable}{@{\extracolsep{\fill}}lll@{}}
-    \toprule
-    \textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
-    \endfirsthead
-    %
-    \endhead
-    %
-    \endfoot
-    %
-    \endlastfoot
-    %
-    \textbf{Functionality} &                                                                                                                 &                                                                            \\
-    \textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1: What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
-                           & \begin{tabular}[t]{@{}l@{}}FC2: What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double \\
-                           & FC3: Can a wallet be built independently? & bool  \\
-                           & \begin{tabular}[t]{@{}l@{}}FC4: What pre-built wallet options are\\ supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud,\\ browser{]}\end{tabular}   \\
-    \textit{Standards}     & FS1: How many DID methods are supported?                                                                         & int                                                                        \\
-                           & FS2: Are JSON-LD credentials supported? & bool  \\
-                           & FS3: Are linked data proofs supported? & bool \\
-                           & FS4: Are BBS+ or CL signatures supported? & bool \\                        & FS5: Is RevocationList2020 supported & bool  \\
-                           & FS6: Is there ODIC support? & bool \\
-                           \midrule
-    \textbf{Flexibility}   &                                                                                                                 &                                                                            \\
-    \textit{Extensibility} & FE1: Can the functionality be extended?                                                                          & bool                                                                       \\
-                           & FE2: Can one contribute to the solution?                                                                         & bool                                                                       \\
-    \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
-                           & FD2: Is there a quick deployment option?                                                                         & bool                                                                       \\
-    \textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1: Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
-                           & \begin{tabular}[t]{@{}l@{}}FP2: Are multiple programming languages\\ supported by the solution?\end{tabular}            & bool \\
-                           \midrule
-    \textbf{Operability}   &                                                                                                                 &                                                                            \\
-    \textit{Support}       & OS1: What support options are there?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}tel, mail\\ chat, forum{]}\end{tabular}      \\
-    
-    \textit{Documentation} & \begin{tabular}[t]{@{}l@{}}OD1: What percentage of the flow\\ is described?\end{tabular}   
-                            & double  \\
-                           & OD2: Is there an API Documentation? & bool\\
-                           & OD3: Are there any code examples? & bool\\
-    \textit{Maturity}      & OM1: Is there a release version? & bool \\  
-                           & OM2: Are any features subject to change? & bool\\
-                           & OM3: Is the solution older than a year? & bool\\
-                           & (OM4: How many reliability issues are there?) & int\\
-    \textit{Standards}     & OT1: Are industry standards being used? & bool \\  
-                           & OT2: Is interoperability proven by Plugfest? & bool\\
-    \textit{Overhead}      & OO1: How many LoCs are needed for set up? & int \\  
-                           & OO2: How many things have to be set up? & int\\
-                           \midrule
-    \textbf{Dependency}    & & \\
-    \textit{Keys}          & DK1: Is full control over private keys given? & bool \\  
-    \textit{Stack}         & DS1: Can one own the whole tech stack? & bool \\  
-                           & \begin{tabular}[t]{@{}l@{}}DS2: Is the still stack usable after\\
-                           the original developers are gone?\end{tabular} & bool \\ 
-    \textit{Cost}          & DC1: Is the solution free of charge? & bool \\  
-                           & DC2: Is there a free developer plan? & bool \\
-                           \midrule
-    \textbf{Involvement}   & & \\
-    \textit{Community}     & \begin{tabular}[t]{@{}l@{}}IC1: Does the solution provider participate 
-                            \\in community events?\end{tabular} & bool \\
-                           & \begin{tabular}[t]{@{}l@{}}IC2: How many open-source repositories have \\they worked on?\end{tabular} & int \\ 
-                           & \begin{tabular}[t]{@{}l@{}}IC3: Have they co-worked on \ac{SSI}-related \\standards?\end{tabular} & bool \\ 
-    \textit{Product}       & IP1: Is the solution being worked on? & bool \\
-                           & IP2: Is the solution leveraging open-source work? & bool\\
-                           & \begin{tabular}[t]{@{}l@{}}IP3: Does the governance structure encourage 
-                            \\community efforts?\end{tabular} & bool \\*
-    \bottomrule
+        \caption{Evaluation framework}
+        \label{tab: eval framework}\\
+        \toprule
+        \textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
+        \endfirsthead
+        %
+        \endhead
+        %
+        \endfoot
+        %
+        \endlastfoot
+        %
+        \textbf{Functionality} &                                                                                                                 &                                                                            \\
+        \textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1: What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
+                               & \begin{tabular}[t]{@{}l@{}}FC2: What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double \\
+                               & FC3: Can a wallet be built independently? & bool  \\
+                               & \begin{tabular}[t]{@{}l@{}}FC4: What wallet/ storage options\\ are supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud, pc\\ browser{]}\end{tabular}   \\
+        \textit{Standards}     & FS1: Are ledger-based DID methods supported? & bool \\
+                               & \begin{tabular}[t]{@{}l@{}} FS2: Are non ledger-based DID methods\\  supported?\end{tabular} & bool \\
+                               & FS3: Are JSON-LD credentials supported? & bool  \\
+                               & FS4: Are linked data proofs supported? & bool \\
+                               & FS5: Are BBS+ or CL signatures supported? & bool \\
+                               & FS6: Is there support for DIDComm? & bool \\
+                               & FS7: Is RevocationList2020 supported & bool  \\
+                               & FS8: Is there ODIC support? & bool \\
+                               \midrule
+        \textbf{Flexibility}   &                                                                                                                 &                                                                            \\
+        \textit{Extensibility} & FE1: Can the functionality be extended?                                                                          & bool                                                                       \\
+                               & FE2: Can one contribute to the solution?                                                                         & bool                                                                       \\
+        \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
+                               & FD2: Is there a quick deployment option?                                                                         & bool                                                                       \\
+        \textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1: Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
+                               & \begin{tabular}[t]{@{}l@{}}FP2: Are multiple programming languages\\ supported by the solution?\end{tabular}            & bool \\
+                               \midrule
+        \textbf{Operability}   &                                                                                                                 &                                                                            \\
+        \textit{Support}       & OS1: What support options are there?                                                                                 & \begin{tabular}[t]{@{}l@{}}{[}tel, mail\\ chat, forum{]}\end{tabular}      \\
+                               & OS2: Is there a public issue tracker? & bool \\
+        
+        \textit{Documentation} & \begin{tabular}[t]{@{}l@{}}OD1: What percentage of the implemented \\lifecycle functionality is described?\end{tabular}   
+                               & double  \\
+                               & OD2: Is there an API Documentation? & bool\\
+                               & OD3: Are there any code examples? & bool\\
+        \textit{Maturity}      & OM1: Is there a release version? & bool \\  
+                               & OM2: Are any features subject to change? & bool\\
+                               & OM3: Is the solution older than a year? & bool\\
+        \textit{Standards}     & OT1: Are industry standards being used? & bool \\  
+                               & OT2: Is interoperability proven by Plugfest? & bool\\
+        \textit{Overhead}      & OO1: Are less than 100 LoCs needed for set up? & bool \\  
+                               & OO2: How many things have to be set up? & [$\leq$5, >5]\\
+                               \midrule
+        \textbf{Dependency}    & & \\
+        \textit{Keys}          & DK1: Is full control over private keys given? & bool \\  
+        \textit{Stack}         & DS1: Can one own the whole tech stack? & bool \\  
+                               & \begin{tabular}[t]{@{}l@{}}DS2: Is the still stack usable after\\
+                               the original developers are gone?\end{tabular} & bool \\ 
+        \textit{Cost}          & DC1: Is the solution free of charge? & bool \\  
+                               & DC2: Is there a free developer plan? & bool \\
+                               \midrule
+        \textbf{Involvement}   & & \\
+        \textit{Community}     & \begin{tabular}[t]{@{}l@{}}IC1: Does the solution provider participate 
+                                \\in community events?\end{tabular} & bool \\
+                               & \begin{tabular}[t]{@{}l@{}}IC2: Have they worked on open-source\\ repositories?\end{tabular} & bool \\ 
+                               & \begin{tabular}[t]{@{}l@{}}IC3: Have they co-worked on \ac{SSI}-related \\standards?\end{tabular} & bool \\ 
+        \textit{Product}       & IP1: Is the solution being worked on? & bool \\
+                               & IP2: Is the solution leveraging open-source work? & bool\\
+                               & \begin{tabular}[t]{@{}l@{}}IP3: Does the governance structure encourage 
+                                \\community efforts?\end{tabular} & bool \\*
+        \bottomrule
     \end{longtable}
     
-    With regard to the evaluation and the lack of weightings, one point can be obtained with each question. For questions with more than one option, the sum of all options results in one point. To compensate for the different number of questions within the indexes, the results are normalized so that all indexes are equally weighted.
+    With regard to the evaluation and the lack of weightings, one point can be obtained with each question. For questions with more than one option, the sum of all possible options results in one point, whereby the score can be a fraction of one. To compensate for the different number of questions within the indexes, the results are normalized by dividing the score of an index by its number of questions. That way, the results of all indexes are equally weighted and none is over or underrepresented due to different amounts of questions.
+    
+    Now that the evaluation framework has been presented, the following table \ref{tab: scores} applies it to each of the four implemented \ac{SSI} solutions to obtain a final score. In addition, the sub-scores for each index are given, so that differences become apparent. 
+
+    \setlength\LTleft{0pt}
+    \setlength\LTright{0pt}
+    \begin{longtable}{@{\extracolsep{\fill}}llllll@{}}
+        \caption{Scoring of \ac{SSI} solutions}
+        \label{tab: scores}\\
+        \toprule
+        \textbf{Criterion}     & \textbf{Question} & \textbf{Mattr} & \textbf{Trinsic} & \textbf{Veramo} & \textbf{Azure} \\ \midrule
+        \endfirsthead\endhead\endfoot\endlastfoot
+        \textbf{Functionality} &&&&&\\
+        \textit{Flow Coverage} & FC1 & 0.6 & 0.4 & 0.6 & 0.2 \\
+                               & FC2 & 0.75 & 0.65 & 0.75 & 0.5 \\
+                               & FC3 & 1 & 1 & 1 & 0 \\
+                               & FC4 & 0.5 & 0.5 & 1 & 0.5 \\
+        \textit{Standards}     & FS1 & 1 & 1 & 1 & 1 \\
+                               & FS2 & 1 & 1 & 1 & 0 \\
+                               & FS3 & 1 & 0 & 1 & 1 \\
+                               & FS4 & 1 & 0 & 0 & 0 \\
+                               & FS5 & 1 & 1 & 0 & 0 \\
+                               & FS6 & 0 & 1 & 1 & 0 \\
+                               & FS7 & 1 & 0 & 0 & 0 \\
+                               & FS8 & 1 & 0 & 0 & 1 \\
+                               \hline
+                               && 9.85 & 6.55 & 7.35 & 4.2\\
+                               && (82.08\%) & (54.58\%) & (61.25\%) & (35\%) \\                               
+                               \midrule
+        \textbf{Flexibility} &&&&&\\
+        \textit{Extensibility} & FE1 & 0 & 0 & 1 & 0 \\
+                               & FE2 & 0 & 0 & 1 & 0 \\
+        \textit{Deployment}    & FD1 & 0.25 & 0.25 & 1 & 0.25 \\
+                               & FD2 & 0 & 0 & 1 & 0 \\
+        \textit{Platform}      & FP1 & 1 & 1 & 1 & 0* \\
+                               & FP2 & 0 & 1 & 0 & 0 \\
+                               \hline
+                               && 1.25 & 1.25 & 5.0 & 0.25 \\
+                               && (20.83\%) & (20.83\%) & (83.33\%) & (4.17\%) \\
+                               \midrule
+        \textbf{Operability} &&&&&\\
+        \textit{Support}       & OS1 & 0.5 & 0.75 & 0.25 & 1 \\
+                               & OS2 & 0 & 0 & 1 & 0 \\
+        \textit{Documentation} & OD1 & 1 & 1 & 0 & 1 \\
+                               & OD2 & 1 & 1 & 1 & 0 \\
+                               & OD3 & 1 & 1 & 1 & 1 \\
+        \textit{Maturity}      & OM1 & 1 & 1 & 0 & 0 \\
+                               & OM2 & 0 & 0 & 0 & 0 \\
+                               & OM3 & 1 & 1 & 0 & 0 \\
+        \textit{Standards}     & OT1 & 1 & 1 & 1 & 1 \\
+                               & OT2 & 1 & 0 & 0 & 0 \\
+        \textit{Overhead}      & OO1 & 1 & 1 & 0 & 1 \\
+                               & OO2 & 1 & 1 & 0 & 0 \\
+                               \hline
+                               && 9.5 & 8.75 & 4.25 & 5.0 \\
+                               && (79.17\%) & (72.91\%) & (35.24\%) & (41.67\%) \\
+                               \midrule
+        \textbf{Dependency} &&&&&\\
+        \textit{Keys}          & DK1 & 0 & 0 & 1 & 0 \\
+        \textit{Stack}         & DS1 & 0 & 0 & 1 & 0 \\
+                               & DS2 & 0 & 0 & 1 & 0 \\                       
+        \textit{Cost}          & DC1 & 0 & 0 & 1 & 0 \\
+                               & DC2 & 1 & 1 & 1 & 1 \\     
+                               \hline
+                               && 1.0 & 1.0 & 5.0 & 1 \\
+                               && (20.0\%) & (20.0\%) & (100\%) & (20.0\%) \\
+                               \midrule
+        \textbf{Involvement} &&&&&\\
+        \textit{Community}     & IC1 & 1 & 1 & 1 & 1 \\
+                               & IC2 & 1 & 1 & 1 & 1 \\                       
+                               & IC3 & 1 & 1 & 1 & 1 \\                       
+        \textit{Product}       & IP1 & 1 & 1 & 1 & 1 \\
+                               & IP2 & 1 & 1 & 1 & 1 \\    
+                               & IP3 & 0 & 0 & 1 & 0 \\
+                               \hline
+                               && 5.0 & 5.0 & 5.0 & 5.0 \\                        
+                               && (83.33\%) & (83.33\%) & (100\%) & (83.33\%) \\
+        \hline\hline
+        \textbf{Score} & & \textbf{26.6} & \textbf{22.55} & \textbf{26.6} & \textbf{15.45} \\
+        & & \textbf{(64.88\%)} & \textbf{(55.0\%)} & \textbf{(64.88\%)} & \textbf{(37,69\%)} \\
+        \bottomrule
+    \end{longtable}
+    % MATTR: Slack only (Forum, Chat), Trinsic: Chat, Tel, Mai, Veramo: Forum, Azure: alles
+    % 
+    
+    This concludes the evaluation of the individual solutions. In the next section, these results are considered, and final conclusions are drawn for the solutions.
     
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
