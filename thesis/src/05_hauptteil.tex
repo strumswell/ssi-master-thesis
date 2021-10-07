@@ -765,52 +765,60 @@ async issueVerifiableCredential(body: GenericMessage,
     
     To show the differences in the implementation in table \ref{table: impl results} in a more granular way, there are some refinements added to some steps. \texttt{Direct} refers to the fact that in this step a JSON LD object, for example in the form of a \ac{vc}, can be used directly as an input. In contrast, \texttt{Indirect} refers to the fact that this process step is part of another process step or another system (webinterface, wallet, ...). For example, in Mattr, the store step could not be implemented directly, but is indirectly part of the issuance step, where the created \ac{vc} is stored in the cloud agent. This distinction is helpful to show that many unimplemented steps are nevertheless represented by the solutions, but were often abstracted away. Finally, \texttt{Comm} and \texttt{QR code} are used to document different ways to interact with other agents/wallets. For example, in Mattr, a \ac{vc} can be transmitted to a wallet both by scanning a QR code but also by sending it directly through a communication module. Considering the scope of the work, not all facets of the individual solutions were necessarily implemented, which is why unimplemented features were marked accordingly. In addition, other annotations concerning (possible) self-implementations and restrictions were added as well.
      
-    \begin{table}[ht!]
-    	\begin{threeparttable}
-            \centering
-            \caption{Implementation results}
-            \begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} llllll}
-            \toprule
-            \textbf{ Step }         & \textbf{Feature }     & \textbf{Mattr } & \textbf{Trinsic } & \textbf{Veramo } & \textbf{Azure }  \\ 
-            \midrule
-            \textbf{Issue VC}       & \textbf{Implemented}  & \textbf{\ding{51}}    & \ding{51}      & \ding{51}     & \ding{51}     \\
-                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}              & \ding{55}               \\
-                                    & QR code               & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
-                                    & Comm                  & \ding{51}\tnote{1}            & \ding{51}\tnote{1}              & \ding{51}              & \ding{55}               \\
-            \textbf{Store VC}       & \textbf{Implemented}  & \ding{55}     & \ding{55}       & \ding{51}    & \ding{55}      \\
-                                    & Direct                & \ding{55}              & \ding{55}                & \ding{51}              & \ding{55}               \\
-                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{51}              & \ding{51}              \\
-            \textbf{Transfer VC}    & \textbf{Implemented}  & \ding{55}    & \ding{55}      & \ding{51}\tnote{3}  & \ding{55}     \\
-            \textbf{Compose VP }    & \textbf{Implemented}  & \ding{51}   & \ding{55}       & \ding{51}    & \ding{55}      \\
-                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}              & \ding{55}               \\
-                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
-            \textbf{Present VP }    & \textbf{Implemented}  & \ding{55}     & \ding{55}       & \textbf{\ding{51}}     & \ding{55}      \\
-                                    & Direct                & \ding{55}              & \ding{55}                & \ding{51}              & \ding{55}               \\
-                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
-            \textbf{Request VP }    & \textbf{Implemented}  & \ding{51}   & \ding{51}     & \ding{51}    & \ding{51}    \\
-                                    & QR                    & \ding{51}             & \ding{51}               & \ding{55}\tnote{2}             & \ding{51}              \\
-                                    & Comm                  & \ding{51}\tnote{1}            & \ding{51}\tnote{1}              & \ding{51}              & \ding{55}               \\
-            \textbf{Verify VC/ VP } & \textbf{Implemented}  & \ding{51}   & \ding{55}       & \ding{51}\tnote{3}  & \textbf{\ding{55}}      \\
-                                    & Direct                & \ding{51}             & \ding{55}                & \ding{51}\tnote{3}           & \ding{55}               \\
-                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{51}\tnote{3}          & \ding{51}              \\
-            \textbf{Revoke VC}      & \textbf{Implemented}  & \ding{51}   & \ding{51}     & \ding{51}\tnote{3, 4}  & \ding{55}\tnote{5} \\
-            \textbf{Delete VC}      & \textbf{Implemented~} & \ding{51}   & \ding{51}     & \ding{51}    & \ding{55}\tnote{5}    \\
-            \textbf{Derive VC}      & \textbf{Implemented~} & \ding{55}    & \ding{55}      & \ding{55}     & \ding{55}     \\
-                                    & Indirect              & \ding{51}             & \ding{51}               & \ding{55}               & \ding{55}               \\
+    \setlength\LTleft{0pt}
+    \setlength\LTright{0pt}
+    \begin{longtable}{@{\extracolsep{\fill}}llllll@{}}
+        \caption{Implementation results}
+        \label{table: impl results} \\
+        \toprule
+        \textbf{ Step } & \textbf{Feature }     & \textbf{Mattr } & \textbf{Trinsic } & \textbf{Veramo } & \textbf{Azure }  \\ 
+        \midrule
+        \endfirsthead\endhead\endfoot\endlastfoot
+            \textbf{Issue VC} & \textbf{Implemented} & \ding{108} & \ding{108} & \ding{108} & \ding{108} \\
+                            & Direct  & \ding{108} & & \ding{108} & \\
+                            & QR code & \ding{108} & \ding{108} & & \ding{108} \\
+                            & Comm  & \ding{108}\tnote{1} & \ding{108}\tnote{1} & \ding{108} &    \\
             \hline
-            \textbf{Score} &  & 75\% & 65\% & 75\% & 50\%\\
+            \textbf{Store VC} & \textbf{Implemented}  & & & \ding{108} & \\
+                            & Direct & & & \ding{108} & \\
+                            & Indirect & \ding{108} & \ding{108} & \ding{108} & \ding{108} \\
+            \hline
+            \textbf{Transfer VC}    & \textbf{Implemented}  &     &       & \ding{108}  &      \\
+            \hline
+            \textbf{Compose VP }    & \textbf{Implemented}  & \ding{108}   &        & \ding{108}    &       \\
+                                    & Direct                & \ding{108}             &                 & \ding{108}              &                \\
+                                    & Indirect              & \ding{108}             & \ding{108}               &              & \ding{108}              \\
+            \hline
+            \textbf{Present VP }    & \textbf{Implemented}  &      &        & \ding{108}     &       \\
+                                    & Direct                &               &                 & \ding{108}              &                \\
+                                    & Indirect              & \ding{108}             & \ding{108}               &              & \ding{108}              \\
+            \hline
+            \textbf{Request VP }    & \textbf{Implemented}  & \ding{108}   & \ding{108}     & \ding{108}    & \ding{108}    \\
+                                    & QR                    & \ding{108}             & \ding{108}               &              & \ding{108}              \\
+                                    & Comm                  & \ding{108}\tnote{1}            & \ding{108}\tnote{1}              & \ding{108}              &                \\
+            \hline
+            \textbf{Verify VC/ VP } & \textbf{Implemented}  & \ding{108}   &        & \ding{108}  &       \\
+                                    & Direct                & \ding{108}             &                 & \ding{108}           &                \\
+                                    & Indirect              & \ding{108}             & \ding{108}               & \ding{108}          & \ding{108}              \\
+            \hline
+            \textbf{Revoke VC} & \textbf{Implemented} & \ding{108} &  & \ding{108}\tnote{2} &  \\
+                               & Direct   & \ding{108} & \ding{108}\tnote{1} & \ding{108} & \\
+                               & Indirect & & & & \ding{108} \\
+            \hline
+            \textbf{Delete VC}      & \textbf{Implemented} & \ding{108}   & \ding{108}     & \ding{108}    &     \\
+            & Direct & \ding{108} & \ding{108} & \ding{108} & \\
+            & Indirect & \ding{108} & \ding{108} & \ding{108}  & \ding{108} \\            
+            \hline
+            \textbf{Derive VC}      & \textbf{Implemented} &     &       &      &      \\
+                                    & Indirect              & \ding{108}             & \ding{108}               &                &                \\
+            \hline
+            \hline
+            \textbf{Direct Coverage} &  & 60\% & 40\% & 90\% & 20\%\\
+            \textbf{General Coverage} &  & 90\% & 90\% & 90\% & 80\%\\
             \bottomrule
-            \end{tabular*}
-            \begin{tablenotes}\footnotesize 
-    		    \item[1] Not implemented
-        		\item[2] Implementation with personal effort possible
-        		\item[3] Implemented with personal effort using API
-        		\item[4] Restricted to did:ethr
-        		\item[5] Part of another, unreachable system
-    		\end{tablenotes}
-    		\label{table: impl results}
-		\end{threeparttable}
-    \end{table}
+            \footnotesize  \textsuperscript{1} Not implemented\\
+            \footnotesize  \textsuperscript{2} Restricted to did:ethr
+    \end{longtable}
     
     From these results it is apparent that none of the solutions can directly map the complete \ac{vc} lifecycle. All of them cover the steps issuance and presentation request, but none of the solutions offers a direct method to derive \acp{vc} for \ac{ZKP} purposes. The different approaches taken by the solutions are also revealed here. Mattr and Veramo give developers more freedom and abstract fewer complexities than Trinsic and Azure. This is noticeable in the fact that it is possible to work directly with JSON-LD objects from credentials and more functionalities are exposed through their APIs. This allows Mattr and Veramo to achieve a score of 75\%. Nevertheless, it must be clearly distinguished that Mattr abstracts and restricts more than Veramo in some areas, which results however in more finished and production-ready APIs and tools. Especially in this area, Veramo is still lagging behind, but its high flexibility and openness makes it possible to retrofit necessary features with existing API methods with manageable effort. For example, Veramo's verify method is incomplete, as described earlier, where missing checks can be implemented by the user. This also allows, for example, that with the help of the communication module in Veramo the transfer step could be implemented as the only solution. This is not possible with Mattr. A potential developer must clearly assess what is important to its use case.
     

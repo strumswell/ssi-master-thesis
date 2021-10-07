@@ -1,5 +1,3 @@
-% work in progress
-
 \chapter{Evaluation Framework}\label{chapter: framework}
     %Allgemeiner Einstieg; Warum noch mal eval frame? Ziel.
     
@@ -53,7 +51,7 @@
         \textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1: What percentage of the VC lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
                                & \begin{tabular}[t]{@{}l@{}}FC2: What percentage of the VC lifecycle\\ is generally supported?\end{tabular}       & double \\
                                & FC3: Can a wallet be built independently? & bool  \\
-                               & \begin{tabular}[t]{@{}l@{}}FC4: What wallet/ storage options\\ are supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud, pc\\ browser{]}\end{tabular}   \\
+                               & \begin{tabular}[t]{@{}l@{}}FC4: What wallet/ storage options\\ are supported?\end{tabular}                      & \begin{tabular}[t]{@{}l@{}}{[}mobile,\\ cloud,\\ browser{]}\end{tabular}   \\
         \textit{Standards}     & FS1: Are ledger-based DID methods supported? & bool \\
                                & \begin{tabular}[t]{@{}l@{}} FS2: Are non ledger-based DID methods\\  supported?\end{tabular} & bool \\
                                & FS3: Are JSON-LD credentials supported? & bool  \\
@@ -66,7 +64,7 @@
         \textbf{Flexibility}   &                                                                                                                 &                                                                            \\
         \textit{Extensibility} & FE1: Can the functionality be extended?                                                                          & bool                                                                       \\
                                & FE2: Can one contribute to the solution?                                                                         & bool                                                                       \\
-        \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, pc,\\ mobile,\\ mixed{]}\end{tabular} \\
+        \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, mobile,\\ mixed{]}\end{tabular} \\
                                & FD2: Is there a quick deployment option?                                                                         & bool                                                                       \\
         \textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1: Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
                                & \begin{tabular}[t]{@{}l@{}}FP2: Are multiple programming languages\\ supported by the solution?\end{tabular}            & bool \\
@@ -101,9 +99,7 @@
                                & \begin{tabular}[t]{@{}l@{}}IC2: Have they worked on open-source\\ repositories?\end{tabular} & bool \\ 
                                & \begin{tabular}[t]{@{}l@{}}IC3: Have they co-worked on \ac{SSI}-related \\standards?\end{tabular} & bool \\ 
         \textit{Product}       & IP1: Is the solution being worked on? & bool \\
-                               & IP2: Is the solution leveraging open-source work? & bool\\
-                               & \begin{tabular}[t]{@{}l@{}}IP3: Does the governance structure encourage 
-                                \\community efforts?\end{tabular} & bool \\*
+                               & IP2: Is the solution leveraging open-source work? & bool\\*
         \bottomrule
     \end{longtable}
     
@@ -120,10 +116,10 @@
         \textbf{Criterion}     & \textbf{Question} & \textbf{Mattr} & \textbf{Trinsic} & \textbf{Veramo} & \textbf{Azure} \\ \midrule
         \endfirsthead\endhead\endfoot\endlastfoot
         \textbf{Functionality} &&&&&\\
-        \textit{Flow Coverage} & FC1 & 0.6 & 0.4 & 0.6 & 0.2 \\
-                               & FC2 & 0.75 & 0.65 & 0.75 & 0.5 \\
+        \textit{Flow Coverage} & FC1 & 0.6 & 0.4 & 0.9 & 0.2 \\
+                               & FC2 & 0.9 & 0.9 & 0.9 & 0.8 \\
                                & FC3 & 1 & 1 & 1 & 0 \\
-                               & FC4 & 0.5 & 0.5 & 1 & 0.5 \\
+                               & FC4 & 0.66 & 0.66 & 0.66 & 0.66 \\
         \textit{Standards}     & FS1 & 1 & 1 & 1 & 1 \\
                                & FS2 & 1 & 1 & 1 & 0 \\
                                & FS3 & 1 & 0 & 1 & 1 \\
@@ -133,19 +129,19 @@
                                & FS7 & 1 & 0 & 0 & 0 \\
                                & FS8 & 1 & 0 & 0 & 1 \\
                                \hline
-                               && 9.85 & 6.55 & 7.35 & 4.2\\
-                               && (82.08\%) & (54.58\%) & (61.25\%) & (35\%) \\                               
+                               && 10.16 & 6.96 & 7.46 & 4.66\\
+                               && (84.67\%) & (58.0\%) & (62.17\%) & (38.83\%) \\                               
                                \midrule
         \textbf{Flexibility} &&&&&\\
         \textit{Extensibility} & FE1 & 0 & 0 & 1 & 0 \\
                                & FE2 & 0 & 0 & 1 & 0 \\
-        \textit{Deployment}    & FD1 & 0.25 & 0.25 & 1 & 0.25 \\
+        \textit{Deployment}    & FD1 & 0.33 & 0.33 & 1 & 0.33 \\
                                & FD2 & 0 & 0 & 1 & 0 \\
-        \textit{Platform}      & FP1 & 1 & 1 & 1 & 0* \\
+        \textit{Platform}      & FP1 & 1 & 1 & 1 & 0 \\
                                & FP2 & 0 & 1 & 0 & 0 \\
                                \hline
-                               && 1.25 & 1.25 & 5.0 & 0.25 \\
-                               && (20.83\%) & (20.83\%) & (83.33\%) & (4.17\%) \\
+                               && 1.33 & 2.33 & 5.0 & 0.33 \\
+                               && (22.17\%) & (38.83\%) & (83.33\%) & (5.5\%) \\
                                \midrule
         \textbf{Operability} &&&&&\\
         \textit{Support}       & OS1 & 0.5 & 0.75 & 0.25 & 1 \\
@@ -162,7 +158,7 @@
                                & OO2 & 1 & 1 & 0 & 0 \\
                                \hline
                                && 9.5 & 8.75 & 4.25 & 5.0 \\
-                               && (79.17\%) & (72.91\%) & (35.24\%) & (41.67\%) \\
+                               && (79.17\%) & (72.92\%) & (35.43\%) & (41.67\%) \\
                                \midrule
         \textbf{Dependency} &&&&&\\
         \textit{Keys}          & DK1 & 0 & 0 & 1 & 0 \\
@@ -180,22 +176,29 @@
                                & IC3 & 1 & 1 & 1 & 1 \\                       
         \textit{Product}       & IP1 & 1 & 1 & 1 & 1 \\
                                & IP2 & 1 & 1 & 1 & 1 \\    
-                               & IP3 & 0 & 0 & 1 & 0 \\
                                \hline
                                && 5.0 & 5.0 & 5.0 & 5.0 \\                        
-                               && (83.33\%) & (83.33\%) & (100\%) & (83.33\%) \\
+                               && (100\%) & (100\%) & (100\%) & (100\%) \\
         \hline\hline
-        \textbf{Score} & & \textbf{26.6} & \textbf{22.55} & \textbf{26.6} & \textbf{15.45} \\
-        & & \textbf{(64.88\%)} & \textbf{(55.0\%)} & \textbf{(64.88\%)} & \textbf{(37,69\%)} \\
+        \textbf{Score} & & \textbf{26.99} & \textbf{24.04} & \textbf{26.71} & \textbf{15.99} \\
+        & & \textbf{(67.48\%)} & \textbf{(60.1\%)} & \textbf{(66.78\%)} & \textbf{(39.98\%)} \\
         \bottomrule
     \end{longtable}
-    % MATTR: Slack only (Forum, Chat), Trinsic: Chat, Tel, Mai, Veramo: Forum, Azure: alles
-    % 
     
     This concludes the evaluation of the individual solutions. In the next section, these results are considered, and final conclusions are drawn for the solutions.
     
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
+	
+    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Mattr received the best result with 67.48\%, followed by Veramo, Trinsic and Azure in the last place. Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
+
+    In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the Space. As the only non-platform solution, it offers as an \ac{SSI} framework an open and extensible foundation, which gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, in regard to existing technologies and the comparatively poor operability, they are still quite limited in their basic functionality and are virtually undocumented. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
+
+    Trinsic manages to stay relatively close to the previous two solutions and stands out with its excellent operability, many supported programming languages and its commitment to the community. Nevertheless, Trinsic is not technologically leading at the current time and is even more inflexible and restrictive compared to Mattr. Again, the platform nature creates a complete dependency on the company. Trinsic is especially interesting for developers who want to create prototypes quickly and possibly also migrate them to a production system that only includes the most basic functions of \ac{SSI}.
+    
+    With the lowest score, Microsoft's solution stood out primarily because of its proximity to their own technologies, such as Active Directory. Nevertheless, it is inferior to its competitors in almost all other areas. This solution is therefore primarily aimed at developers who are absolutely tied to a Microsoft stack and want to make their first attempts with \acp{vc}.
+    
+    At this point, however, it should be said that there is no division into good or bad solutions. Each solution has its own advantages and disadvantages and with the above description, each developer can decide for itself which things are important and make a choice accordingly. Nevertheless, it became clear that there is still a lot to be done in the area of functionalities and that the platform solutions should work on enabling more flexibility and reducing dependencies. 
 	
 	
 	
