@@ -88,7 +88,7 @@
         \textbf{Dependency}    & & \\
         \textit{Keys}          & DK1: Is full control over private keys given? & bool \\  
         \textit{Stack}         & DS1: Can one own the whole tech stack? & bool \\  
-                               & \begin{tabular}[t]{@{}l@{}}DS2: Is the still stack usable after\\
+                               & \begin{tabular}[t]{@{}l@{}}DS2: Is the stack still usable after\\
                                the original developers are gone?\end{tabular} & bool \\ 
         \textit{Cost}          & DC1: Is the solution free of charge? & bool \\  
                                & DC2: Is there a free developer plan? & bool \\
@@ -96,7 +96,7 @@
         \textbf{Involvement}   & & \\
         \textit{Community}     & \begin{tabular}[t]{@{}l@{}}IC1: Does the solution provider participate 
                                 \\in community events?\end{tabular} & bool \\
-                               & \begin{tabular}[t]{@{}l@{}}IC2: Have they worked on open-source\\ repositories?\end{tabular} & bool \\ 
+                               & \begin{tabular}[t]{@{}l@{}}IC2: Have they worked on \ac{SSI}-related\\ open-source repositories?\end{tabular} & bool \\ 
                                & \begin{tabular}[t]{@{}l@{}}IC3: Have they co-worked on \ac{SSI}-related \\standards?\end{tabular} & bool \\ 
         \textit{Product}       & IP1: Is the solution being worked on? & bool \\
                                & IP2: Is the solution leveraging open-source work? & bool\\*
@@ -105,7 +105,7 @@
     
     With regard to the evaluation and the lack of weightings, one point can be obtained with each question. For questions with more than one option, the sum of all possible options results in one point, whereby the score can be a fraction of one. To compensate for the different number of questions within the indexes, the results are normalized by dividing the score of an index by its number of questions. That way, the results of all indexes are equally weighted and none is over or underrepresented due to different amounts of questions.
     
-    Now that the evaluation framework has been presented, the following table \ref{tab: scores} applies it to each of the four implemented \ac{SSI} solutions to obtain a final score. In addition, the sub-scores for each index are given, so that differences become apparent. 
+    Now that the evaluation framework has been presented, the following table \ref{tab: scores} applies it to each of the four implemented \ac{SSI} solutions to obtain a final score. In addition, the sub-scores for each index are given, so that differences become apparent. The basis for the individual scores are the facts and observations that were presented primarily in the last chapter. 
 
     \setlength\LTleft{0pt}
     \setlength\LTright{0pt}
@@ -125,12 +125,12 @@
                                & FS3 & 1 & 0 & 1 & 1 \\
                                & FS4 & 1 & 0 & 0 & 0 \\
                                & FS5 & 1 & 1 & 0 & 0 \\
-                               & FS6 & 0 & 1 & 1 & 0 \\
+                               & FS6 & 1 & 1 & 1 & 0 \\
                                & FS7 & 1 & 0 & 0 & 0 \\
                                & FS8 & 1 & 0 & 0 & 1 \\
                                \hline
-                               && 10.16 & 6.96 & 7.46 & 4.66\\
-                               && (84.67\%) & (58.0\%) & (62.17\%) & (38.83\%) \\                               
+                               && 11.16 & 6.96 & 7.46 & 4.66\\
+                               && (93.0\%) & (58.0\%) & (62.17\%) & (38.83\%) \\                               
                                \midrule
         \textbf{Flexibility} &&&&&\\
         \textit{Extensibility} & FE1 & 0 & 0 & 1 & 0 \\
@@ -144,7 +144,7 @@
                                && (22.17\%) & (38.83\%) & (83.33\%) & (5.5\%) \\
                                \midrule
         \textbf{Operability} &&&&&\\
-        \textit{Support}       & OS1 & 0.5 & 0.75 & 0.25 & 1 \\
+        \textit{Support}       & OS1 & 0.75 & 0.75 & 0.25 & 1 \\
                                & OS2 & 0 & 0 & 1 & 0 \\
         \textit{Documentation} & OD1 & 1 & 1 & 0 & 1 \\
                                & OD2 & 1 & 1 & 1 & 0 \\
@@ -157,8 +157,8 @@
         \textit{Overhead}      & OO1 & 1 & 1 & 0 & 1 \\
                                & OO2 & 1 & 1 & 0 & 0 \\
                                \hline
-                               && 9.5 & 8.75 & 4.25 & 5.0 \\
-                               && (79.17\%) & (72.92\%) & (35.43\%) & (41.67\%) \\
+                               && 9.75 & 8.75 & 4.25 & 5.0 \\
+                               && (81.25\%) & (72.92\%) & (35.43\%) & (41.67\%) \\
                                \midrule
         \textbf{Dependency} &&&&&\\
         \textit{Keys}          & DK1 & 0 & 0 & 1 & 0 \\
@@ -180,8 +180,8 @@
                                && 5.0 & 5.0 & 5.0 & 5.0 \\                        
                                && (100\%) & (100\%) & (100\%) & (100\%) \\
         \hline\hline
-        \textbf{Score} & & \textbf{26.99} & \textbf{24.04} & \textbf{26.71} & \textbf{15.99} \\
-        & & \textbf{(67.48\%)} & \textbf{(60.1\%)} & \textbf{(66.78\%)} & \textbf{(39.98\%)} \\
+        \textbf{Score} & & \textbf{28.24} & \textbf{24.04} & \textbf{26.71} & \textbf{15.99} \\
+        & & \textbf{(70.6\%)} & \textbf{(60.1\%)} & \textbf{(66.78\%)} & \textbf{(39.98\%)} \\
         \bottomrule
     \end{longtable}
     
@@ -190,7 +190,7 @@
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
 	
-    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Mattr received the best result with 67.48\%, followed by Veramo, Trinsic and Azure in the last place. Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
+    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Mattr received the best result with 70.6\%, followed by Veramo, Trinsic and Azure in the last place. Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
 
     In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the Space. As the only non-platform solution, it offers as an \ac{SSI} framework an open and extensible foundation, which gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, in regard to existing technologies and the comparatively poor operability, they are still quite limited in their basic functionality and are virtually undocumented. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
 
