@@ -7,7 +7,7 @@
 	Over the course of our lives, we generate a large amount of digital identities from a wide variety of services, including Facebook, Twitter, WhatsApp, GitHub, LinkedIn, and many more. They represent us in this digital realm, are part of our personality, and allow us to identify ourselves online. Because of the way we manage digital identities in the current era, users mostly own separate identities for each service or go through centralized, federated identity providers like Google or Facebook. As a result of these key developments, silos of identity data emerged, which are problematic concerning efficiency, security, and privacy. This creates a dependency towards the services that have full control over the identity data. This makes it difficult for users to control how services exploit this power for their own interests. In addition, various data leaks and hacks in which sensitive user data became public show that the current approaches are not suitable for the problems of these modern times \cite{swinhoe_15_2021}. \cite[pp. 2-3]{ehrlich_self-sovereign_2021}
 	
 	% SSI as the solution + how does my work fit in it.
-	In contrast, the \ac{SSI} paradigm takes a new approach by giving users full control of their digital identities through various novel approaches \cite[p. 103059]{ferdous_search_2019}. This work examines this new approach from a developer's point of view to test its practical applicability. In the next sections, the scope, related work and the research approach will be discussed.
+	In contrast, the \ac{SSI} paradigm takes a new approach by giving users full control of their digital identities through various novel approaches \cite[p. 103059]{ferdous_search_2019}. This work examines this new approach from a developer's point of view to test its practical applicability. In this chapter, the scope, related work and the research approach will be discussed.
 	
 	\section{Scope of Work}\label{section: Scope of Work} % What I am actually doing
 	
@@ -46,13 +46,13 @@
         AND ("verifiable credentials" OR "decentralized identifiers")
     )
     \end{verbatim}
-    Furthermore, the method of cross-sectional studies, mainly in the form of expert questionnaires, is used. A clearly defined set of questions is used to validate the solutions overview, but also to identify evaluation criteria for the evaluation framework. More details on the selection of experts and the questions are described in section X.X. For the creation of the reference implementation, the methods of reference modelling and prototyping are used. In combination, they allow the development of a software prototype that represents a particular problem in a simplified way and whose analysis can contribute to the discovery of new knowledge. This is especially interesting for the development of the evaluation framework. Moreover, it should also be noted that this thesis follows the general idea of generating real-world artefacts defined by \cite{hevner_three_2007} as part of design science research.
+    Furthermore, the method of cross-sectional studies, mainly in the form of expert questionnaires, is used. A clearly defined set of questions is used to validate the solutions overview, but also to identify evaluation criteria for the evaluation framework. More details on the selection of experts and the questions are described in chapter \ref{chapter: expert}. For the creation of the reference implementation, the methods of reference modelling and prototyping are used. In combination, they allow the development of a software prototype that represents a particular problem in a simplified way and whose analysis can contribute to the discovery of new knowledge. This is especially interesting for the development of the evaluation framework. Moreover, it should also be noted that this thesis follows the general idea of generating real-world artefacts defined by \cite{hevner_three_2007} as part of design science research.
     
     To conclude the methodology, a combination of research approach and applied methods defined previously is reflected in the following research questions: 
     
     % Might have to change them up?
-    \begin{enumerate}
+    \begin{enumerate}[label=RQ\arabic*:]
       \item What libraries, platforms, or SDKs are available for implementing Verifiable Credentials?
-      \item Which SDKs do experts from the field recommend using?
+      \item Which SDKs do field experts recommend using?
       \item Which criteria for evaluating Verifiable Credential SDKs can be derived after developing a reference implementation?
     \end{enumerate}
