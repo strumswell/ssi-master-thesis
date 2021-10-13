@@ -64,7 +64,7 @@
         \textbf{Flexibility}   &                                                                                                                 &                                                                            \\
         \textit{Extensibility} & FE1: Can the functionality be extended?                                                                          & bool                                                                       \\
                                & FE2: Can one contribute to the solution?                                                                         & bool                                                                       \\
-        \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, mobile,\\ mixed{]}\end{tabular} \\
+        \textit{Deployment}    & FD1: What deployment options are there?                                                                          & \begin{tabular}[t]{@{}l@{}}{[}cloud, \\mobile, \\browser, \\mixed{]}\end{tabular} \\
                                & FD2: Is there a quick deployment option?                                                                         & bool                                                                       \\
         \textit{Platform}      & \begin{tabular}[t]{@{}l@{}}FP1: Is there a REST API exposing all\\ necessary functionality?\end{tabular}         & bool                                                                       \\
                                & \begin{tabular}[t]{@{}l@{}}FP2: Are multiple programming languages\\ supported by the solution?\end{tabular}            & bool \\
@@ -119,7 +119,7 @@
         \textit{Flow Coverage} & FC1 & 0.6 & 0.4 & 0.9 & 0.2 \\
                                & FC2 & 0.9 & 0.9 & 0.9 & 0.8 \\
                                & FC3 & 1 & 1 & 1 & 0 \\
-                               & FC4 & 0.66 & 0.66 & 0.66 & 0.66 \\
+                               & FC4 & 0.66 & 0.66 & 1 & 0.66 \\
         \textit{Standards}     & FS1 & 1 & 1 & 1 & 1 \\
                                & FS2 & 1 & 1 & 1 & 0 \\
                                & FS3 & 1 & 0 & 1 & 1 \\
@@ -129,19 +129,19 @@
                                & FS7 & 1 & 0 & 0 & 0 \\
                                & FS8 & 1 & 0 & 0 & 1 \\
                                \hline
-                               && 11.16 & 6.96 & 7.46 & 4.66\\
-                               && (93.0\%) & (58.0\%) & (62.17\%) & (38.83\%) \\                               
+                               && 11.16 & 6.96 & 7.8 & 4.66\\
+                               && (93.0\%) & (58.0\%) & (65.0\%) & (38.83\%) \\                               
                                \midrule
         \textbf{Flexibility} &&&&&\\
         \textit{Extensibility} & FE1 & 0 & 0 & 1 & 0 \\
                                & FE2 & 0 & 0 & 1 & 0 \\
-        \textit{Deployment}    & FD1 & 0.33 & 0.33 & 1 & 0.33 \\
+        \textit{Deployment}    & FD1 & 0.5 & 0.5 & 1 & 0.5 \\
                                & FD2 & 0 & 0 & 1 & 0 \\
-        \textit{Platform}      & FP1 & 1 & 1 & 1 & 0 \\
+        \textit{Platform}      & FP1 & 1 & 1 & 1 & 1 \\
                                & FP2 & 0 & 1 & 0 & 0 \\
                                \hline
-                               && 1.33 & 2.33 & 5.0 & 0.33 \\
-                               && (22.17\%) & (38.83\%) & (83.33\%) & (5.5\%) \\
+                               && 1.5 & 2.5 & 5.0 & 1.5 \\
+                               && (25.0\%) & (41.67\%) & (83.33\%) & (25.0\%) \\
                                \midrule
         \textbf{Operability} &&&&&\\
         \textit{Support}       & OS1 & 0.75 & 0.75 & 0.25 & 1 \\
@@ -157,8 +157,8 @@
         \textit{Overhead}      & OO1 & 1 & 1 & 0 & 1 \\
                                & OO2 & 1 & 1 & 0 & 0 \\
                                \hline
-                               && 9.75 & 8.75 & 4.25 & 5.0 \\
-                               && (81.25\%) & (72.92\%) & (35.43\%) & (41.67\%) \\
+                               && 9.75 & 8.75 & 4.25 & 6.0 \\
+                               && (81.25\%) & (72.92\%) & (35.43\%) & (50.0\%) \\
                                \midrule
         \textbf{Dependency} &&&&&\\
         \textit{Keys}          & DK1 & 0 & 0 & 1 & 0 \\
@@ -180,8 +180,8 @@
                                && 5.0 & 5.0 & 5.0 & 5.0 \\                        
                                && (100\%) & (100\%) & (100\%) & (100\%) \\
         \hline\hline
-        \textbf{Score} & & \textbf{28.24} & \textbf{24.04} & \textbf{26.71} & \textbf{15.99} \\
-        & & \textbf{(70.6\%)} & \textbf{(60.1\%)} & \textbf{(66.78\%)} & \textbf{(39.98\%)} \\
+        \textbf{Score} & & \textbf{28.41} & \textbf{24.21} & \textbf{27.05} & \textbf{18.16} \\
+        & & \textbf{(71.03\%)} & \textbf{(60.53\%)} & \textbf{(67.63\%)} & \textbf{(45.40\%)} \\
         \bottomrule
     \end{longtable}
     
@@ -190,15 +190,15 @@
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
 	
-    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Mattr received the best result with 70.6\%, followed by Veramo, Trinsic and Azure in the last place. Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
+    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Mattr received the best result with 71.03\%, followed by Veramo, Trinsic and Azure in the last place. Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
 
-    In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the Space. As the only non-platform solution, it offers as an \ac{SSI} framework an open and extensible foundation, which gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, in regard to existing technologies and the comparatively poor operability, they are still quite limited in their basic functionality and are virtually undocumented. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
+    In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the space. As the only non-platform solution, it offers as an open and extensible foundation, that gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, in regard to existing technologies and the comparatively poor operability, they are still quite limited in their basic functionality and are virtually undocumented. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
 
-    Trinsic manages to stay relatively close to the previous two solutions and stands out with its excellent operability, many supported programming languages and its commitment to the community. Nevertheless, Trinsic is not technologically leading at the current time and is even more inflexible and restrictive compared to Mattr. Again, the platform nature creates a complete dependency on the company. Trinsic is especially interesting for developers who want to create prototypes quickly and possibly also migrate them to a production system that only includes the most basic functions of \ac{SSI}.
+    Trinsic manages to stay relatively close to the previous two solutions and stands out with its excellent operability, many supported programming languages and its commitment to the community. Nevertheless, Trinsic is currently technologically limited and is even more inflexible and restrictive compared to Mattr. Again, the platform nature creates a complete dependency on the company. Trinsic is especially interesting for developers who want to create prototypes quickly and might want to migrate them to a production system that only includes the most basic functions of \ac{SSI}.
     
     With the lowest score, Microsoft's solution stood out primarily because of its proximity to their own technologies, such as Active Directory. Nevertheless, it is inferior to its competitors in almost all other areas. This solution is therefore primarily aimed at developers who are absolutely tied to a Microsoft stack and want to make their first attempts with \acp{vc}.
     
-    At this point, however, it should be said that there is no division into good or bad solutions. Each solution has its own advantages and disadvantages and with the above description, each developer can decide for itself which things are important and make a choice accordingly. Nevertheless, it became clear that there is still a lot to be done in the area of functionalities and that the platform solutions should work on enabling more flexibility and reducing dependencies. 
+    At this point, however, it should be said that there is no division into good or bad solutions. Each solution has its own advantages and disadvantages and with the above description, each developer can decide for itself which things are important and make a choice accordingly. Nevertheless, it became clear that there is still a lot to be done functionality-wise and that the platform solutions should work on enabling more flexibility and reducing dependencies. 
 	
 	
 	
