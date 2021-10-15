@@ -1,3 +1,171 @@
-% Demo Page
+\appendix
+\cleardoublepage
+\phantomsection
+\newpage
+\lhead{}
+\rhead{\leftmark}
+\addcontentsline{toc}{chapter}{Appendix}
+\chapter*{Appendix}
 
-\chapter{Appendix}
+\section*{A Conversation with Orie Steele}\label{appendix: steele}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Orie Steele
+To: Philipp Bolte
+
+1. What is your job title? (Developer, Researcher, ...)
+CTO of a Verifiable Credentials and Decentralized Identifiers as a service company.
+ 
+2. Are you currently working on anything SSI-related?
+> Applications of VCs and DIDs to physical and software supply chain.
+ 
+3.What fascinates you about SSI?
+> Applications of cryptography that enable better control of digital space for both humans and machines / companies.
+ 
+4. What value would you attribute to the experience of a developer concerning its available toolset for the successful implementation of SSI products?
+> Reinventing the wheel / building on non standard or draft level crypto is a major barrier to adoption.
+ 
+5. Looking at the spreadsheet, what additions or changes would you make?
+You need some measure of interoperability, for example, store and transfer may be only limited to certain credential formats.
+ 
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why?
+> I'm biased, but I like the approach transmute, trinsic and didkit are taking, building APIs that can be proved interoperable from the start.
+ 
+7. Which ones wouldn't you use and why?
+> Too early to not look at any of them, but I would object to any that claimed that only 1 format or one protocol was going to work for everything... 
+which historically Microsoft and Evernym have associated with... but both are changing.
+ 
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials?
+> Proven interoperability and portability. Open contribution to standards. 
+ 
+9. What do you think are common problems existing SSI solutions for developers have? 
+> Over focus on crypto that is not well supported.  Too much attention on people, not enough attention on businesses and devices.
+ 
+10. Is there something you still want to say?
+> I would love to see the results of this, when you gather more feedback.
+
+OS
+\end{Verbatim}
+
+\section*{B Conversation with Martin Riedel}\label{appendix: riedel}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Martin Riedel
+To: Philipp Bolte
+
+Lieber Herr Bolte,
+
+vielen Dank für Ihr Interesse und es freut mich, dass Sie IIW verfolgt haben (ja aktuell leider nur remote…). Gerne beantworte ich Ihre Fragen (siehe Inline).
+
+Ich wünsche Ihnen alles Gute für Ihr weiteres Studium.
+Martin Riedel
+
+1. What is your job title? (Developer, Researcher, ...)
+> I somehow self-assigned “Identity-Engineer” as a title. Not sure if it will catch on though, since it might get confused with some self-improvement business model :)
+
+2. Are you currently working on anything SSI-related?
+> Yes, I work for Consensys, an Ethereum Software House. I’m concentrating my work on Product Management and Development of Veramo, as well as some R&D related topic like DID-method Scaling (Developing a DID method based on ZK-Rollup Technology)
+
+3. What fascinates you about SSI?
+> As a German I’m naturally very conscious around privacy and data-security in general. I often try to interpolate how the Internet would look in X years if we keep going down the same road of online monopolies ingesting and monetizing our personal data. (Answer: It’s not good.) We need a perspective shift to keep and open and private Internet and SSI is the single most important element to archive this.
+
+4. What value would you attribute to the experience of a developer concerning its available toolset for the successful implementation of SSI products?
+> Implementing an identity-stack end to end is a hard problem and there are numerous pitfalls in doing so. That’s why I personally am supportive of SDKs and frameworks that abstract most of the technical complications from a developer. Veramo is one of those, but there are numerous others. Even purpose-build SSI frameworks need to rely on fundamental crypto-libraries in order to provide secure signing, verification, encryption and proofing capabilities. Since any single mistake can threaten the privacy and sovereign aspects of an SSI ecosystem it is very important to rely on well-tested base frameworks and libraries.
+
+5. Looking at the spreadsheet, what additions or changes would you make?
+- Credential Status Check do not necessarly make it “home” to the issuer. “Phone-home problem”. That what ZKP-based Proofs (e.g. using Accumulators on a Blockchain) try to solve.
+- In Regard to Veramo: 
+	- Veramo offers a Datastore Layer Interface to store and retrieve. DIDComm Messages, unwrapped Verifiable Presentation, unwrapped Verifiable Credentials (https://github.com/uport-project/veramo/tree/next/packages/
+	data-store)
+	- Generally I would probably argue that Store and Delete of SSI Data might not even be a core problem of the credentials flows. (E.g. is data stored locally or in some kind of hosted EDV service is up to the specific architecture design)
+	
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why?
+> Veramo, Aries (Go, AcaPy), Identity.com (Civic)
+
+7. Which ones wouldn't you use and why?
+> (Pure) Indy-based implementations / Anoncreds v1 (because of the known limitations around their proving limitations and  non-conformant VC/VP structure)
+
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials?
+- Full interoperable Support of current DID-Core and VC specs
+- Interoperable Showcases
+- Language-support for the implementation of my choice
+- Thought leadership of the creators in the space
+
+9. What do you think are common problems existing SSI solutions for developers have? 
+- Choosing the right framework while the community is still solving interoperability showcases. 
+- Implementing a solution that protects the privacy of each participant. (Even if SSI Framework X provides the perfect Hammer for the problem, you can still very much use it in the wrong way).
+
+10. Is there something you still want to say?
+> Good to see that this space is getting traction in academia as well! I hope the EU will the a leader in supporting (and also funding) this technology to protect it’s citizens from big internet data monopolies.
+\end{Verbatim}
+
+\section*{C Conversation with Riley Hughes}\label{appendix: hughes}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Riley Hughes
+To: Philipp Bolte
+
+Thanks Philipp. See answers inline.
+
+Riley Hughes
+
+1. What is your job title? (Developer, Researcher, ...)
+> CEO, cofounder
+
+2. Are you currently working on anything SSI-related?
+> Yes, we're an SSI platform
+
+3. What fascinates you about SSI?
+> It reduces transaction costs for people to engage w/ others & access things they need
+
+4. What value would you attribute to the experience of a developer concerning its available toolset for the successful implementation of SSI products? 
+> I'm not sure if I understand the question... but I can say that developer experience is critical, not just for the implementors, but also to get others in an ecosystem to adopt credentials, it needs to be easy to implement.
+
+5. Looking at the spreadsheet, what additions or changes would you make?
+> I don't see a spreadsheet
+
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why?
+> I would look at Trinsic #1 of course 
+:) after that, Mattr and Microsoft
+
+7. Which ones wouldn't you use and why?
+> I wouldn't use open source repos, because of the maintenance and overhead of building and maintaining it in-house. I'd want to focus on the product we're developing. I also wouldn't use tools from companies focused on IAM, unless my SSI use case was strictly IAM, in which case I'd only use these tools (IdRamp, esatus, etc)
+
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials? 
+> How long will it take me to implement? And how long will it take others in my ecosystem to implement? (e.g., if I'm a university, how long will it take employers, HR providers, other universities, etc to accept the creds I issue? If they're not accepted anywhere it's pointless.)
+
+9. What do you think are common problems existing SSI solutions for developers have? 
+> There is always a balance between being opinionated about implementation to abstract away complexity, or exposing complexity to be more flexible. It's challenging to strike a balance between those.
+
+10. Is there something you still want to say?
+> It's all about the ecosystem. No single company will implement SSI just for themselves. That is why interop & ease of impl, etc are so important.
+
+    From: Riley Hughes
+    To: Philipp Bolte
+    
+    Just saw the spreadsheet. I would add trinsic is platform + SDK. also, last I checked Evernym didn't support revocation, but maybe you have more recent data than me. But revocation isn't all created equally - privacy factors and scalability are important considerations (ie, it might be better to support no revocation, than support a scheme with bad privacy). Finally, for transferability, i'm not sure what you mean, but you can see this blog post and maybe it answers your quesiton: https://trinsic.id/ssi-digital-wallet-portability/
+
+        From: Philipp Bolte
+        To: Riley Hughes
+        
+        [...]
+        Thank you for bringing up the blog post. I attached explanations from the w3c specs to the bottom of the spreadsheet. And they say „A holder might transfer one or more of its verifiable credentials to another holder.“  To me it rather sounds like a transfer of VCs between subjects (no presentation, verification) than portability, which is important as well though. Or am I misunderstanding that?
+        
+        Again, thank you very much and have a great week!
+        
+        Philipp Bolte
+
+            From: Riley Hughes
+            To: Philipp Bolte
+            
+            We don't support transporting credentials from one subject to another. The only way we would support that is if it were auditable so you could tell the audit trail of transfers, but that is not on the immediate roadmap for anyone in the space that I'm aware of.
+            
+            You have a great week as well :-)
+            
+            Riley Hughes
+\end{Verbatim}
+
+\section*{X Conversation with ...}\label{appendix: x}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: X
+To: Philipp Bolte
+
+
+\end{Verbatim}
