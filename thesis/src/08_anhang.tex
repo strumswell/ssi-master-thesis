@@ -1,11 +1,6 @@
 \appendix
-\cleardoublepage
-\phantomsection
-\newpage
-\lhead{}
-\rhead{\leftmark}
-\addcontentsline{toc}{chapter}{Appendix}
-\chapter*{Appendix}
+\chapter*{Appendix}\label{chapter: appendix}
+\markboth{Appendix}{}
 
 \section*{A Conversation with Orie Steele}\label{appendix: steele}
 \begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
@@ -162,10 +157,275 @@ Riley Hughes
             Riley Hughes
 \end{Verbatim}
 
-\section*{X Conversation with ...}\label{appendix: x}
+\section*{D Conversation with Markus Sabadello}\label{appendix: sabadello}
 \begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
-From: X
+From: Markus Sabadello
 To: Philipp Bolte
 
+Sehr geehrter Herr Bolte,
+
+Tut mir leid für die späte Antwort.
+
+Hier meine Antworten:
+
+1. CEO at Danube Tech (https://danubetech.com/)
+
+2. Yes, I am working on a lot of SSI projects, e.g. the DIF Universal Resolver, the W3C DID Core 1.0 specification, the E.U.'s ESSIF-Lab program, the U.S.' DHS SVIP program, as well as multiple software libraries and other community projects.
+
+3. The most fascinating part about SSI is that is not only a technical solution, it also asks deep political and philosophical questions about the nature of humans, about their freedom and sovereignty.
+
+4. I don't really understand the question. :( I think there are a lot of useful toolsets for developers, but it might also be confusing since not all are fully interoperable with one another.
+
+5. I would add verifiable-credentials-java, which was one of the earliest implementations of Verifiable Credentials. You could also add the Universal Issuer and Universal Verifier.
+
+6. I would use our own implementation verifiable-credentials-java :) But I would also recommend vc-js (Digital Bazaar), DIDKit, and Veramo.
+
+7. I think personally I wouldn't use Azure AD, Identity.com credential commons, Evernym (Verity-sdk, Connect.me), Trinsic, since those feel a bit too corporate and "locked in".
+
+8. The most important criterium is how involved the leaders of a particular SSI solution are in community organizations and processes.
+
+9. The most common problems are probably that specifications and protocols are still changing rapidly, and that a lot of solutions are not as interoperable with one another as they should be.
+
+10. Thanks for your work.. Research like yours is super valuable to make SSI solutions more accessible!
+
+Markus
+
+    From: Philipp Bolte
+    To: Markus Sabadello
+    
+    Sehr geehrter Herr Sabadello,
+
+    vielen lieben Dank für Ihre Antwort. Frage vier ist tatsächlich etwas unglücklich formuliert. Letztendlich wollte ich damit Meinungen erhalten, wie wichtig die Developer Experience (analog zu User Experience zu verstehen) ist, bezogen auf vorhandenes Toolset und Werkzeuge wie SDKs. Darin enthalten sein kann z.B. ease of use, completeness & understandability of documentation, …
+    Weil in der Literatur und auf diversen Meetups wird häufig über die User Experience gesprochen, obwohl eine gute Developer Experience in meinen Augen mindestens genauso wichtig ist, damit gute SSI-enabled Products auf den Markt kommen. Könnten Sie eventuell noch einen angepasst Antwort nachreichen? 
+    
+    Viele Grüße
+    Philipp
+        
+        From: Markus Sabadello
+        To: Philipp Bolte
+        
+        Ah jetzt verstehe ich es, danke für die Erklärung :) 
+
+        Ich würde sagen:
+        
+        4. Developers don't like to read long technical specifications and documentation. It is very important for developers to be able to get started quickly, with simple tutorials and - most importantly - examples that they can use as a starting point for their own projects. Another critical aspect for developers is how quickly they can get support e.g. via Github issues or regular community meetings where questions can be asked.
+        
+        lG
+        Markus Sabadello
+\end{Verbatim}
+
+\section*{D Conversation with Stefan Adolf}\label{appendix: x}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Stefan Adolf
+To: Philipp Bolte
+
+Hey Philipp,
+
+hier kommen ein paar Antworten :) Schönes Wochenende!
+
+1. What is your job title? (Developer, Researcher, ...)
+> I'm "Developer Ambassador" at Turbine Kreuzberg which is a union of a fullstack development job, technical and public writing and communication / community building tasks.
+
+2. Are you currently working on anything SSI-related?
+> absolutely. We're evaluating the space by building Proof of Concepts for immunization credentials. We as well have built prototypes using fully trustless libraries (3box which is deprecated now) and are in close contact with some major players (e.g. Jolocom, Main Incubator, ceramic). Turbine Kreuzberg is an application development service company and not a technology driver in that sense: we're trying to figure out what's going to be a requirement for our customers in the near future and implement solutions for them along services we find to be suited for each case.
+
+3. What fascinates you about SSI?
+> getting rid of federated login systems and centralized profiling is one thing - the idea that few companies own all my information and are able to correlate at will is quite intimidating. I like the idea that by just using cryptographic primitives and adding trust anchors I can start trusting people - and thanks to the 2020s tech stack it's quite useable. On the other hand SSI will allow us to connect official endpoints in a privacy preserving way without the need to disclose anything besides what's needed. That's going to revolutionize the way we're interacting with administrations or health officials and it's absolutely interoperable with decentralized applications so we will use SSI to interact with data and code that's not running on infrastructure that's controlled by a company we don't really know.
+
+4. What value would you attribute to the experience of a developer concerning > its available toolset for the successful implementation of SSI products?
+unsure if I get that question right. If it's about "what should you know as a dev to get started?" I'd say it'd be helpful to have a good understanding of encryption / hashing libraries or methods. If you know the ins and outs of e.g. JWT based authentication flows, you're already close to what you technically need to know to start implementing along SSI specs. An outstanding change of thinking is that you must get rid off the notion of an "user profile" in your system and replace it with a trusted authenticated and authorized interaction role.
+
+5. Looking at the spreadsheet, what additions or changes would you make?
+> There is no spreadsheet ;) (forgot to attach?)
+
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why?
+Jolocom - they're thinking ahead (but lack a compatible implementation right now) and don't depend on the absurdly complex Sovrin / Indy stack
+Trinsic - they already have everything in place, great docs, BBS+ sigs, APIs, registries etc.
+Evernym/Verity - in terms of interoperability it's highly likely that they'll be compatible with everything else (in Germany e.g. IDUnion)
+
+7. Which ones wouldn't you use and why?
+> I would avoid using Indy/Sovrin rooted SSI solutions whenever possible (that's 70% of them all) since their DLTs are controlled by consortia. Since I'm a public/permissionless maximalist I would always prefer to use a solution that's fully open, community governed, open for change and transparent.
+
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials?
+> A good and feature-complete implementation of DIDComm standards (yet to be defined) will be key for useability and acceptance. It's absolutely mandatory that SSI sBesides one should consider the amount of supported key formats and algorithms and potentially encodings (CBOR will play a role for efficiency). JSON-LD support is likely an issue if one needs to support selective disclosures but the most prominent key is: the solution must be governed in a way that maximizes community contributions and has a decent developer experience. Since standards are moving and developing fast, all implementers of SSI products must stay up to date, fast.
+
+9. What do you think are common problems existing SSI solutions for developers have?
+> Many are built around closed schema ecosystems that force developers through an onboarding process, rendering some of the advantages of a decentralized / trustless ecosystem obsolete. The choice of wallets and registries is absolutely overwhelming at the moment, the only thing carved in stone are specs for DIDs and VCs in general. On the backend developers must get rid of "account" thinking which will lead to major refactorings on how authentication and authorization works in applications. Lastly, the highly asynchronous concepts of DID interactions will add a lot of complexity since the well known request - response API pattern is going to be replaced by messaging oriented communications. Personally I think that there's a lot of tutorial / example and documentation work to be done by all projects alike.
+
+10. Is there something you still want to say?
+> The faster we join the movement, the further ahead we're going to be. SSI is here to stay and people are adopting it. Lots of traditional identity providers (in Germany particularly adminstrative ones, like Bundesdruckerei) must either massively invest in bridges for their centralized identity or take part in the movement, now. Bdr is actually doing so and started thinking about trusted VC registries and wrapped ID card credentials & they're working on an ESSIF bridge for common eIDAS identities ("Personalausweis") as well.
+
+    From: Philipp Bolte
+    To: Stefan Adolf
+    
+    Hallo Stefan,
+
+    wow, danke für deine tollen und ausführlichen Antworten und dass du dir die Zeit genommen hast. Echt klasse! Kurze Nachreichung meinerseits:
+    
+    Die Frage mit der Developer Experience ist tatsächlich nicht ganz präzise gestellt. Ich beziehe mich in der Frage nicht auf das, was man als Entwickler wissen muss, sondern auf den Prozess der Implementierung. Also wie einfach nutzbar z.B. eine SDK ist und wie gut die Dokumentation ist. Developer Experience ist also analog zu User Experience (UX) zu sehen. Ich habe die Frage nur eingebaut, weil in vieler Literatur und diversen Talks oft über die User Experience gesprochen wird aber doch eigentlich die Developer Experience zu erst da sein muss. Gute Developer Experience, in Usability der Tools & Docus, führt meiner Meinung nach viel eher zu guten Produkten mit toller UX. 
+    
+    Die PDF (Tabelle) habe ich jetzt noch mal angehängt und bin gespannt auf deine Antworten. :)
+    
+    Was mir beim Lesen noch aufgefallen ist, dass du zum einen sagst, Indy/Sovrin rooted SSI solutions zu vermeiden aber auf der anderen Seite Everynm und Trinsic empfiehlst. Trinsic ließ sich in meinen Tests tatsächlich sehr einfach nutzen und bietet ein tolles Paket an, aber Trinsic und Evernym fußen soweit ich weiß auf Sovrin (did:sov). Vielleicht kannst du das noch mal etwas spezifizieren, oder wolltest du einfach ein paar objektive Vorschläge geben?
+    Mich würde auch interessieren, unabhängig von den Fragen, was du von MATTR, Azure AD (ION) und, ich nenne sie mal nicht-Wallet Lösungen wie Veramo oder DIDKit hältst. 
+    
+    Dir auch ein tolles Wochenende und ich freue mich auf deine Antworten nächste Woche!
+    
+    Viele Grüße
+    Philipp Bolte
+
+        From: Stefan Adolf
+        To: Philipp Bolte
+        
+        "dass du zum einen sagst, Indy/Sovrin rooted SSI solutions zu vermeiden aber auf der anderen Seite Everynm und Trinsic empfiehlst. Trinsic ließ sich in meinen Tests tatsächlich sehr einfach nutzen und bietet ein tolles Paket an, aber Trinsic und Evernym fußen soweit ich weiß auf Sovrin (did:sov)."
+
+        Hey, ja, das meinte ich: also, ich behaupte, dass Evernym/Verity und Trinsic definitiv eine Rolle spielen werden und man sie sich deswegen definitiv anschauen muss. Weil ich aber irgendwie kein Freund dieses absurd komplizierten und irgendwie doch ziemlich beschränkten Indy-Protokolls bin (vor allem, weil ich einfach nicht die Muße habe, mich damit auseinanderzusetzen und Sidetree ja tatsächlich eine imho absolut plausible Alternative darstellt), würde ich es selbst eher ungern einsetzen ;)
+        
+        Bei Veramo und DIDKit klingelt bei mir spontan nix (wenn Veramo uPort ist, ists imho eine Level 1-DID und sowas kann man auf Ethereum-Netzen vermutlich nicht wirklich sinnvoll betreiben, aber vllt täusch ich mich auch :D ); ich bin aber durchaus gespannt, ob Jolocom u.a. es hinkriegen, das KERI-Protokoll soweit zu bringen, dass man den Nachweis über Key Rotations durch eine P2P-Kommunikation zwischen den Clients nachweisen kann ("Micro Ledger"). Mattr ist neben Transmute Technologietreiber hinter den Protokollen und sie haben auch fleißig an DIDs und VCs mitspezifiziert. Ob ihr SDK wirklich gut ist, kann ich nicht beurteilen, ich benutze aber von Transmute eine ganze Menge Bibliotheken. ION bzw Sidetree (ich nutze Element auf Ethereum, weil es keinen Bitcoin Fullnode erfordert :D ) find ich äußerst spannend und absolut zukunftsweisend, aber es beschreibt imho vorrangig einen abstrakten Anker-Layer für Ledger und wird nur in der Bitcoin-Ausprägung (Microsoft) gerade aktiv vorangetrieben. Ein ähnliches Modell mit deutlich mehr Gehirschmalz für Dokumenten-Schemas und Indexing verfolgt IDX/Ceramic und da ich die Leute (vormals 3box/uport) dort persönlich kenne, liegt mir das näher als Microsofts Lösung ;)
+        
+        Hoffe, das hilft :)
+        
+            From: Philipp Bolte
+            To: Stefan Adolf
+            
+            Deinen Standpunkt zu den Indy-Lösungen kann ich absolut verstehen. Ich bin vor 7 Jahren durch Bitcoin in den Decentralized Space gekommen, weshalb auch mir diese ganzen Konsortien-Lösungen grundsätzlich erstmal missfallen. Aber durch die Arbeit kann ich das erstmal ausblenden und schauen, womit man als Entwickler grundsätzlich am weitesten kommt und was wichtig ist. :)
+
+            Hinter Veramo steht Serto (ehemals uPort), dahinter Consensys, soweit ich weiß. Mit uPort hat das glaube ich aber nicht mehr viel zu tun. Ich habe Veramo jetzt schon etwas ausprobiert und bin ehrlich gesagt angetan vom Ansatz. Man kann grundsätzlich DIDs und VCs/ VPs erstellen und verwalten in einem lokalen Agenten. Durch Plugins lässt sich Unterstützung für diverse DID methods wie did:ion/ethr/web/key und Dinge wie DIDcom und DIDJwt Support nachrüsten. Das Versprechen ist kein Vendor lock-in und interop. Nur die Dokumentation ist so gut wie nicht vorhanden bzw. veraltet. (Was ich sehr oft sehe, geht das nur mir so?)
+            
+            Ich möchte deine „Gastfreundschaft“ absolut nicht überstrapazieren, also bitte setze ein Ende, wenn du dir die Zeit nicht mehr nehmen kannst für unsere Konversation. Es ist nur so spannend deine Gedanken und Erfahrungen zu hören! :)
+            Was meinst du mit Level 1-DID? Beziehst du dich auf den Trust over IP Stack? Also dass es hier nur um Utilities geht, die zur Erstellung und Verwaltung von DIDs genutzt werden? Ich glaube Veramo geht da weiter, DIDKit geht nicht weiter als Erstellung und Verifizierung von DIDs und VCs/ VPs.
+            
+            Von Daniel Buchner meine ich gehört zu haben, dass man wohl ION auch mit einem pruned Node betreiben kann. Habe ich jetzt aber noch nicht verifizieren können. ;) KERI und IDX/Ceramic habe ich mit mal aufgeschrieben zum Nachlesen.
+            
+            Eine gute Woche dir!
+            
+            Philipp Bolte
+            
+                From: Stefan Adolf
+                To: Philipp Bolte
+                
+                Hey Philipp,
+
+                all good, ich hab Zeit dafür, das ist genau genommen sogar Bestandteil meines Jobs :D 
+                
+                Ich hab mir gerade die Veramo-Docs angeschaut. Das ist in der Tat der vielversprechendste Ansatz von allen, weil sie alles in ihrer Bibliothek pluggable gestaltet haben. Das wenigste davon ist fertig, aber ich bin schon ziemlich geflashed, dass sich endlich mal jemand traut, das gut zu abstrahieren. Ich hab für unseren "Universal Verifier" einen ähnlichen Ansatz verfolgt (Demo ab Min 16), aber ich alleine kann definitiv nicht so gut APIs gestalten wie die das tun :D Sie supporten ja auch nur die einfachsten DID-Methoden von allen und ihre DIDComm-Implementierung sieht far from vollständig aus :D Aber das hat definitiv Potenzial!
+                
+                Also, als ich das letzte Mal versucht hab, einen ION Node aufzusetzen, sagte die Dokumentation, dass man dafür einen Full Node bräuchte (ich bin kein Bitcoin-Experte, meine Welt ist Ethereum, aber der Hinweis "sync takes ~2hs for testnet" deutet darauf hin, dass man das "echte" Ding braucht. Ich hab mir damals einen Zugang bei AnyBlock  eingerichtet und dann festgestellt, dass das nicht reicht, weil ION Zugriff auf den (lokalen) Statetree der Chain braucht :(
+                
+                MIt "Level-1" DIDs meine ich sowas wie did:ethr oder did:evan, also DIDs, die man unmittelbar auf der Chain verankert. Das ist extrem praktisch, dezentral und unkompliziert, weil man einfach nur Key Rotations etc auf den Ledger schreiben muss, aber natürlich würde das nie on scale funktionieren -> deswegen hat man ja IDX und Sidetree "erfunden" :) Indy/Sovrin ist im Grunde auch sowas, nur dass die einfach eine dedizierte Blockchain nutzen (und vermutlich hoffen, dass sie nie so erfolgreich werden, dass die ganze Welt eine did:sov haben will :D). Am Ende des Tages skaliert Blockchain-Technologie im Layer 1 einfach nicht, egal wie viele dPoS-Konsensus-Modelle man sich ausdenkt - auch weil die Chain selbst ja immer nur wächst. Um das zu lösen, braucht man eine Layer 2-Lösung wie Sidetree :) 
+                
+                Was ToIP wirklich macht, hab ich bis heute nicht so richtig verstanden :D Das ist ja eher ein Ökosystem / Initiative als eine Technologie (ich kenne Paul Knowles aus den CCI-Working Group Meetings, der ist da glaube ich stark involviert). Was ich kenne (und das wird tatsächlich von einigen meiner Gesprächspartner als sinnvoll angesehen), ist did:web - man nutzt einfach den herkömmlichen "Domänen"-Trust des Webs, um DID-Dokumente von einer bekannten, SSL-zertifizierten, zentralen Stelle abzurufen. Das hat natürlich wenig mit Dezentralisierung zu tun, aber charmant ist der Ansatz auf alle Fälle, weil es 0 Onboarding-Kosten gibt und es sich einem indischen Zollbeamten vergleichsweise leicht erklären lässt, dass er Credentials, die eine "drk.de"-ID ausgestellt hat, ziemlich sicher vertrauen kann. Spherity / SAP bewegt sich gedanklich zB in diese Richtung.
+                
+                Puh, a lot :D 
+                
+                Beste Grüße
+\end{Verbatim}
+
+\section*{E Conversation with Kamal Laungani}\label{appendix: laungani}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Kamal Laungani
+To: Philipp Bolte
+
+Here are the answers to your questions:
+1. What is your job title? (Developer, Researcher, ...) 
+> Lead, Global > Developer Ecosystem @ Affinidi
+
+2. Are you currently working on anything SSI-related? 
+> Yeah, enabling wide adoption of SSI / VC enabled applications through this ecosystem initiative 
+
+3. What fascinates you about SSI? The fact that the end user can have full lifecycle control over their identity and credentials. 
+> SSI puts user at the center instead of centralized data hoarders.
+
+4. What value would you attribute to the experience of a developer concerning its available toolset for the successful implementation of SSI products? 
+> I'm not sure if I understand this question. Having a step by step technical guide is a pre-requisite for adoption of VCs / SSI
+
+5. Looking at the spreadsheet, what additions or changes would you make? 
+> Looks like a good start
+
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why? 
+> Affinidi and Mattr - they both provide extensive and openly available building blocks which are actively maintained. Plus they have a support system to enable developers with answers to their questions
+
+7. Which ones wouldn't you use and why? Haven’t heard of some of these. 
+> Jolocom has a niche within SSI ecosystem, they work on low level DID methods targeting the layer 1 of the trust over IP stack. They are a utility and do not help developers integrate VCs
+
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials? 
+> Full coverage of technical user flows around issuing, holding, sharing, and verifying credentials. Good support. Free and/or open source.
+
+9. What do you think are common problems existing SSI solutions for developers have? 
+> The industry is very young and tech innovation focused. There's not enough innovation happening in order to activate business use cases.
+
+
+\end{Verbatim}
+
+
+\section*{F Conversation with Johannes Sedlmeir}label{appendix: sedlmeir}
+\begin{Verbatim}[breaklines=true, breaksymbol={}, breaksymbolsepleftnchars=2]
+From: Johannes Sedlmeir
+To: Philipp Bolte
+
+Lieber Herr Bolte,
+ 
+Inline meine Anmerkungen – ich hoffe sie helfen weiter und ich würde mich freuen, wenn Sie mir Ihre Ergebnisse der Arbeit zukommen lassen könnten.
+Falls Sie Rückfragen haben, können Sie mir diese gerne stellen.
+ 
+Beste Grüße
+Johannes Sedlmeir
+
+1. What is your job title? (Developer, Researcher, ...) 
+> PhD student and consultant (researcher at Fraunhofer FIT and FIM Research Center, University of Bayreuth)
+
+2. Are you currently working on anything SSI-related? 
+> Yes
+
+3. What fascinates you about SSI? The fact that the end user can have full lifecycle control over their identity and credentials. 
+> Potential for resolving inefficiency, surveillance, & security problems in digital identity management and using fancy cryptography to do that (like ZKPs)
+
+4. What value would you attribute to the experience of a developer concerning its available toolset for the successful implementation of SSI products? 
+> I do not fully understand this question. A developer needs a thorough understanding of PKI / asymmetric encryption and the willingness to look at and compare many different solutions. And should not get distracted by the blockchain-focus that many SSI-projects have but that technically speaking is not needed.
+
+5. Looking at the spreadsheet, what additions or changes would you make? 
+> Transfer of a credential is often not desirable (holder binding). I regard delegation/chained credentials a better solution for the need of forwarding permissions. The spreadsheet also does not include one aspect that is probably THE most relevant about SSI, namely, privacy. Revocation registries can be very problematic in terms of privacy, and selective disclosure and the uncorrelatability of presentations (often violated through the repeated use of a holder’s unique public key or the value of the signature) should be respected. It also seems that the list may be incomplete, although maybe I am not fully aware of the name of the toolkit for some projects, they might not be available open-source or they might have another scope than what you are focusing on. Just as a suggestion, you could have a look at Hyperledger Aries (e.g., aca-py), Verifiable Credentials Ltd, Microsoft ION, Gataca, Everest, ESSIF
+
+6. If you were a developer at a company looking to integrate Verifiable Credentials into their products, which three solutions would you look at and why? 
+> Hyperledger Indy/Aries because of ZKP for revocation and selective disclosure and a rich ecosystem of wallets; MATTR because of their support of ZKPs while complying with the W3C VC standard and their strong research focus; a third one that does not use a blockchain for the issuer-related PKI
+
+7. Which ones wouldn't you use and why? Haven’t heard of some of these. 
+> Hyperledger Indy/Aries because of the above-mentioned reasons
+
+8. What do you consider essential criteria for selecting a good SSI solution for implementing Verifiable Credentials? 
+> Availability of a mature mobile wallet, support by government initiatives like VON or IDUnion. Focus on privacy features instead of blockchain.
+
+9. What do you think are common problems existing SSI solutions for developers have? 
+> Lack of maturity and documentation, no NIST standards and audits for the cryptography (particularly ZKPs), lack of chained credentials/delegation, lack of interoperability with legacy PKI, scalability of privacy-preserving revocation, too many non-compatible solutions
+
+10. Is there something you still want to say? 
+> No
+
+    From: Philipp Bolte
+    To: Johannes Seldmeir
+    
+    Hallo Herr Sedlmeir,
+
+    vielen Dank für Ihre schnelle Antwort! Ich hätte noch drei kleine Nachfragen:
+    
+    Zu Frage 4 der Developer Experience: Hier geht es nicht um die Erfahrung im Sinne des Wissens eines Entwicklers, sondern im Sinne der Leichtigkeit des Entwicklungsprozesses. Im Grunde ist der Begriff Developer Experience analog zur User Experience (UX) zu sehen. Inwieweit ändert sich Ihre Antwort dann? Im Grunde deuten Sie Ihre Antwort schon in Frage 9 mit „maturity and documentation“ an.
+    
+    Zu Frage 5 der Tabelle: Vielen Dank für den Input der Privacy. Ziel ist jedoch im Grunde erst einmal zu prüfen, inwieweit bestehende SDKs, Bibliotheken, … den Lifecycles eines VCs (nach w3c spec) abbilden können. Aber ich werde mal schauen, wie ich Ihren Vorschlag integrieren kann. Zudem geht es grundlegend um SDKs, Bibliotheken und Plattformen, mit denen man VCs erstellen, verifizieren und evtl. noch an ein Wallet senden kann. Aca-py ist sicher ein guter Vorschlag, muss mich aber in den Hyperledger Aries/ Indy Stack noch tiefer einlesen.
+    
+    Zu Frage 7: Vielleicht habe ich Sie missverstanden, aber bei der Frage geht es um Lösungen, die Sie _nicht_ verwenden würden. Den Hyperledger Aries/ Indy Stack scheinen Sie aber zu favorisieren. 
+    
+    Beste Grüße
+    Philipp Bolte
+    
+        From: Johannes Sedlmeir
+        To: Philipp Bolte
+        
+        Lieber Herr Bolte,
+ 
+        Zu Frage 4 der Developer Experience: Die „Developer Experience“ ist in meinen Augen für manche Projekte bereits in Ordnung, wenn man das „Bootstrapping“ (bspw. Verbindung mit einer Blockchain) gemeistert hat (wie bspw. aca-py), aber das Kombinieren unterschiedlicher sdks gestaltet sich sehr schwierig. Vor allem die Kompatibilität von Agents und mobilen Wallets scheint mir oft eine Herausforderung, weil man leider nicht einfach einen bestehenden Agent direkt in eine mobile Wallet umwandeln kann und dann ein funktionierendes und kompatibles Gesamtsystem hat.
+ 
+        Zu Frage 5 der Tabelle: aca-py sollte definitiv diese Anforderungen erfüllen; gemeinsam mit den mobilen Wallets von esatus / trinsic / …
+         
+        Zu Frage 7: Das habe ich dann wohl in der Eile falsch gelesen. Ich würde keine Lösung wählen, bei der DIDs oder VCs von Personen auf einer Blockchain gespeichert werden oder bei denen nicht in irgendeiner Weise eine mobile wallet app unterstützt wird. Letzteres, da ja im Server-Bereich schon Standards für Zertifikate (X.509) bestehen und die Anwendbarkeit für End-User eigentlich die Neuheit ist, sodass die mobile wallet in meinen Augen DIE zentrale Komponente ist.
 
 \end{Verbatim}
