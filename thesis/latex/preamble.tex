@@ -57,6 +57,7 @@
 \usepackage{fancyvrb}
 \usepackage{fvextra}
 \usepackage{tikz,pgfplots,pgfplotstable}
+\usetikzlibrary{patterns}
 
 % verschiedene Schriftarten
 %\usepackage{times} 				% times font
@@ -74,6 +75,13 @@
 
 \usepackage[numbers, comma]{natbib}		% Einstellung des Zitierstils
 \bibliographystyle{alphaurl}			% Angepasster Stil für deutsche Sprache
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@lbibitem}
+  {\item[\hfil\NAT@anchor{#2}{\NAT@num}]}
+  {\item[\NAT@anchor{#2}{\NAT@num}\hfill]}
+  {}{}
+\makeatother
 
 \setcounter{secnumdepth}{3}				% Nummerierungsebene anpassen -> 3 = subsubsection werden nummeriert
 \setcounter{tocdepth}{3}   				% gliederungsebenen im Inhaltsverzeichnis -> erstmal nur zur übersicht was nicht vergessen werden darf

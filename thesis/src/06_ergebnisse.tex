@@ -6,12 +6,12 @@
 	\section{Requirements}\label{section: framework requirements}
 	%Grundlegende Anforderungen -> developer focus, was soll abgebildet werden (siehe implementierung, umfrage)
 	
-	Unlike previous evaluations from the literature, this framework is not intended to address architectures, governance models, or cover any sets of ideational principles. The goal is to provide a practical tool for developers to pragmatically evaluate, depending on the use case, \ac{SSI} solutions for their suitability. This should accelerate the selection and evaluation process and reduce the hurdles for integrating \ac{SSI} technologies into projects. To meet these objectives, the following requirements are initially defined:
+	Unlike previous evaluations from the literature, this framework is not intended to address architectures, governance models, or cover any sets of ideational principles. The goal is to provide a tool for developers to pragmatically evaluate, depending on the use case, \ac{SSI} solutions for their suitability. This should accelerate the selection and evaluation process and reduce the hurdles for integrating \ac{SSI} technologies into projects. To meet these objectives, the following requirements are initially defined:
 	
 	\begin{itemize}
 	    \item \textit{Developer-oriented}: A practical value should be created by mapping various facets and requirements of a developer. On the one hand, this can involve the functionalities, but also the toolset and its documentation. For this purpose, experiences from the implementation of the reference implementation as well as requirements from the expert survey are used. This is to ensure that general but also domain-specific points are included. % practical, get things done (functionality, ...)
-	    \item \textit{Expert-oriented}: As mentioned in the first point, requirements and opinions from experts in the field are to be incorporated into the framework in addition to insights from this work. This is to ensure that a broad field is covered, but also that requirements that are actually relevant to the domain are part of the framework. The findings from chapter \ref{chapter: expert} are used for this purpose.  % Know-how & experience from field
-	    \item \textit{Technologies}: Since \ac{SSI} is still a relatively young domain, many solutions and standards are either very young, not ready or not even defined yet. Therefore, it is necessary that the coverage of some important standards is also represented in the framework. Thereby, it can be recognized whether corresponding solutions provide the most current and established technologies. In addition, it must be taken into account whether governance models behind the individual solutions can react to the fast-moving area with appropriate measures to e.g. add support for new technologies.  % tech stack, Technologie support, future? (governance)
+	    \item \textit{Expert-oriented}: As mentioned in the first point, requirements and opinions from experts in the field are incorporated into the framework in addition to insights from this work. This is to ensure that a broad field is covered, but also that requirements that are relevant to the domain are part of the framework. The findings from chapter \ref{chapter: expert} are used for this purpose.  % Know-how & experience from field
+	    \item \textit{Technologies}: Since \ac{SSI} is still a relatively young domain, many solutions and standards are either very young, not ready or not even defined yet. Therefore, it is necessary that the coverage of some important standards is also represented in the framework. Thereby, it can be recognized whether corresponding solutions provide the most current and established technologies. In addition, it must be taken into account whether governance models behind the individual solutions can react to the fast-moving space with appropriate measures to e.g. add support for new technologies.  % tech stack, Technologie support, future? (governance)
 	    \item \textit{Unopinionated}: Similar to the reference implementation, the evaluation framework should be use case agnostic. This makes it difficult to establish a generally valid weighting for the individual categories, since different requirements apply to different use cases. Therefore, any weighting should be dispensed at this point, and it should be left to the developer to prioritize and weigh the individual categories and criteria.
 	\end{itemize}
 	
@@ -20,17 +20,17 @@
 	\section{Framework}
 	%Prozess: Grundlegende Bereiche/ Kategorien definieren (als Frage), definieren der Kriterien -> Fragen, Darstellung in Tabellenform, Punktevergabesystem
 	
-    As mentioned previously, the development of the framework is based on the experience gained from the development of the reference implementation as well as on the results of the expert survey. From the latter, initial categories for more granular criteria were established in section \ref{section: expert results}, which will be presented and extended in this section. The corresponding five cateogories with their criteria are described below.
+    As mentioned previously, the development of the framework is based on the experience gained from the development of the reference implementation as well as on the results of the expert survey. From the latter, initial categories for more granular criteria were established in section \ref{section: expert results}, which will be presented and extended in this section. The corresponding five categories with their criteria are described below.
     
     \begin{enumerate}
-        \item \textit{Functionality}: The first categorie is focused on the question, which features the solution offers the developer, in order to solve its \ac{SSI} related tasks. This includes flow coverage, i.e. the extent to which the \ac{vc} lifecycle can be mapped by the solution, but also the support of standards. These are particularly important in an area where openness and interoperability between diverse user-managed flows and applications are intrinsic values. Both criteria were relevant both in the expert questionnaire and in the development of the reference implementation.
-        \item \textit{Flexibility}: This is mainly about how freely a developer can interact with the solution. This was a rather small area in the survey, but was much more apparent in the implementation in chapter \ref{chapter: ref implementation}. On the one hand, this contains extensibility, thus to what extent the functionality of the solution can be extended by own efforts and whether these can be integrated also by e.g. pull requests into the public code base. Furthermore, it includes the complete deployment field, i.e. on which type of devices this solution can be used, but also whether there are quick deployment options for the cloud, for example. The latter in particular is relevant during the development phase for setting up test environments as quickly and conveniently as possible. Finally, Flexibility also includes the platform criterion, which looks at the ways in which the solution can be addressed. This includes, for example, the number of supported programming languages and the existence of REST APIs to enable a platform-independent use of the solutions.
+        \item \textit{Functionality}: The first category is focused on the question, which features the solution offers the developer, in order to solve its \ac{SSI} related tasks. This includes flow coverage, i.e. the extent to which the \ac{vc} lifecycle can be mapped by the solution, but also the support of standards. These are particularly important in an area where openness and interoperability between diverse user-managed flows and applications are intrinsic values. Both criteria were relevant both in the expert questionnaire and in the development of the reference implementation.
+        \item \textit{Flexibility}: This is about how freely a developer can interact with the solution. This was a rather small area in the survey, but was much more apparent in the implementation in chapter \ref{chapter: ref implementation}. On the one hand, this contains extensibility, thus to what extent the functionality of the solution can be extended by own efforts and whether these can be integrated also by e.g. pull requests into the public code base. Furthermore, it includes the complete deployment field, i.e. on which type of devices this solution can be used, but also whether there are quick deployment options for the cloud, for example. The latter in particular is relevant during the development phase for setting up test environments as quickly and conveniently as possible. Finally, Flexibility also includes the platform criterion, which looks at the ways in which the solution can be addressed. This includes, for example, the number of supported programming languages and the existence of REST APIs to enable a platform-independent use of the solutions.
         \item \textit{Operability}: This category primarily considers how usable the solution is in terms of the developer experience. This includes obvious criteria such as support, documentation and, for example, the maturity of the solution. It also includes attention to industry standards, creating a common conversational and well-thought-out technological foundation. The last criterion defined was overhead, which considers the initial effort required to get the solution up and running. The contents of the category were often part of the expert survey and also appeared in the reference implementation.
         \item \textit{Dependency}: This category was not directly part of the experts' answers, but was partly addressed secondary, for example by Stefan Adolf, and should not be disregarded considering the principles of \ac{SSI}. This involves questions about the extent to which a developer is dependent on the solution creators. For example, this includes the keys criterion, which is whether a developer has complete control and access to the private keys of its \acp{DID}. In addition, it considers whether the tech stack can be under full control of the developer. Finally, this also includes the cost of the solution and whether there are developer-specific test accounts, for example. Especially the latter is quite helpful for a development phase in order not to generate high costs.
         \item \textit{Involvement}: In the last category, the involvement of the solution creators in the \ac{SSI} community is considered and thus the closeness to technological changes. This includes participation in the development of standards as well as open-source libraries. Additionally, it includes the commitment related to the own product, i.e. whether the solution is being developed further, whether it uses existing community work or whether it also incentivizes community help. This category was created primarily from the results of the expert survey.
     \end{enumerate}
     
-    During the development of the above criteria, it was considered in the meantime whether GitHub stats regarding the processing time and response rate to opened issues should also be considered for the support criterion. This would certainly be of added value for developers, as they serve as a point of contact for questions and problems. However, it was decided not to do this, since not all solutions have corresponding offers and this would make a generally valid and comparable evaluation problematic. As an alternative, a question on the existence of public issue trackers was added. The result of all considerations can be found in table \ref{tab: eval framework}. In addition, corresponding questions were defined for each category, as well as their answer type. By working through these questions, comparability can be created in an evaluation process.
+    During the development of the above criteria, it was considered in the meantime whether GitHub statistics regarding the processing time and response rate to opened issues should also be considered for the support criterion. This would certainly be of added value for developers, as they serve as a point of contact for questions and problems. However, it was decided not to do this, since not all solutions have corresponding offers and this would make a generally valid and comparable evaluation problematic. As an alternative, a question on the existence of public issue trackers was added. The result of all considerations can be found in table \ref{tab: eval framework}. In addition, corresponding questions were defined for each category, as well as their answer type. By working through these questions, comparability can be created in an evaluation process.
     
     \setlength\LTleft{0pt}
     \setlength\LTright{0pt}
@@ -38,15 +38,11 @@
         \caption{Evaluation framework}
         \label{tab: eval framework}\\
         \toprule
-        \textbf{Criterion}     & \textbf{Question}                                                                                               & \textbf{Type}                                                              \\* \midrule
+        \textbf{Criterion} & \textbf{Question} & \textbf{Type} \\* \midrule
         \endfirsthead
-        %
+        \toprule
+        \textbf{Criterion} & \textbf{Question} & \textbf{Type} \\* \midrule
         \endhead
-        %
-        \endfoot
-        %
-        \endlastfoot
-        %
         \textbf{Functionality} &                                                                                                                 &                                                                            \\
         \textit{Flow Coverage} & \begin{tabular}[t]{@{}l@{}}FC1: What percentage of the \ac{vc} lifecycle \\ can be implemented directly?\end{tabular} & double                                                                     \\
                                & \begin{tabular}[t]{@{}l@{}}FC2: What percentage of the \ac{vc} lifecycle\\ is generally supported?\end{tabular}       & double \\
@@ -105,22 +101,7 @@
     
     With regard to the evaluation and the lack of weightings (see Unopinionated in section \ref{section: framework requirements}), one point can be obtained with each question. For questions with more than one option, the sum of all possible options results in one point, whereby the score can be a fraction of one. To compensate for the different number of questions within the categories, the results are normalized by dividing the score of a category by its number of questions. That way, the results of all categories are equally weighted and none is over or underrepresented due to different amounts of questions.
     
-    Nevertheless, it must be recognized that a weighting of the individual categories must take place for a practical selection. Therefore, two exemplary cases and their weightings are presented in table \ref{tab: weights} in order to put the normalized scores into context. The first case \texttt{C1} represents a use case that prioritizes a wide range of existing and well-documented functionality. This contrasts with \texttt{C2}, which requires a high degree of independence and flexibility and tolerates more time and effort.
-    
-    \begin{table}[h]
-    \caption{Exemplary weights}
-    \label{tab: weights}
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{@{}llllll@{}}
-    \toprule
-    \textbf{Case} & \textbf{Functionality} & \textbf{Flexibility} & \textbf{Operability} & \textbf{Dependency} & \textbf{Involvement} \\ \midrule
-    C1 & 0.4 & 0.05 & 0.4 & 0.1 & 0.05 \\
-    C2 & 0.2 & 0.3 & 0.1 & 0.3 & 0.1 \\ \bottomrule
-    \end{tabular}%
-    }
-    \end{table}
-    
-    The following table \ref{tab: scores} applies the described framework to each of the four implemented \ac{SSI} solutions to obtain the described scores. In addition, the sub-scores for each category are given, so that differences become apparent. The basis for the individual scores are the facts and observations that were presented primarily in the last chapter. 
+    The following table \ref{tab: scores} applies the described framework to each of the four implemented \ac{SSI} solutions to obtain the described scores. In addition, the sub-scores for each category are given, so that differences become apparent. The basis for the scores are the facts and observations that were presented in the last chapter. 
 
     \setlength\LTleft{0pt}
     \setlength\LTright{0pt}
@@ -129,7 +110,10 @@
         \label{tab: scores}\\
         \toprule
         \textbf{Criterion}     & \textbf{Question} & \textbf{Mattr} & \textbf{Trinsic} & \textbf{Veramo} & \textbf{Azure} \\ \midrule
-        \endfirsthead\endhead\endfoot\endlastfoot
+        \endfirsthead
+        \toprule
+        \textbf{Criterion}     & \textbf{Question} & \textbf{Mattr} & \textbf{Trinsic} & \textbf{Veramo} & \textbf{Azure} \\ \midrule
+        \endhead
         \textbf{Functionality} &&&&&\\
         \textit{Flow Coverage} & FC1 & 0.6 & 0.4 & 0.9 & 0.2 \\
                                & FC2 & 0.9 & 0.9 & 0.9 & 0.8 \\
@@ -194,20 +178,40 @@
                                \hline
                                && 5.0 & 5.0 & 5.0 & 5.0 \\                        
                                && (100\%) & (100\%) & (100\%) & (100\%) \\
-        \hline\hline
+                              \hline
+        
         \textbf{Points} & & \textbf{28.41} & \textbf{24.21} & \textbf{27.05} & \textbf{18.16} \\
         \textbf{Normalized Score} & & \textbf{63.85\%} & \textbf{58.52\%} & \textbf{76.75\%} & \textbf{46.77\%} \\
-        \textbf{W1 Score} & & \textbf{77.95\%} & \textbf{61.45\%} & \textbf{59.33\%} & \textbf{43.78\%} \\
-        \textbf{W2 Score} & & \textbf{50.23\%} & \textbf{47.39\%} & \textbf{81.54\%} & \textbf{36.27\%} \\
         \bottomrule
     \end{longtable}
+    
+    Because the framework evaluates the solutions objectively and without a use case context, a weighting by the developers is necessary. How this may look like can be seen in table \ref{tab: weights}. This shows two exemplary cases, which reflect the requirements within an imaginary project. In C1, a high priority is given to the existence of functionalities and a high operability. The imaginary developer wants to cover the complete \ac{vc} lifecycle and issue \ac{ZKP}-enabled \acp{vc} that can also be revoked. This should be documented properly so that the project can be implemented as quickly as possible. C2 prioritizes a high flexibility and low dependency. The imaginary developer wants to split the functionalities to different agents, which have to run in the cloud but also on a smartphone. In addition, all data such as \ac{vc} and private keys should be managed by the company or the person himself.
+    
+    \begin{table}[h]
+    \caption{Exemplary weights}
+    \label{tab: weights}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llllll@{}}
+    \toprule
+    \textbf{Case} & \textbf{Functionality} & \textbf{Flexibility} & \textbf{Operability} & \textbf{Dependency} & \textbf{Involvement} \\ \midrule
+    C1 & 0.4 & 0.05 & 0.4 & 0.1 & 0.05 \\
+    C2 & 0.2 & 0.3 & 0.1 & 0.3 & 0.1 \\ \bottomrule
+    \end{tabular}%
+    }
+    \end{table}
+    
+    When these weights are applied to the results from table \ref{tab: scores}, the scores for the cases are as follows:
+    \begin{itemize}
+        \item C1: Mattr 77.95\%, Trinsic 61.45\%, Veramo 59.33\%, Azure 43.7\%.
+        \item C2: Mattr 50.23\%, Trinsic 47.39\%, Veramo 81.54\%, Azure 36.27\%
+    \end{itemize}
 
-    This concludes the evaluation of the individual solutions. In the next section, these results are considered, and final conclusions are drawn for the solutions.
+    Therefore, Mattr receives the most points at C1, while Veramo receives the most at C2. This shows how the corresponding scores can change due to requirements within a use case. This concludes the evaluation framework and its application to the solutions. In the next section, these results are considered, and final conclusions are drawn for the solutions.
     
 	\section{Results}
 	%Einordnen der Lösungen in Tabelle -> Bewertung;;; Was sind die Ergebnisse? Welche Lösung eignet sich für das? Was machen welche Lösungen sehr gut, sehr schlecht? Überraschungen bezügluch Vorbetrachtung?
 	
-    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Looking at the normalized scores, Veramo received the best result with 76.75\%, followed by Mattr, Trinsic and Azure in the last place. This ranking is also repeated in the W2 score, which prioritizes flexibility and dependency, but changes significantly with the W1 score. Here, existing functionality and high operability are prioritized, making Mattr the best solution by far with 77.95\%. Figure \ref{figure: norm scores} visualizes the obtained normalized scores.
+    In the last section, all the results of the work so far were incorporated into the final evaluation of four developer-oriented solutions in the \ac{SSI} field. Looking at the normalized scores, Veramo received the best result with 76.75\%, followed by Mattr with 63.85\%, Trinsic with 58.52\% and Azure with 43.78\% in the last place. Figure \ref{figure: norm scores} visualizes the obtained normalized scores.
     
     \begin{center}
         \begin{tikzpicture}
@@ -242,15 +246,15 @@
     \end{center}
 
     
-    Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and above all standardized technologies, which it also works on itself. The good documentation makes it easy for new but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can live with the given limitations.
+    Mattr stood out mainly because of its high scores in the areas of functionality, operability, and involvement. This is also in line with the observations from the implementation. Mattr is technologically ahead of its competitors in many areas because it uses current and standardized technologies, they often helped to develop. The good documentation makes it easy for beginner but also experienced developers to use and understand the Mattr platform. Nevertheless, the overall score is dragged down by the high dependency and low flexibility in some areas. Accordingly, Mattr is mainly suitable for developers who want to create production-ready products based on the latest technologies in \ac{SSI} and can accept the given limitations.
 
-    Trinsic manages to stay relatively close to Mattr and stands out with its excellent operability, many supported programming languages and its commitment to the community. Nevertheless, Trinsic is currently technologically limited and is even more inflexible and restrictive compared to Mattr. Again, the platform nature creates a complete dependency on the company. Trinsic is especially interesting for developers who want to create prototypes quickly and might want to migrate them to a production system that only includes the most basic functions of \ac{SSI}.
+    Trinsic manages to stay relatively close to Mattr and stands out with its excellent operability, many supported programming languages and its commitment to the community. Nevertheless, Trinsic is currently technologically limited and is less flexible and restrictive than Mattr. Again, the platform nature creates a complete dependency on the company. Trinsic is especially interesting for developers who want to create prototypes quickly and might want to migrate them to a production system that only includes the most basic functions of \ac{SSI}.
     
-    In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the space. As the only non-platform solution, it offers as an open and extensible foundation, that gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, in regard to existing technologies and the comparatively poor operability, they are still quite limited in their basic functionality and are virtually undocumented. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
+    In contrast, Veramo scores with its high flexibility, low dependencies and high involvement in the space. As the only non-platform solution, it offers as an open and extensible foundation, that gives developers a lot of freedom for their own ideas and flows. This also means that they retain full control over the tech stack and the data it contains. However, they are still limited in their basic functionality and nearly no documentation if available. Veramo is therefore aimed at developers who appreciate full control and flexibility and have no problem investing some of their own effort and time. In its current state, it is difficult to recommend Veramo for production systems.
     
-    With the lowest score, Microsoft's solution stood out primarily because of its proximity to their own technologies, such as Active Directory. Nevertheless, it is inferior to its competitors in almost all other areas. This solution is therefore primarily aimed at developers who are absolutely tied to a Microsoft stack and want to make their first attempts with \acp{vc}.
+    With the lowest score, Microsoft's solution stood out primarily because of its proximity to their own technologies, such as Active Directory. Nevertheless, it is inferior to its competitors in almost all other areas. This solution is therefore primarily aimed at developers who are tied to a Microsoft stack and want to make their first attempts with \acp{vc}.
     
-    At this point, however, it should be said that there is no division into good or bad solutions. Each solution has its own advantages and disadvantages and with the above description, each developer can decide for itself which things are important and make a choice accordingly. Nevertheless, it became clear that there is still a lot to be done functionality-wise and that the platform solutions should work on enabling more flexibility and reducing dependencies. 
+    At this point, however, there is no division into good or bad solutions. Although the evaluation framework introduced an objective evaluation of the solutions, it must also be placed in the context of a use case. In this context, the existing weaknesses can be dealt with accordingly. The evaluation framework serves as a tool for developers, which can be applied in the decision-making process. Nevertheless, it became clear that there is still a lot to be done to support more standards and technologies. Moreover, platform solutions like Mattr, Trinsic and Azure should work on enabling more flexibility and decrease the dependency on them.
 	
 	
 	
