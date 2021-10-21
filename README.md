@@ -1,34 +1,42 @@
-# Project Lighthouse (Master Thesis)
+# Master's Thesis: Development of an Implementation-based Evaluation Framework for Verifiable Credential SDKs
 
 ## Goal
 
-Create a RESTful API that implements the Verifiable Credential Lifecycle by leveraging the functionality of multiple providers (librarys, SDKs, platforms). Learnings from the implementation and results from the expert questionnaire are used to develop an evaluation framework for SDKs allowing to implement Verifiable Credentials.
+Current literature on SSI has only a small focus on developers. This [thesis](https://github.com/strumswell/ssi-master-thesis/blob/main/thesis/dist/ssi_master_thesis.pdf) gives developers a handful of useful tools to integrate SSI into their projects:
+- 👀 Overview over 15 SSI solutions and their coverage of the Verifiable Credential lifecycle
+- 🚀 Reference implementation for Mattr, Trinsic, Veramo and Azure AD for Verfiable Credentials
+- 🧮 New evaluation framework covering functionality, flexibility, operability, dependency, and involvement
 
-## Architecture
+## Implementation
 
-The current architecure of the reference implementation can be seen below.
-![architecure](./img/architecture.png)
+Comes as a RESTful API written in TypeScript using Express that implements the Verifiable Credential lifecycle of selected solutions. Based on the [vc-http-api](https://github.com/w3c-ccg/vc-http-api).
+
+![apidoc](./img/api-doc.png)
 
 ## Lifecycle Coverage
 
-Implementation and coverage results (may change):
+Shows, to what extend the solutions cover the Verifiable Credential lifecycle.
+- Direct coverage: API exposes functionality to implement a percentage of the lifecycle
+- General coverage: Includes direct coverage and abstracted steps of the lifecycle that is not exposed via an API
 
-| Process Steps                               | MATTR | Veramo | Trinsic | Azure AD for VCs\* |
+| Process Steps                               | MATTR | Veramo | Trinsic | Azure AD for VCs |
 | ------------------------------------------- | :---: | :----: | :-----: | :----------------: |
-| Issue /credentials/issue                    |  🟢   |   🟢   |   🟢    |         🟢         |
-| Store /crendentials/store                   |  🟠   |   🟢   |   🟠    |         🟠         |
-| Transfer /credentials/transfer              |  🔴   |   🟢   |   🔴    |         🔴         |
-| Compose /credentials/prove                  |  🟢   |   🟢   |   🟠    |         🟠         |
-| Present /presentations/present              |  🟠   |   🟢   |   🟠    |         🟠         |
-| Request /presentations/request              |  🟢   |   🟢   |   🟢    |         🟢         |
-| Verify /<credentials, presentations>/verify |  🟢   |   🟠   |   🟠    |         🟠         |
-| Revoke /credentials/status                  |  🟢   |   🟠   |   🟢    |         🟠         |
-| Delete /credentials/delete                  |  🟢   |   🟢   |   🟢    |         🟢         |
-| Derive /credentials/derive                  |  🟠   |   🔴   |   🟠    |         🔴         |
-| Indirect Coverage Score (ICS)               | 90 %  |  90 %  |   90%   |        80%         |
-| Weighted Indirect Coverage Score (WICS)     | 75 %  |  80 %  |   65%   |        55%         |
-| Direct Coverage Score (DCS)                 | 60 %  |  70 %  |   40%   |        30%         |
+| Direct Lifecycle Coverage                   |  60%  |   90%  |   40%   |  20%  |
+| General Lifecycle Coverage                  |  90%  |   90%  |   90%   |  80%  |
 
-\*Implementation pending (preliminary scores)
 
-The api specification is roughly based on the [vc-http-api](https://github.com/w3c-ccg/vc-http-api).
+![lifecylce](./img/vclifecycle.png)
+
+## Results of Evaluation
+
+Descriptions of all categories, criteria, and questions can be found in the [thesis](https://github.com/strumswell/ssi-master-thesis/blob/main/thesis/dist/ssi_master_thesis.pdf). All categories are normalized to have equal weight in the final score. Custom weights have to be applied by the developer dependeing on their use case.
+
+| Category         | Mattr  | Veramo | Trinsic | Azure AD for VCs |
+|------------------|--------|--------|---------|------------------|
+| Functionality    | *93%*    | 65%    | 58%     | 38.83%           |
+| Flexibility      | 25%    | *83.33%* | 41.67%  | 25%              |
+| Operability      | *81.25%* | 35.43% | 72.92%  | 50%              |
+| Dependency       | 20%    | *100%*   | 20%     | 20%              |
+| Involvement      | *100%*   | *100%*   | *100%*    | *100%*             |
+| **Normalized Score** | **63.85%** | **76.75%** | **58.52%**  | **46.77%**           |
+
